@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "536942007563",
+    "project_id": "ecapp-a80d2",
+    "storage_bucket": "ecapp-a80d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536942007563:android:3d84dadb64a5a1ccfbfe0e",
+        "android_client_info": {
+          "package_name": "com.ecapp.ecapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfqq0YDhG0D_JyNDz1AIQbJZggEx1Xm4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
