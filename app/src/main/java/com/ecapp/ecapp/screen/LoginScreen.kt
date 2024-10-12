@@ -2,6 +2,7 @@ package com.ecapp.ecapp.screen
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.screen.home.Home
 import com.ecapp.ecapp.screen.login.LoginScreenViewModel
 
@@ -153,15 +155,24 @@ fun Formulario2(navController: NavController) {
 
         }
         btnInicioSession(onClick = {
-            Log.d("Informacion" , "correo = $correo ")
-            Log.d("Informacion2" , "password = $password")
+            if(correo.isEmpty() || password.isEmpty()){
+                //sin correo y contraseña estan vacios
+                Toast.makeText(context, "Porfavor Ingrese su Correo Y Contraseña", Toast.LENGTH_SHORT).show()
+            }else{
 
-            val home = {
-                val intent = Intent(context, Home::class.java)
-                context.startActivity(intent)
+                Log.d("Informacion" , "correo = $correo ")
+                Log.d("Informacion2" , "password = $password")
+
+                val home = {
+                    navController.navigate(AppScreens.screenUser.route)
+                   // val intent = Intent(context, Home::class.java)
+                    //context.startActivity(intent)
+                }
+
+                viewModel.signInWithEmailAndPassword(correo, password, home );
             }
 
-            viewModel.signInWithEmailAndPassword(correo, password, home );
+
 
 
         })

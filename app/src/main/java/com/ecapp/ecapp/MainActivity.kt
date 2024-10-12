@@ -36,13 +36,16 @@ import com.ecapp.ecapp.navegation.AppNavegation
 import com.ecapp.ecapp.screen.HomeScreenn
 import com.ecapp.ecapp.screen.Loginctivity
 import com.ecapp.ecapp.screen.login.LoginScreenViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.firestore
 
 
 class MainActivity : ComponentActivity() {
 
 
     var viewModel: LoginScreenViewModel  = LoginScreenViewModel();
-
+    val db = Firebase.firestore
     public override fun onStart() {
         super.onStart()
 
@@ -63,6 +66,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+                FirebaseApp.initializeApp(this)
         enableEdgeToEdge()
         setContent {
 

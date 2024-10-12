@@ -10,14 +10,17 @@ import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 import android.content.Context
 import android.content.Intent
+import android.nfc.Tag
 import com.ecapp.ecapp.screen.home.Home
+import com.google.firebase.auth.FirebaseUser
 
 class LoginScreenViewModel: ViewModel() {
       val auth: FirebaseAuth = Firebase.auth;
    // private val _loading: MutableLiveData();
 
     fun signInWithEmailAndPassword(email: String , pasword:String, home:()->Unit)= viewModelScope.launch {
-
+email.toString().trim()
+        pasword.toString().trim()
         try {
 auth.signInWithEmailAndPassword(email , pasword).addOnCompleteListener{
     task-> if(task.isSuccessful){
@@ -30,7 +33,7 @@ auth.signInWithEmailAndPassword(email , pasword).addOnCompleteListener{
 }
 
         }catch (ex : Exception){
-Log.d("logeo", "${ex.message}")
+Log.d("login", "${ex.message}")
 
         }
     }

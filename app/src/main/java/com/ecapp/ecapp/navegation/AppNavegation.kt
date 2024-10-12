@@ -4,7 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ecapp.ecapp.screen.Bienbenida
+import com.ecapp.ecapp.screen.HomeScreen2
 import com.ecapp.ecapp.screen.HomeScreenn
+import com.ecapp.ecapp.screen.PerfilUser
+import com.ecapp.ecapp.screen.RegistroUser
 import com.ecapp.ecapp.screen.loginScreen
 
 @Composable
@@ -17,15 +21,33 @@ fun AppNavegation(){
     ) {
         // Primera pantalla: Home
         composable(route = AppScreens.screenHome.route) {
-            HomeScreenn(navController) // Pasa el navController para navegar a otra pantalla
+            HomeScreenn(navController)
         }
 
-        // Segunda pantalla: Details
+        //pantalla logeo correo y pasword
         composable(route = AppScreens.screenLogin.route) {
-            loginScreen(navController) // Nueva pantalla
+            loginScreen(navController)
         }
-    }
+        //pantalla usuario logeado
+        composable(route = AppScreens.screenUser.route) {
+            HomeScreen2(navController)
+        }
+          //pntalla de registro de usuario
+        composable(route = AppScreens.screenRegisterUser.route) {
+            RegistroUser(navController)
+        }
+
+        //pantalla de Bienbenida
+        composable(route = AppScreens.screenBienbenida.route) {
+            Bienbenida(navController)
+        }
+
+        //pantalla de Perfil Usuario
+        composable(route = AppScreens.screenPerfilUser.route) {
+            PerfilUser(navController)
+        }
 
 
 
+}
 }

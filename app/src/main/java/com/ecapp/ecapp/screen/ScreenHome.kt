@@ -1,7 +1,6 @@
 package com.ecapp.ecapp.screen
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -41,7 +40,7 @@ fun HomeScreenn(navController: NavController){
 @Composable
 fun app(navController: NavController){
 
-    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),  // Ocupa todo el espacio disponible
@@ -93,13 +92,10 @@ fun app(navController: NavController){
         btnRegistro(onClick = {
             // Acción para el botón simple
             println("Botón Simple presionado")
-            navController.navigate(AppScreens.screenLogin.route)
+
             try{
-               // navController.navigate(AppScreens.screenLogin)
-                /*
-                val intent = Intent(context, Loginctivity::class.java)
-                context.startActivity(intent)
-                */
+                navController.navigate(AppScreens.screenLogin.route)
+
             }catch(ex: Exception){
                 Log.d("error" , "${ex.message}");
 
@@ -111,8 +107,8 @@ fun app(navController: NavController){
         }, "Iniciar Session")
 
         btnRegistro(onClick = {
-            // Acción para el botón simple
-            println("Botón Simple presionado")
+            navController.navigate(AppScreens.screenRegisterUser.route)
+
         }, "Registrarse")
     }
 }

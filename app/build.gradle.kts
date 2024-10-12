@@ -86,4 +86,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation ("androidx.navigation:navigation-compose:{latest_version}")
+    implementation("com.google.firebase:firebase-firestore")
 }
