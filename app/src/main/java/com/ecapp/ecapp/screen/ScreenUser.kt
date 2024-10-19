@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,9 +68,9 @@ fun HomeScreen2(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenHome.route)
+                navController.navigate(AppScreens.screenPerfilUser.route)
             }) {
-            Text(text =  "Perfil del Usuario" , color = Color.Black)
+            Text(text =  "Perfil del Usuario" , color = Color.Black,)
 
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -78,9 +79,9 @@ fun HomeScreen2(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                //navController.navigate(AppScreens.screenHome.route)
+                navController.navigate(AppScreens.screenGames.route)
             }) {
-            Text(text =  "Actividades de Estimulacion" , color = Color.Black)
+            Text(text =  "Actividades de Estimulacion Cognitiva" , color = Color.Black,textAlign = TextAlign.Center)
 
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -110,7 +111,7 @@ fun HomeScreen2(navController: NavController){
             modifier = Modifier.width(200.dp),
             onClick = {
                 Firebase.auth.signOut()
-                //navController.navigate(AppScreens.screenHome.route)
+                navController.navigate(AppScreens.screenHome.route)
             }) {
             Text(text =  "Cerrar sesión" )
 

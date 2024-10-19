@@ -8,5 +8,8 @@ object  screenHome:AppScreens("screenHome")
     object  screenRegisterUser:AppScreens("screenRegisterUser")
     object  screenBienbenida:AppScreens("screenBienbenida")
     object  screenPerfilUser:AppScreens("screenPerfilUser")
+    object  screenGames:AppScreens("screenGames")
+    object  screenRompecabesas:AppScreens("screenRompecabesas")
+    object  screenMemoria:AppScreens("screenMemoria")
 
 }

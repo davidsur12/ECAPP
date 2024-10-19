@@ -7,6 +7,8 @@ object DateUser {
     var nombre:String=""
     var apellido:String=""
     var correo:String=""
+    var direccion:String=""
+    var telefono:String=""
 
 
 

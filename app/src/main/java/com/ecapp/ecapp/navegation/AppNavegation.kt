@@ -9,6 +9,9 @@ import com.ecapp.ecapp.screen.HomeScreen2
 import com.ecapp.ecapp.screen.HomeScreenn
 import com.ecapp.ecapp.screen.PerfilUser
 import com.ecapp.ecapp.screen.RegistroUser
+import com.ecapp.ecapp.screen.ScreenGames
+import com.ecapp.ecapp.screen.games.ScreenGameMemoria
+import com.ecapp.ecapp.screen.games.ScreenRompecabesas
 import com.ecapp.ecapp.screen.loginScreen
 
 @Composable
@@ -45,6 +48,19 @@ fun AppNavegation(){
         //pantalla de Perfil Usuario
         composable(route = AppScreens.screenPerfilUser.route) {
             PerfilUser(navController)
+        }
+
+        //pantalla de Games
+        composable(route = AppScreens.screenGames.route) {
+            ScreenGames(navController)
+        }
+        //pantalla de Rompecabesas
+        composable(route = AppScreens.screenRompecabesas.route) {
+            ScreenRompecabesas(navController)
+        }
+        //pantalla de Memoria
+        composable(route = AppScreens.screenMemoria.route) {
+            ScreenGameMemoria(navController)
         }
 
 

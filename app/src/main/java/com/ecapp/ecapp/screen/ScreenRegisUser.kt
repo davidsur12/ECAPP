@@ -64,6 +64,7 @@ import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.screen.login.LoginScreenViewModel
 import com.ecapp.ecapp.utils.DateUser
 import java.util.Calendar
+import java.util.Date
 
 class SharedViewModel : ViewModel() {
     var fecha by mutableStateOf("")
@@ -200,7 +201,7 @@ private fun FormularioRegistro(navController: NavController) {
                     Toast.makeText(context, "Porfavor Ingresa todos los Datos"
                             , Toast.LENGTH_SHORT).show()
                 }else{
-
+                    //DateUser.correo=correo
                     Toast.makeText(context, "nombre: $nombre  apellido: $apellido  fecha:${DateUser.fechaNacimiento}  genero: ${DateUser.genero}  " +
                             "correo: ${DateUser.correo}  " , Toast.LENGTH_SHORT).show()
                     Log.d("info", "nombre: $nombre  apellido: $apellido  fecha:${DateUser.fechaNacimiento}  " +

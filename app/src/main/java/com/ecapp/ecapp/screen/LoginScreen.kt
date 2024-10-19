@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.screen.home.Home
 import com.ecapp.ecapp.screen.login.LoginScreenViewModel
+import com.ecapp.ecapp.utils.DateUser
 
 @Composable
 fun loginScreen(navController: NavController){
@@ -162,14 +163,19 @@ fun Formulario2(navController: NavController) {
 
                 Log.d("Informacion" , "correo = $correo ")
                 Log.d("Informacion2" , "password = $password")
-
+                DateUser.correo=correo
                 val home = {
                     navController.navigate(AppScreens.screenUser.route)
                    // val intent = Intent(context, Home::class.java)
                     //context.startActivity(intent)
                 }
+               if(esCorreoValido(correo)){//verifico si la cadena es una direccion de correo validad
 
-                viewModel.signInWithEmailAndPassword(correo, password, home );
+                   viewModel.signInWithEmailAndPassword(correo, password, home, context );
+               }else{
+                   Toast.makeText(context, "Porfavor Ingrese Correctamente los Datos", Toast.LENGTH_SHORT).show()
+               }
+
             }
 
 
@@ -180,4 +186,9 @@ fun Formulario2(navController: NavController) {
 
 
 
+}
+
+fun esCorreoValido(email: String): Boolean {
+    val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+    return email.matches(regex)
 }

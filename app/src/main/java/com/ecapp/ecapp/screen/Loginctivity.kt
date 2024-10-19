@@ -256,7 +256,7 @@ fun Formulario() {
                 context.startActivity(intent)
             }
 
-             viewModel.signInWithEmailAndPassword(correo, password, home );
+             viewModel.signInWithEmailAndPassword(correo, password, home , context);
 
 
         })
