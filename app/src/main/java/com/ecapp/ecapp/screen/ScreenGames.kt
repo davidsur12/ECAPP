@@ -1,6 +1,7 @@
 package com.ecapp.ecapp.screen
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -46,6 +47,11 @@ fun ScreenGames(navController: NavController){
 
 @Composable
 fun Games(navController: NavController){
+    BackHandler{
+        navController.navigate("screenUser") {
+            popUpTo("screenMemoria") { inclusive = true } // Elimina la pantalla actual de la pila
+        }
+    }
 
 
     Column(modifier = Modifier.fillMaxSize()

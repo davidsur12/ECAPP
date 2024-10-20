@@ -1,6 +1,7 @@
 package com.ecapp.ecapp.screen
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,14 +36,21 @@ import kotlinx.coroutines.launch
 @Composable
 fun PerfilUser(navController: NavController){
 
-Scaffold { InfoUser() }
+Scaffold { InfoUser(navController) }
 
 }
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun InfoUser(){
+fun InfoUser(navController: NavController){
+
+    BackHandler{
+        navController.navigate("screenUser") {
+            popUpTo("screenMemoria") { inclusive = true } // Elimina la pantalla actual de la pila
+        }
+    }
+
     var nombre by remember { mutableStateOf("") }
     var fechaNac by remember { mutableStateOf("") }
     var genero by remember { mutableStateOf("") }

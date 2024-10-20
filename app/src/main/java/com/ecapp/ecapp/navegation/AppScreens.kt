@@ -11,5 +11,9 @@ object  screenHome:AppScreens("screenHome")
     object  screenGames:AppScreens("screenGames")
     object  screenRompecabesas:AppScreens("screenRompecabesas")
     object  screenMemoria:AppScreens("screenMemoria")
+    object  screenFelicitacionesMemoria:AppScreens("screenFelicitacionesMemoria")
+    object  screenGameOverMemoria:AppScreens("screenGameOverMemoria")
+    object  screenGameMmeorianivel2:AppScreens("screenGameMemorianivel2")
+    object  screenGameMmeorianivel3:AppScreens("screenGameMemorianivel3")
 
 }
