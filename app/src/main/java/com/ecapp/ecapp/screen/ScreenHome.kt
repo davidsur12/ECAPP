@@ -107,7 +107,8 @@ fun app(navController: NavController){
 
         btnRegistro(onClick = {
             //navController.navigate(AppScreens.screenRegisterUser.route)
-            navController.navigate(AppScreens.screenMemoria.route)
+          //  navController.navigate(AppScreens.screenMemoria.route)
+            navController.navigate(AppScreens.screenGameSecuencia.route)
 
         }, "Registrarse")
     }

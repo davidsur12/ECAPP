@@ -96,7 +96,7 @@ fun Games(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenPerfilUser.route)
+                navController.navigate(AppScreens.screenGameSecuencia.route)
             }) {
 
             Icon(
@@ -105,7 +105,7 @@ fun Games(navController: NavController){
                 contentDescription = "Cancelacion de Objetos",
                 modifier = Modifier.size(24.dp) // Ajusta el tamaño del icono
             )
-            Text(text =  "Cancelacion de Objetos" , color = Color.Black,)
+            Text(text =  "Secuencia" , color = Color.Black,)
 
         }
 

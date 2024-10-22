@@ -65,8 +65,10 @@ fun ScreenFelicitacionesM(navController: NavController){
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(text = "Bien Echo", fontSize = 25.sp)
+
                 Text(text = "Felicitaciones", fontSize = 45.sp)
-                if( DateUser.erroresGameMemoria==0){
+                Text(text = "Calificacion", fontSize = 25.sp)
+                if( DateUser.vidasGameMemoria==5){
                     //0 errores la calificacion sera de 3 estrella de oro
 
                     Row(
@@ -87,8 +89,8 @@ fun ScreenFelicitacionesM(navController: NavController){
                         }
                     }
                 }
-                if(DateUser.erroresGameMemoria==1){
-                    //1 error la calificacion sera de 2 estrellas de plata
+                if(DateUser.vidasGameMemoria>=2 &&  DateUser.vidasGameMemoria<5){
+                    // calificacion sera de 2 estrellas de plata
                     Row(
                         modifier = Modifier
                             .padding(50.dp)
@@ -109,7 +111,7 @@ fun ScreenFelicitacionesM(navController: NavController){
 
 
                 }
-                if(DateUser.erroresGameMemoria==5){
+                if(DateUser.vidasGameMemoria==1){
                     //sin vids la calificacion sera de 1 estrellas de bronce
 
                     Row(
@@ -118,13 +120,13 @@ fun ScreenFelicitacionesM(navController: NavController){
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        repeat(3) { // Cambia el número 5 para mostrar más o menos estrellas
+                        repeat(1) { // Cambia el número 5 para mostrar más o menos estrellas
                             Icon(
                                 imageVector = Icons.Default.Star,
                                 contentDescription = "Star Icon",
                                 tint = Color.Red,
                                 modifier = Modifier
-                                    .size(32.dp)
+                                    .size(50.dp)
                                     .padding(4.dp)
                             )
                         }

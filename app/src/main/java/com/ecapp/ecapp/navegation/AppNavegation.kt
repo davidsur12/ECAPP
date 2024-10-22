@@ -16,6 +16,9 @@ import com.ecapp.ecapp.screen.games.ScreenGameOverMemoria
 import com.ecapp.ecapp.screen.games.ScreenRompecabesas
 import com.ecapp.ecapp.screen.games.screenGameMemoriaNivel2
 import com.ecapp.ecapp.screen.games.screenGameMemoriaNivel3
+import com.ecapp.ecapp.screen.games.secuencia.ScreenFelicitacionesSecuencia
+import com.ecapp.ecapp.screen.games.secuencia.ScreenGameOverSecuencia
+import com.ecapp.ecapp.screen.games.secuencia.ScreenGameSecuencia
 import com.ecapp.ecapp.screen.loginScreen
 
 @Composable
@@ -84,6 +87,20 @@ fun AppNavegation(){
         //pantalla de Memoria nivel 3
         composable(route = AppScreens.screenGameMmeorianivel3.route) {
             screenGameMemoriaNivel3(navController)
+        }
+
+        //pantalla de juego de Secuencia
+        composable(route = AppScreens.screenGameSecuencia.route) {
+            ScreenGameSecuencia(navController)
+        }
+
+        //pantalla de game over de Secuencia
+        composable(route = AppScreens.screenGameOverSecuencia.route) {
+            ScreenGameOverSecuencia(navController)
+        }
+        //pantalla de game over de Secuencia
+        composable(route = AppScreens.screenFelicitacionesGameSecuencia.route) {
+            ScreenFelicitacionesSecuencia(navController)
         }
 
 

@@ -55,6 +55,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -74,7 +75,7 @@ fun ScreenGameMemoria(navController: NavController){
       //  IconPairsGame(navController)
        // ImageWithClickableCircle()
 
-        ImageWithSurroundingCircle(navController)
+        screenGameMemoriaNivel1(navController)
     }
 }
 
@@ -292,7 +293,7 @@ fun ImageWithClickableCircle() {
 
 
 @Composable
-fun ImageWithSurroundingCircle(navController: NavController) {
+fun screenGameMemoriaNivel1(navController: NavController) {
 
 
     BackHandler{
@@ -304,7 +305,9 @@ fun ImageWithSurroundingCircle(navController: NavController) {
     val context = LocalContext.current
     var cont:Int=0;//contador de emparejamiento
     var contParejasCompletadas:Int =0
-    var errores:Int=0
+
+    var errores by remember { mutableStateOf(0) }
+    var vidas by remember { mutableStateOf(5) }
     var  columnaFelicitaciones by remember { mutableStateOf(false) }
     // Lista de iconos (simula las parejas)
     val icons = listOf(
@@ -320,7 +323,7 @@ fun ImageWithSurroundingCircle(navController: NavController) {
         )
 
     var imagenesSeleccionadas  = mutableListOf<Int>()
-    var vidas:Int=5
+
     var isCircleVisible = remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
 
     var estados1= remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
@@ -335,9 +338,14 @@ fun ImageWithSurroundingCircle(navController: NavController) {
     var isColumnVisible by remember { mutableStateOf(false) }
 
 
+
+Column( horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.Center,) {
+
     Spacer(modifier = Modifier.height(50.dp))
-    Text("Encuentra la pareja")
-Column {
+    Text("Cancelacion de Objetos", fontSize = 25.sp,  textAlign = TextAlign.Center)
+    Text("Total de Vidas $vidas")
+
     LazyVerticalGrid(//divido en dos columnas las imagenes a mostrar
     columns = GridCells.Fixed(4), // Ajustar el número de columnas según el diseño
 
@@ -369,16 +377,19 @@ Column {
                        //si se escojen las imagenes correctas se agrega a la lista para su conteo
                        imagenesSeleccionadas.add(index)
                        if(imagenesSeleccionadas.size==2){
+                           DateUser.vidasGameMemoria=vidas
                            navController.navigate(AppScreens.screenGameMmeorianivel2.route)
                        }
                    }else{
                        //si se equivoca pierde un intento
                        //imagenesSeleccionadas.clear()//limpio la lista
+                       errores++
                        vidas-- // menos una vida
                        DateUser.erroresGameMemoria=vidas
+                       DateUser.vidasGameMemoria=vidas
 
 
-                       if(vidas == 0){//si termina con las 5 vidas
+                       if(vidas <= 0){//si termina con las 5 vidas
                            navController.navigate(AppScreens.screenGameOverMemoria.route)
                        }
 
@@ -491,7 +502,8 @@ fun screenGameMemoriaNivel2(navController: NavController) {
 
 
     var imagenesSeleccionadas  = mutableListOf<Int>()
-    var vidas:Int=5
+    var vidas by remember { mutableStateOf(5) }
+    vidas=DateUser.vidasGameMemoria
     var isCircleVisible = remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
 
     var estados1= remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
@@ -506,9 +518,14 @@ fun screenGameMemoriaNivel2(navController: NavController) {
     var isColumnVisible by remember { mutableStateOf(false) }
 
 
-    Spacer(modifier = Modifier.height(50.dp))
-    Text("Encuentra la pareja")
-    Column {
+
+    Column( horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,) {
+
+        Spacer(modifier = Modifier.height(50.dp))
+        Text("Cancelacion de Objetos", fontSize = 25.sp,  textAlign = TextAlign.Center)
+        Text("Total de Vidas $vidas")
+
         LazyVerticalGrid(//divido en dos columnas las imagenes a mostrar
             columns = GridCells.Fixed(4), // Ajustar el número de columnas según el diseño
 
@@ -545,11 +562,13 @@ fun screenGameMemoriaNivel2(navController: NavController) {
                                 }else{
                                     //si se equivoca pierde un intento
                                     //imagenesSeleccionadas.clear()//limpio la lista
-                                    errores++ // menos una vida
-                                    DateUser.erroresGameMemoria=errores
+                                    vidas--
+                                    DateUser.erroresGameMemoria = errores
+                                    DateUser.vidasGameMemoria = vidas
+                                 // menos una vida
 
 
-                                    if(errores == 5){//si termina con las 5 vidas
+                                    if(vidas == 0){//si termina con las 5 vidas
                                         navController.navigate(AppScreens.screenGameOverMemoria.route)
                                     }
 
@@ -615,7 +634,7 @@ fun screenGameMemoriaNivel2(navController: NavController) {
             Icon(
                 // cargo la imagen o icono a mostrar seguan la lista
                // imageVector = icons[5],
-                painter = painterResource(id = icons[2]),
+                painter = painterResource(id = com.ecapp.ecapp.R.drawable.ocho),
                 contentDescription = "Icon",
                 tint = Color.Red ,//si la imagen es selecionada  cambia de color a verde
                 modifier = Modifier
@@ -638,14 +657,16 @@ fun screenGameMemoriaNivel3(navController: NavController) {
 
     BackHandler{
         navController.navigate("screenGames") {
-            popUpTo("screenGameMemorianivel3") { inclusive = true } // Elimina la pantalla actual de la pila
+            popUpTo("screenMemoria") { inclusive = true } // Elimina la pantalla actual de la pila
         }
     }
 
     val context = LocalContext.current
     var cont:Int=0;//contador de emparejamiento
     var contParejasCompletadas:Int =0
-    var errores:Int=DateUser.erroresGameMemoria
+
+    var errores by remember { mutableStateOf(0) }
+    var vidas by remember { mutableStateOf(5) }
     var  columnaFelicitaciones by remember { mutableStateOf(false) }
     // Lista de iconos (simula las parejas)
     val icons = listOf(
@@ -662,7 +683,7 @@ fun screenGameMemoriaNivel3(navController: NavController) {
         )
 
     var imagenesSeleccionadas  = mutableListOf<Int>()
-    var vidas:Int=5
+
     var isCircleVisible = remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
 
     var estados1= remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
@@ -677,9 +698,14 @@ fun screenGameMemoriaNivel3(navController: NavController) {
     var isColumnVisible by remember { mutableStateOf(false) }
 
 
-    Spacer(modifier = Modifier.height(50.dp))
-    Text("Encuentra la pareja")
-    Column {
+
+    Column( horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,) {
+
+        Spacer(modifier = Modifier.height(50.dp))
+        Text("Cancelacion de Objetos", fontSize = 25.sp,  textAlign = TextAlign.Center)
+        Text("Total de Vidas $vidas")
+
         LazyVerticalGrid(//divido en dos columnas las imagenes a mostrar
             columns = GridCells.Fixed(4), // Ajustar el número de columnas según el diseño
 
@@ -711,6 +737,8 @@ fun screenGameMemoriaNivel3(navController: NavController) {
                                     //si se escojen las imagenes correctas se agrega a la lista para su conteo
                                     imagenesSeleccionadas.add(index)
                                     if(imagenesSeleccionadas.size==7){
+                                        DateUser.vidasGameMemoria=vidas
+
                                         navController.navigate(AppScreens.screenFelicitacionesMemoria.route)
                                     }
                                 }else{
@@ -719,10 +747,10 @@ fun screenGameMemoriaNivel3(navController: NavController) {
                                     errores++
                                     vidas-- // menos una vida
                                     DateUser.erroresGameMemoria=vidas
+                                    DateUser.vidasGameMemoria=vidas
 
 
-
-                                    if(errores == 5){//si termina con las 5 vidas
+                                    if(vidas <= 0){//si termina con las 5 vidas
                                         navController.navigate(AppScreens.screenGameOverMemoria.route)
                                     }
 
@@ -798,6 +826,7 @@ fun screenGameMemoriaNivel3(navController: NavController) {
 
 
 }
+
 
 
 

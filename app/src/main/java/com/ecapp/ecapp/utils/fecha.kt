@@ -27,7 +27,14 @@ object DateUser {
 
   var calificacionGameMemoria=0
     var erroresGameMemoria=0;
+    var vidasGameMemoria=0;
     var totalVidasGameMemoria=5
+
+    //vidas del juego secuencia
+
+    var vidasSecuencia=5
+    var GameSecuenciaNivel=0
+    var erroresGameSecuencia = 0
 
 
 
