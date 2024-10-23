@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -63,7 +64,8 @@ fun Games(navController: NavController){
         ),horizontalAlignment = Alignment.CenterHorizontally
     ){
 
-
+        Text("Actividad de Secuencia", fontSize = 25.sp,  textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth())
 
         Spacer(modifier = Modifier.height(50.dp))
 
@@ -134,7 +136,7 @@ fun Games(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenPerfilUser.route)
+                navController.navigate(AppScreens.screenGameSopaLetras.route)
             }) {
 
             Icon(

@@ -18,5 +18,10 @@ object  screenHome:AppScreens("screenHome")
     object  screenGameSecuencia:AppScreens("screenGameSecuencia")
     object  screenGameOverSecuencia:AppScreens("screenGameOverSecuencia")
     object  screenFelicitacionesGameSecuencia:AppScreens("screenFelicitacionesGameSecuencia")
+    object  screenGameSopaLetras:AppScreens("ScreenGameSopaLetras")
+    object  screenGameOverSopaLetras:AppScreens("ScreenGameOverSopaLetras")
+    object  screenGameOverSopaLetrasNivel2:AppScreens("ScreenGameSopaLetrasNivel2")
+    object  screenGameOverSopaLetrasNivel3:AppScreens("ScreenGameSopaLetrasNivel3")
+    object  screenFelicitacionesGameSopaLetras:AppScreens("ScreenFelicitacionesGameSopaLetras")
 
 }

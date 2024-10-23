@@ -20,6 +20,11 @@ import com.ecapp.ecapp.screen.games.secuencia.ScreenFelicitacionesSecuencia
 import com.ecapp.ecapp.screen.games.secuencia.ScreenGameOverSecuencia
 import com.ecapp.ecapp.screen.games.secuencia.ScreenGameSecuencia
 import com.ecapp.ecapp.screen.loginScreen
+import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenFelicitacionesSopaLetras
+import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameOverSopaLetras
+import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameSopaLetras
+import com.ecapp.ecapp.screen.games.sopa_de_letras.gameSopaLetrasNivel2
+import com.ecapp.ecapp.screen.games.sopa_de_letras.gameSopaLetrasNivel3
 
 @Composable
 fun AppNavegation(){
@@ -98,10 +103,38 @@ fun AppNavegation(){
         composable(route = AppScreens.screenGameOverSecuencia.route) {
             ScreenGameOverSecuencia(navController)
         }
-        //pantalla de game over de Secuencia
+        //pantalla de felicitaciones de Secuencia
         composable(route = AppScreens.screenFelicitacionesGameSecuencia.route) {
             ScreenFelicitacionesSecuencia(navController)
         }
+
+        //pantalla de game sopa de letras
+        composable(route = AppScreens.screenGameSopaLetras.route) {
+            ScreenGameSopaLetras(navController)
+        }
+
+        //pantalla de game over sopa de letras
+        composable(route = AppScreens.screenGameOverSopaLetras.route) {
+            ScreenGameOverSopaLetras(navController)
+        }
+
+        //pantalla de game over sopa de letras nivel 2
+        composable(route = AppScreens.screenGameOverSopaLetrasNivel2.route) {
+            gameSopaLetrasNivel2(navController)
+        }
+
+        //pantalla de game over sopa de letras nivel 3
+        composable(route = AppScreens.screenGameOverSopaLetrasNivel3.route) {
+            gameSopaLetrasNivel3(navController)
+        }
+
+        //pantalla de felicitaciones sopa de letras
+        composable(route = AppScreens. screenFelicitacionesGameSopaLetras.route) {
+            ScreenFelicitacionesSopaLetras(navController)
+
+        }
+
+
 
 
 

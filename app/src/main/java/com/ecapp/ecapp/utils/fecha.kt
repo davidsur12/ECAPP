@@ -2,13 +2,7 @@ package com.ecapp.ecapp.utils
 
 object DateUser {
 
-    var fechaNacimiento: String = ""
-    var genero: String = ""
-    var nombre:String=""
-    var apellido:String=""
-    var correo:String=""
-    var direccion:String=""
-    var telefono:String=""
+
     //calificaciones de los juegos
     //la calificacion se hara con estellas de oro , plata o bronce
     //dificultad la dificulta  se hara segun la calificacion
@@ -25,6 +19,15 @@ object DateUser {
     *
     * */
 
+    var fechaNacimiento: String = ""
+    var genero: String = ""
+    var nombre:String=""
+    var apellido:String=""
+    var correo:String=""
+    var direccion:String=""
+    var telefono:String=""
+
+
   var calificacionGameMemoria=0
     var erroresGameMemoria=0;
     var vidasGameMemoria=0;
@@ -35,6 +38,13 @@ object DateUser {
     var vidasSecuencia=5
     var GameSecuenciaNivel=0
     var erroresGameSecuencia = 0
+
+
+    //vidas de la sopa de letras
+
+    var vidasSopaLetras = 5
+    var erroresSopaLetras=0
+    var nivelSopaLetras = 1
 
 
 
