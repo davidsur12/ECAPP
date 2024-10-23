@@ -14,6 +14,8 @@ import com.ecapp.ecapp.screen.games.ScreenFelicitacionesMemoria
 import com.ecapp.ecapp.screen.games.ScreenGameMemoria
 import com.ecapp.ecapp.screen.games.ScreenGameOverMemoria
 import com.ecapp.ecapp.screen.games.ScreenRompecabesas
+
+import com.ecapp.ecapp.screen.games.laberinto.ScreenGameLaberinto
 import com.ecapp.ecapp.screen.games.screenGameMemoriaNivel2
 import com.ecapp.ecapp.screen.games.screenGameMemoriaNivel3
 import com.ecapp.ecapp.screen.games.secuencia.ScreenFelicitacionesSecuencia
@@ -25,6 +27,7 @@ import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameOverSopaLetras
 import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameSopaLetras
 import com.ecapp.ecapp.screen.games.sopa_de_letras.gameSopaLetrasNivel2
 import com.ecapp.ecapp.screen.games.sopa_de_letras.gameSopaLetrasNivel3
+import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameRompeCabezas
 
 @Composable
 fun AppNavegation(){
@@ -131,6 +134,19 @@ fun AppNavegation(){
         //pantalla de felicitaciones sopa de letras
         composable(route = AppScreens. screenFelicitacionesGameSopaLetras.route) {
             ScreenFelicitacionesSopaLetras(navController)
+
+        }
+
+        //pantalla de Laberinto
+        composable(route = AppScreens.screenGameLaberinto.route) {
+            ScreenGameLaberinto(navController)
+
+        }
+
+
+        //pantalla de RompeCabezas
+        composable(route = AppScreens.screenGameRompeCabezas.route) {
+            ScreenGameRompeCabezas(navController)
 
         }
 

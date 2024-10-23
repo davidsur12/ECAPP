@@ -23,5 +23,7 @@ object  screenHome:AppScreens("screenHome")
     object  screenGameOverSopaLetrasNivel2:AppScreens("ScreenGameSopaLetrasNivel2")
     object  screenGameOverSopaLetrasNivel3:AppScreens("ScreenGameSopaLetrasNivel3")
     object  screenFelicitacionesGameSopaLetras:AppScreens("ScreenFelicitacionesGameSopaLetras")
+    object  screenGameLaberinto:AppScreens("ScreenGameLaberinto")
+    object  screenGameRompeCabezas:AppScreens(" ScreenGameRompeCabezas")
 
 }
