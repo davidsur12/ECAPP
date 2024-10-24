@@ -12,7 +12,7 @@ import com.ecapp.ecapp.screen.app
 fun ScreenGameRompeCabezas(navController: NavController){
 
     Scaffold{
-        app(navController)
+        gameRompeCabezas(navController)
     }
 }
 

@@ -1,4 +1,4 @@
-package com.ecapp.ecapp.screen.games
+package com.ecapp.ecapp.screen.games.rompecabezas
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
@@ -16,30 +16,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
-
+import com.ecapp.ecapp.screen.games.secuencia.gameSecuencia
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenGameOverMemoria(navController: NavController){
+fun ScreenGameOverRompeCabezas(navController: NavController){
+    Scaffold {
 
-    Scaffold{
-        gameOverMemoria(navController)
+
+
+        gameOverRompeCabezas(navController)
     }
 }
-
 @Composable
-fun gameOverMemoria(navController: NavController){
+fun gameOverRompeCabezas(navController: NavController){
 
     BackHandler{
         navController.navigate("screenGames") {
-            popUpTo("screenGames") { inclusive = true } // Elimina la pantalla actual de la pila
+            popUpTo("ScreenGameRompeCabezas") { inclusive = true } // Elimina la pantalla actual de la pila
         }
     }
     Column(
@@ -67,8 +67,8 @@ fun gameOverMemoria(navController: NavController){
                 modifier = Modifier.size(100.dp) // Cambia el tamaño de la imagen si lo deseas
             )
 
-            Button(onClick = {navController.navigate(AppScreens.screenMemoria.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
-            Button(onClick = {navController.navigate(AppScreens.screenUser.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
+            Button(onClick = {navController.navigate(AppScreens.screenRompecabesas.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
+            Button(onClick = {navController.navigate(AppScreens.screenGames.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
 
         }
 

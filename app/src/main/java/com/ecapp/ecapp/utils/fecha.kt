@@ -46,6 +46,12 @@ object DateUser {
     var erroresSopaLetras=0
     var nivelSopaLetras = 1
 
+    //vidas rompecabezas
+
+    var vidasRompecabesas = 5
+    var erroresRompecabezas = 0
+    var nivelRompeCabezas = 1
+
 
 
 

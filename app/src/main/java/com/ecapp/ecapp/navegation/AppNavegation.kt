@@ -13,9 +13,13 @@ import com.ecapp.ecapp.screen.ScreenGames
 import com.ecapp.ecapp.screen.games.ScreenFelicitacionesMemoria
 import com.ecapp.ecapp.screen.games.ScreenGameMemoria
 import com.ecapp.ecapp.screen.games.ScreenGameOverMemoria
+import com.ecapp.ecapp.screen.games.ScreenGameRompeCabezasNivel2
+import com.ecapp.ecapp.screen.games.ScreenGameRompeCabezasNivel3
 import com.ecapp.ecapp.screen.games.ScreenRompecabesas
 
 import com.ecapp.ecapp.screen.games.laberinto.ScreenGameLaberinto
+import com.ecapp.ecapp.screen.games.rompecabezas.ScreenFelicitacionesRompeCabezas
+import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameOverRompeCabezas
 import com.ecapp.ecapp.screen.games.screenGameMemoriaNivel2
 import com.ecapp.ecapp.screen.games.screenGameMemoriaNivel3
 import com.ecapp.ecapp.screen.games.secuencia.ScreenFelicitacionesSecuencia
@@ -150,6 +154,29 @@ fun AppNavegation(){
 
         }
 
+        //pantalla de GameOver RompeCabezas
+        composable(route = AppScreens.screenGameOverRompeCabezas.route) {
+            ScreenGameOverRompeCabezas(navController)
+
+        }
+
+        //pantalla de Game RompeCabezas nivel 2
+        composable(route = AppScreens.screenGameRompeCabezasNivel2.route) {
+            ScreenGameRompeCabezasNivel2(navController)
+
+        }
+
+        //pantalla de Game RompeCabezas nivel 3
+        composable(route = AppScreens.screenGameRompeCabezasNivel3.route) {
+            ScreenGameRompeCabezasNivel3(navController)
+
+        }
+
+//pantalla de Game RompeCabezas felicitaciones
+        composable(route = AppScreens.screenFelicitacionesGameRompeCabezas.route) {
+            ScreenFelicitacionesRompeCabezas(navController)
+
+        }
 
 
 

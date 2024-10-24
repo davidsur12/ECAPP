@@ -6,30 +6,16 @@ import androidx.compose.material3.Scaffold
 import androidx.navigation.NavController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 
-
-
-
-import android.content.ClipData
-import android.content.ClipDescription
 import android.widget.Toast
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.draganddrop.dragAndDropSource
-import androidx.compose.foundation.draganddrop.dragAndDropTarget
+
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
@@ -75,7 +62,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import com.ecapp.ecapp.navegation.AppScreens
+import com.ecapp.ecapp.utils.DateUser
 import kotlin.math.roundToInt
 
 
@@ -85,9 +76,588 @@ fun ScreenRompecabesas(navController: NavController){
     Scaffold {
 
        // GameRompecabesas(navController)
-        DraggableImagesWithGrid()
+        gameRompeCabezasNivel1(navController)
     }
 }
+
+
+@Composable
+fun gameRompeCabezasNivel1(navController: NavController) {
+    DateUser.nivelRompeCabezas = 1
+    DateUser.vidasRompecabesas = 5
+    // Variables para la posición de las imágenes (inicialmente en la parte inferior)
+    val density = LocalDensity.current
+    val imageSize = 80.dp
+    val imageSizePx = with(density) { imageSize.toPx() }
+
+    // Inicializar offsets de las imágenes para que aparezcan debajo de la columna
+    val offsets = remember { mutableStateListOf<Pair<Float, Float>>().apply {
+        repeat(9) { add(0f to 0f) }
+    } }
+
+    // Variables para controlar la visibilidad de las imágenes
+    val visibleImages = remember { mutableStateListOf(true, true, true, true, true, true, true, true, true) }
+
+    // Variables para las imágenes de fondo de las cajas
+    val boxBackgroundImages = remember { mutableStateListOf<Int?>(null, null, null, null, null, null, null, null, null) }
+
+    // Estados para las coordenadas de las cajas
+    val boxCoordinates = remember { mutableStateListOf<LayoutCoordinates?>().apply { repeat(9) { add(null) } } }
+
+    // Contexto para mostrar Toast
+    val context = LocalContext.current
+
+    // Contador de imágenes colocadas correctamente
+    var correctPlacementCounter by remember { mutableStateOf(0) }
+
+    // Contador de errores
+    var errorCounter by remember { mutableStateOf(0) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Agregar el encabezado en la parte superior
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(
+                text = "Rompe Cabezas",
+                fontSize = 40.sp,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = "Nivel ${DateUser.nivelRompeCabezas}",
+                fontSize = 25.sp,
+                color = Color.White
+            )
+            Text(
+                text = "Vidas ${DateUser.vidasRompecabesas}",
+                fontSize = 25.sp,
+                color = Color.White
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Grid de 3x3 para las cajas
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 100.dp)
+                    .height(350.dp) // Altura para ajustar la grilla
+            ) {
+                items(9) { index ->
+                    Box(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .padding(4.dp)
+                            .onGloballyPositioned { coordinates ->
+                                boxCoordinates[index] = coordinates
+                            }
+                    ) {
+                        // Mostrar color de fondo si no tiene imagen de fondo
+                        if (boxBackgroundImages[index] != null) {
+                            Image(
+                                painter = painterResource(id = boxBackgroundImages[index]!!),
+                                contentDescription = "Imagen de fondo para la caja $index",
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Color.LightGray)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // Imágenes arrastrables colocadas debajo de la columna
+        val imageYOffset = 420.dp // Ajustar según la altura de la columna y la grilla
+        for (i in 0 until 9) {
+            if (visibleImages[i]) {
+                Image(
+                    painter = painterResource(id = getDrawableForImageCalabaza(i)),
+                    contentDescription = "Draggable Image $i",
+                    modifier = Modifier
+                        .size(imageSize)
+                        .offset {
+                            IntOffset(offsets[i].first.roundToInt(), offsets[i].second.roundToInt() + imageYOffset.toPx().toInt())
+                        }
+                        .pointerInput(Unit) {
+                            detectDragGestures(
+                                onDragEnd = {
+                                    var isCorrect = false
+                                    boxCoordinates.forEachIndexed { boxIndex, boxCoords ->
+                                        if (isImageInsideBox(
+                                                offsets[i].first,
+                                                offsets[i].second + imageYOffset.toPx(),
+                                                imageSizePx,
+                                                boxCoords
+                                            )) {
+                                            if (i == boxIndex) {
+                                                /*
+                                                Toast.makeText(
+                                                    context,
+                                                    "¡Felicidades! Imagen $i está en la caja ${boxIndex + 1}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()*/
+                                                visibleImages[i] = false
+                                                boxBackgroundImages[boxIndex] = getDrawableForImageCalabaza(i)
+                                                correctPlacementCounter++
+                                                isCorrect = true
+
+                                                // Verificar si todas las imágenes están colocadas correctamente
+                                                if (correctPlacementCounter == 9) {
+                                                    Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
+                                                    DateUser.nivelRompeCabezas = 2
+                                                    DateUser.vidasRompecabesas = DateUser.vidasRompecabesas-(errorCounter/4).toInt()//por cada 4 errores quito una vida
+                                                    navController.navigate(AppScreens.screenGameRompeCabezasNivel2.route)
+
+                                                    if(DateUser.vidasRompecabesas<=0){
+                                                        //perdiste
+                                                        navController.navigate(AppScreens.screenGameOverRompeCabezas.route)
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    // Incrementar el contador de errores si no se colocó correctamente
+                                    if (!isCorrect) {
+                                        errorCounter++
+                                        //Toast.makeText(context, "Intento incorrecto. Errores: $errorCounter", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            ) { change, dragAmount ->
+                                change.consume()
+                                offsets[i] = offsets[i].first + dragAmount.x to offsets[i].second + dragAmount.y
+                            }
+                        }
+                )
+            }
+        }
+    }
+}
+@Composable
+fun  ScreenGameRompeCabezasNivel2(navController: NavController) {
+    DateUser.nivelRompeCabezas = 2
+    //por cada 4 errores quito una vida
+
+    // Variables para la posición de las imágenes (inicialmente en la parte inferior)
+    val density = LocalDensity.current
+    val imageSize = 80.dp
+    val imageSizePx = with(density) { imageSize.toPx() }
+
+    // Inicializar offsets de las imágenes para que aparezcan debajo de la columna
+    val offsets = remember { mutableStateListOf<Pair<Float, Float>>().apply {
+        repeat(9) { add(0f to 0f) }
+    } }
+
+    // Variables para controlar la visibilidad de las imágenes
+    val visibleImages = remember { mutableStateListOf(true, true, true, true, true, true, true, true, true) }
+
+    // Variables para las imágenes de fondo de las cajas
+    val boxBackgroundImages = remember { mutableStateListOf<Int?>(null, null, null, null, null, null, null, null, null) }
+
+    // Estados para las coordenadas de las cajas
+    val boxCoordinates = remember { mutableStateListOf<LayoutCoordinates?>().apply { repeat(9) { add(null) } } }
+
+    // Contexto para mostrar Toast
+    val context = LocalContext.current
+
+    // Contador de imágenes colocadas correctamente
+    var correctPlacementCounter by remember { mutableStateOf(0) }
+
+    // Contador de errores
+    var errorCounter by remember { mutableStateOf(0) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Agregar el encabezado en la parte superior
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(
+                text = "Rompe Cabezas",
+                fontSize = 40.sp,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = "Nivel ${DateUser.nivelRompeCabezas}",
+                fontSize = 25.sp,
+                color = Color.White
+            )
+            Text(
+                text = "Vidas ${DateUser.vidasRompecabesas}",
+                fontSize = 25.sp,
+                color = Color.White
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Grid de 3x3 para las cajas
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 100.dp)
+                    .height(350.dp) // Altura para ajustar la grilla
+            ) {
+                items(9) { index ->
+                    Box(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .padding(4.dp)
+                            .onGloballyPositioned { coordinates ->
+                                boxCoordinates[index] = coordinates
+                            }
+                    ) {
+                        // Mostrar color de fondo si no tiene imagen de fondo
+                        if (boxBackgroundImages[index] != null) {
+                            Image(
+                                painter = painterResource(id = boxBackgroundImages[index]!!),
+                                contentDescription = "Imagen de fondo para la caja $index",
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Color.LightGray)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // Imágenes arrastrables colocadas debajo de la columna
+        val imageYOffset = 420.dp // Ajustar según la altura de la columna y la grilla
+        for (i in 0 until 9) {
+            if (visibleImages[i]) {
+                Image(
+                    painter = painterResource(id = getDrawableForImage(i)),
+                    contentDescription = "Draggable Image $i",
+                    modifier = Modifier
+                        .size(imageSize)
+                        .offset {
+                            IntOffset(offsets[i].first.roundToInt(), offsets[i].second.roundToInt() + imageYOffset.toPx().toInt())
+                        }
+                        .pointerInput(Unit) {
+                            detectDragGestures(
+                                onDragEnd = {
+                                    var isCorrect = false
+                                    boxCoordinates.forEachIndexed { boxIndex, boxCoords ->
+                                        if (isImageInsideBox(
+                                                offsets[i].first,
+                                                offsets[i].second + imageYOffset.toPx(),
+                                                imageSizePx,
+                                                boxCoords
+                                            )) {
+                                            if (i == boxIndex) {
+                                                /*
+                                                Toast.makeText(
+                                                    context,
+                                                    "¡Felicidades! Imagen $i está en la caja ${boxIndex + 1}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()*/
+                                                visibleImages[i] = false
+                                                boxBackgroundImages[boxIndex] = getDrawableForImage(i)
+                                                correctPlacementCounter++
+                                                isCorrect = true
+
+                                                // Verificar si todas las imágenes están colocadas correctamente
+                                                if (correctPlacementCounter == 9) {
+                                                    Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
+                                                    DateUser.nivelRompeCabezas = 3
+                                                    DateUser.vidasRompecabesas = DateUser.vidasRompecabesas-(errorCounter/4).toInt()//por cada 4 errores quito una vida
+
+                                                    navController.navigate(AppScreens.screenGameRompeCabezasNivel3.route)
+                                                    if(DateUser.vidasRompecabesas<=0){
+                                                        //perdiste
+                                                        navController.navigate(AppScreens.screenGameOverRompeCabezas.route)
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    // Incrementar el contador de errores si no se colocó correctamente
+                                    if (!isCorrect) {
+                                        errorCounter++
+                                        //Toast.makeText(context, "Intento incorrecto. Errores: $errorCounter", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            ) { change, dragAmount ->
+                                change.consume()
+                                offsets[i] = offsets[i].first + dragAmount.x to offsets[i].second + dragAmount.y
+                            }
+                        }
+                )
+            }
+        }
+    }
+}
+@Composable
+fun  ScreenGameRompeCabezasNivel3(navController: NavController) {
+    DateUser.nivelRompeCabezas = 3
+    // Variables para la posición de las imágenes (inicialmente en la parte inferior)
+    val density = LocalDensity.current
+    val imageSize = 80.dp
+    val imageSizePx = with(density) { imageSize.toPx() }
+
+    // Inicializar offsets de las imágenes para que aparezcan debajo de la columna
+    val offsets = remember { mutableStateListOf<Pair<Float, Float>>().apply {
+        repeat(9) { add(0f to 0f) }
+    } }
+
+    // Variables para controlar la visibilidad de las imágenes
+    val visibleImages = remember { mutableStateListOf(true, true, true, true, true, true, true, true, true) }
+
+    // Variables para las imágenes de fondo de las cajas
+    val boxBackgroundImages = remember { mutableStateListOf<Int?>(null, null, null, null, null, null, null, null, null) }
+
+    // Estados para las coordenadas de las cajas
+    val boxCoordinates = remember { mutableStateListOf<LayoutCoordinates?>().apply { repeat(9) { add(null) } } }
+
+    // Contexto para mostrar Toast
+    val context = LocalContext.current
+
+    // Contador de imágenes colocadas correctamente
+    var correctPlacementCounter by remember { mutableStateOf(0) }
+
+    // Contador de errores
+    var errorCounter by remember { mutableStateOf(0) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Agregar el encabezado en la parte superior
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(
+                text = "Rompe Cabezas",
+                fontSize = 40.sp,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = "Nivel ${DateUser.nivelRompeCabezas}",
+                fontSize = 25.sp,
+                color = Color.White
+            )
+            Text(
+                text = "Vidas ${DateUser.vidasRompecabesas}",
+                fontSize = 25.sp,
+                color = Color.White
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Grid de 3x3 para las cajas
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 100.dp)
+                    .height(350.dp) // Altura para ajustar la grilla
+            ) {
+                items(9) { index ->
+                    Box(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .padding(4.dp)
+                            .onGloballyPositioned { coordinates ->
+                                boxCoordinates[index] = coordinates
+                            }
+                    ) {
+                        // Mostrar color de fondo si no tiene imagen de fondo
+                        if (boxBackgroundImages[index] != null) {
+                            Image(
+                                painter = painterResource(id = boxBackgroundImages[index]!!),
+                                contentDescription = "Imagen de fondo para la caja $index",
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Color.LightGray)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // Imágenes arrastrables colocadas debajo de la columna
+        val imageYOffset = 420.dp // Ajustar según la altura de la columna y la grilla
+        for (i in 0 until 9) {
+            if (visibleImages[i]) {
+                Image(
+                    painter = painterResource(id = getDrawableForImageCaballo(i)),
+                    contentDescription = "Draggable Image $i",
+                    modifier = Modifier
+                        .size(imageSize)
+                        .offset {
+                            IntOffset(offsets[i].first.roundToInt(), offsets[i].second.roundToInt() + imageYOffset.toPx().toInt())
+                        }
+                        .pointerInput(Unit) {
+                            detectDragGestures(
+                                onDragEnd = {
+                                    var isCorrect = false
+                                    boxCoordinates.forEachIndexed { boxIndex, boxCoords ->
+                                        if (isImageInsideBox(
+                                                offsets[i].first,
+                                                offsets[i].second + imageYOffset.toPx(),
+                                                imageSizePx,
+                                                boxCoords
+                                            )) {
+                                            if (i == boxIndex) {
+                                                /*
+                                                Toast.makeText(
+                                                    context,
+                                                    "¡Felicidades! Imagen $i está en la caja ${boxIndex + 1}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()*/
+                                                visibleImages[i] = false
+                                                boxBackgroundImages[boxIndex] = getDrawableForImageCaballo(i)
+                                                correctPlacementCounter++
+                                                isCorrect = true
+
+                                                // Verificar si todas las imágenes están colocadas correctamente
+                                                if (correctPlacementCounter == 9) {
+                                                    Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
+                                                    DateUser.nivelRompeCabezas = 1
+                                                    DateUser.vidasRompecabesas = DateUser.vidasRompecabesas-(errorCounter/4).toInt()//por cada 4 errores quito una vida
+
+
+                                                    if(DateUser.vidasRompecabesas<=0){
+                                                        //perdiste
+
+
+                                                        navController.navigate(AppScreens.screenGameOverRompeCabezas.route)
+
+                                                    }
+                                                    else{
+                                                        navController.navigate(AppScreens.screenFelicitacionesGameRompeCabezas.route)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    // Incrementar el contador de errores si no se colocó correctamente
+                                    if (!isCorrect) {
+                                        errorCounter++
+                                        //Toast.makeText(context, "Intento incorrecto. Errores: $errorCounter", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            ) { change, dragAmount ->
+                                change.consume()
+                                offsets[i] = offsets[i].first + dragAmount.x to offsets[i].second + dragAmount.y
+                            }
+                        }
+                )
+            }
+        }
+    }
+}
+// Función para comprobar si la imagen está dentro de la caja
+fun isImageInsideBox(
+    offsetX: Float,
+    offsetY: Float,
+    imageSizePx: Float,
+    boxCoords: LayoutCoordinates?
+): Boolean {
+    if (boxCoords == null) return false
+
+    // Obtener posición absoluta de la caja
+    val boxTopLeft = boxCoords.positionInRoot()
+
+    // Verificar si la posición de la imagen cae dentro de la caja
+    return offsetX >= boxTopLeft.x &&
+            offsetY >= boxTopLeft.y &&
+            (offsetX + imageSizePx) <= (boxTopLeft.x + boxCoords.size.width) &&
+            (offsetY + imageSizePx) <= (boxTopLeft.y + boxCoords.size.height)
+}
+
+// Simular imágenes. Aquí debes poner las imágenes reales
+
+
+fun getDrawableForImage(index: Int): Int {
+    return when (index) {
+        0 -> com.ecapp.ecapp.R.drawable.gato1
+        1 -> com.ecapp.ecapp.R.drawable.gato2
+        2 -> com.ecapp.ecapp.R.drawable.gato3
+        3 -> com.ecapp.ecapp.R.drawable.gato9
+        4 -> com.ecapp.ecapp.R.drawable.gato4
+        5 -> com.ecapp.ecapp.R.drawable.gato5
+        6 -> com.ecapp.ecapp.R.drawable.gato8
+        7 -> com.ecapp.ecapp.R.drawable.gato7
+        8 -> com.ecapp.ecapp.R.drawable.gato6
+        else -> com.ecapp.ecapp.R.drawable.uno
+    }
+}
+fun getDrawableForImageCaballo(index: Int): Int {
+    return when (index) {
+        0 -> com.ecapp.ecapp.R.drawable.caballo9
+        1 -> com.ecapp.ecapp.R.drawable.cabllo8
+        2 -> com.ecapp.ecapp.R.drawable.caballo7
+        3 -> com.ecapp.ecapp.R.drawable.caballo6
+        4 -> com.ecapp.ecapp.R.drawable.caballo5
+        5 -> com.ecapp.ecapp.R.drawable.caballo4
+        6 -> com.ecapp.ecapp.R.drawable.caballo3
+        7 -> com.ecapp.ecapp.R.drawable.caballo2
+        8 -> com.ecapp.ecapp.R.drawable.caballo1
+        else -> com.ecapp.ecapp.R.drawable.uno
+    }
+}
+
+fun getDrawableForImageCalabaza(index: Int): Int {
+    return when (index) {
+        0 -> com.ecapp.ecapp.R.drawable.calabaza9
+        1 -> com.ecapp.ecapp.R.drawable.calabaza8
+        2 -> com.ecapp.ecapp.R.drawable.calabaza7
+        3 -> com.ecapp.ecapp.R.drawable.calabaza6
+        4 -> com.ecapp.ecapp.R.drawable.calabaza5
+        5 -> com.ecapp.ecapp.R.drawable.calabaza4
+        6 -> com.ecapp.ecapp.R.drawable.calabaza3
+        7 -> com.ecapp.ecapp.R.drawable.calabaza2
+        8 -> com.ecapp.ecapp.R.drawable.calabaza1
+        else -> com.ecapp.ecapp.R.drawable.uno
+    }
+}
+
+
+/*
 @Composable
 fun DraggableImagesWithGrid() {
     // Variables para la posición de las imágenes
@@ -105,7 +675,7 @@ fun DraggableImagesWithGrid() {
     val boxSize = 100.dp
     val imageSize = 80.dp
 
-    // Convertir `imageSize` a píxeles
+    // Convertir imageSize a píxeles
     val imageSizePx = with(LocalDensity.current) { imageSize.toPx() }
 
     // Contexto para mostrar Toast
@@ -132,12 +702,45 @@ fun DraggableImagesWithGrid() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.LightGray)
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
     ) {
+
+        /*    modifier = Modifier
+                .fillMaxSize().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)*/
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Agregar el encabezado en la parte superior
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(
+                text = "Rompe Cabezas",
+                fontSize = 40.sp,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = "Nivel ${DateUser.nivelRompeCabezas}",
+                fontSize = 25.sp,
+                color = Color.White
+            )
+            Text(
+                text = "Vidas ${DateUser.vidasRompecabesas}",
+                fontSize = 25.sp,
+                color = Color.White
+            )
+        }
+
         // Grid de 3x3 para las cajas
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 200.dp) // Ajusta la distancia para que la cuadrícula aparezca debajo del encabezado
         ) {
             items(9) { index ->
                 Box(
@@ -241,176 +844,14 @@ fun isImageInsideBox(
 fun getDrawableForImage(index: Int): Int {
     return when (index) {
         0 -> com.ecapp.ecapp.R.drawable.gato1
-        1 -> com.ecapp.ecapp.R.drawable.gato1
-        2 -> com.ecapp.ecapp.R.drawable.gato1
-        3 -> com.ecapp.ecapp.R.drawable.gato1
-        4 -> com.ecapp.ecapp.R.drawable.gato1
-        5 -> com.ecapp.ecapp.R.drawable.gato1
-        6 -> com.ecapp.ecapp.R.drawable.gato1
-        7 -> com.ecapp.ecapp.R.drawable.gato1
-        8 -> com.ecapp.ecapp.R.drawable.gato1
-        else -> com.ecapp.ecapp.R.drawable.uno
-    }
-}
-
-
-/*
-@Composable
-fun DraggableImagesWithGrid() {
-    // Variables para la posición de las imágenes
-    val offsets = remember { mutableStateListOf<Pair<Float, Float>>().apply {
-        repeat(9) { add(0f to 0f) }
-    } }
-
-    // Variables para controlar la visibilidad de las imágenes
-    val visibleImages = remember { mutableStateListOf(true, true, true, true, true, true, true, true, true) }
-
-    // Variables para las imágenes de fondo de las cajas
-    val boxBackgroundImages = remember { mutableStateListOf<Int?>(null, null, null, null, null, null, null, null, null) }
-
-    // Tamaño de la caja y la imagen
-    val boxSize = 100.dp
-    val imageSize = 80.dp
-
-    // Convertir `imageSize` a píxeles
-    val imageSizePx = with(LocalDensity.current) { imageSize.toPx() }
-
-    // Contexto para mostrar Toast
-    val context = LocalContext.current
-
-    // Estados para las coordenadas de las cajas
-    val boxCoordinates = remember { mutableStateListOf<LayoutCoordinates?>().apply {
-        repeat(9) { add(null) }
-    } }
-
-    // Lista de colores para las cajas
-    val boxColors = listOf(
-        Color.Red, Color.Green, Color.Blue,
-        Color.Yellow, Color.Cyan, Color.Magenta,
-        Color.LightGray, Color.DarkGray, Color.Blue
-    )
-
-    // Contador de imágenes colocadas correctamente
-    var correctPlacementCounter by remember { mutableStateOf(0) }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray)
-    ) {
-        // Grid de 3x3 para las cajas
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(9) { index ->
-                Box(
-                    modifier = Modifier
-                        .size(boxSize)
-                        .padding(4.dp)
-                        .onGloballyPositioned { coordinates ->
-                            boxCoordinates[index] = coordinates
-                        }
-                ) {
-                    // Mostrar color de fondo si no tiene imagen de fondo
-                    if (boxBackgroundImages[index] != null) {
-                        Image(
-                            painter = painterResource(id = boxBackgroundImages[index]!!),
-                            contentDescription = "Imagen de fondo para la caja $index",
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(boxColors[index])
-                        )
-                    }
-                }
-            }
-        }
-
-        // Imágenes arrastrables
-        for (i in 0 until 9) {
-            if (visibleImages[i]) {  // Solo mostrar imágenes visibles
-                Image(
-                    painter = painterResource(id = getDrawableForImage(i)), // Reemplaza esto con tus imágenes
-                    contentDescription = "Draggable Image $i",
-                    modifier = Modifier
-                        .size(imageSize)
-                        .offset { IntOffset(offsets[i].first.roundToInt(), offsets[i].second.roundToInt()) }
-                        .pointerInput(Unit) {
-                            detectDragGestures(
-                                onDragEnd = {
-                                    boxCoordinates.forEachIndexed { boxIndex, boxCoords ->
-                                        // Comprobar si la imagen está dentro de la caja correspondiente
-                                        if (isImageInsideBox(
-                                                offsets[i].first,
-                                                offsets[i].second,
-                                                imageSizePx,
-                                                boxCoords
-                                            ) && i == boxIndex) {
-                                            // Mostrar Toast si la imagen está dentro de la caja correcta
-                                            Toast.makeText(context, "Imagen $i está en la caja ${boxIndex + 1}", Toast.LENGTH_SHORT).show()
-
-                                            // Ocultar la imagen
-                                            visibleImages[i] = false
-
-                                            // Cambiar el fondo de la caja a la imagen
-                                            boxBackgroundImages[boxIndex] = getDrawableForImage(i)
-
-                                            // Incrementar el contador de colocaciones correctas
-                                            correctPlacementCounter++
-
-                                            // Verificar si todas las imágenes están colocadas correctamente
-                                            if (correctPlacementCounter == 9) {
-                                                Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
-                                            }
-                                        }
-                                    }
-                                }
-                            ) { change, dragAmount ->
-                                change.consume()
-                                offsets[i] = offsets[i].first + dragAmount.x to offsets[i].second + dragAmount.y
-                            }
-                        }
-                )
-            }
-        }
-    }
-}
-
-// Función para comprobar si la imagen está dentro de la caja
-fun isImageInsideBox(
-    offsetX: Float,
-    offsetY: Float,
-    imageSizePx: Float,
-    boxCoords: LayoutCoordinates?
-): Boolean {
-    if (boxCoords == null) return false
-
-    // Obtener posición absoluta de la caja
-    val boxTopLeft = boxCoords.positionInRoot()
-
-    // Verificar si la posición de la imagen cae dentro de la caja
-    return offsetX >= boxTopLeft.x &&
-            offsetY >= boxTopLeft.y &&
-            (offsetX + imageSizePx) <= (boxTopLeft.x + boxCoords.size.width) &&
-            (offsetY + imageSizePx) <= (boxTopLeft.y + boxCoords.size.height)
-}
-
-// Simular imágenes. Aquí debes poner las imágenes reales
-fun getDrawableForImage(index: Int): Int {
-    return when (index) {
-        0 -> com.ecapp.ecapp.R.drawable.gato1
-        1 -> com.ecapp.ecapp.R.drawable.gato1
-        2 -> com.ecapp.ecapp.R.drawable.gato1
-        3 -> com.ecapp.ecapp.R.drawable.gato1
-        4 -> com.ecapp.ecapp.R.drawable.gato1
-        5 -> com.ecapp.ecapp.R.drawable.gato1
-        6 -> com.ecapp.ecapp.R.drawable.gato1
-        7 -> com.ecapp.ecapp.R.drawable.gato1
-        8 -> com.ecapp.ecapp.R.drawable.gato1
+        1 -> com.ecapp.ecapp.R.drawable.gato2
+        2 -> com.ecapp.ecapp.R.drawable.gato3
+        3 -> com.ecapp.ecapp.R.drawable.gato4
+        4 -> com.ecapp.ecapp.R.drawable.gato5
+        5 -> com.ecapp.ecapp.R.drawable.gato6
+        6 -> com.ecapp.ecapp.R.drawable.gato7
+        7 -> com.ecapp.ecapp.R.drawable.gato8
+        8 -> com.ecapp.ecapp.R.drawable.gato9
         else -> com.ecapp.ecapp.R.drawable.uno
     }
 }
