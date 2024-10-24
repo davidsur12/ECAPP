@@ -217,7 +217,7 @@ private fun FormularioRegistro(navController: NavController) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d("Creando Cuenta", "createUserWithEmail:success")
                                     val user = LoginScreenViewModel().auth.currentUser
-
+                                    DateUser.correo=correo
                                     navController.navigate(AppScreens.screenBienbenida.route)
                                     //updateUI(user)
                                 } else {

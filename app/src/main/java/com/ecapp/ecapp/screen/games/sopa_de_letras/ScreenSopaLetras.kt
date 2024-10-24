@@ -59,112 +59,7 @@ fun ScreenGameSopaLetras(navController: NavController){
     }
 }
 
-@Composable
-fun gameSopaLetras(navController: NavController){
 
-Text("sopa de letras")
-
-
-
-}
-
-/*
-@Composable
-fun WordSearchGame() {
-    val gridSize = 10
-    val words = listOf("PERRO", "GATO", "LEON", "TIGRE", "ELEFANTE")
-    val grid = remember { generateWordSearchGrid(gridSize, words) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        for (row in grid) {
-            Row {
-                for (cell in row) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .size(30.dp)
-                            .padding(2.dp)
-                            .background(Color.LightGray, RoundedCornerShape(4.dp))
-                            .clickable { /* Add Click Logic Here */ }
-                    ) {
-                        Text(
-                            text = cell.toString(),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-fun generateWordSearchGrid(size: Int, words: List<String>): Array<CharArray> {
-    // Generate an empty grid
-    val grid = Array(size) { CharArray(size) { ' ' } }
-
-    // Place words in the grid
-    for (word in words) {
-        placeWordInGrid(word, grid)
-    }
-
-    // Fill empty spaces with random letters
-    for (i in grid.indices) {
-        for (j in grid[i].indices) {
-            if (grid[i][j] == ' ') {
-                grid[i][j] = ('A'..'Z').random()
-            }
-        }
-    }
-
-    return grid
-}
-
-fun placeWordInGrid(word: String, grid: Array<CharArray>) {
-    val size = grid.size
-    val random = Random(System.currentTimeMillis())
-
-    // Randomly choose direction: 0 -> Horizontal, 1 -> Vertical
-    val direction = random.nextInt(2)
-
-    var placed = false
-    while (!placed) {
-        val row = random.nextInt(size)
-        val col = random.nextInt(size)
-
-        if (direction == 0 && col + word.length <= size) { // Horizontal
-            if (canPlaceWord(word, grid, row, col, direction)) {
-                for (i in word.indices) {
-                    grid[row][col + i] = word[i]
-                }
-                placed = true
-            }
-        } else if (direction == 1 && row + word.length <= size) { // Vertical
-            if (canPlaceWord(word, grid, row, col, direction)) {
-                for (i in word.indices) {
-                    grid[row + i][col] = word[i]
-                }
-                placed = true
-            }
-        }
-    }
-}
-
-fun canPlaceWord(word: String, grid: Array<CharArray>, row: Int, col: Int, direction: Int): Boolean {
-    for (i in word.indices) {
-        if (direction == 0 && grid[row][col + i] != ' ' && grid[row][col + i] != word[i]) return false // Horizontal
-        if (direction == 1 && grid[row + i][col] != ' ' && grid[row + i][col] != word[i]) return false // Vertical
-    }
-    return true
-}
-
-*/
 
 @Composable
 fun gameSopaLetrasNivel1(navController: NavController) {
@@ -206,14 +101,14 @@ Column(    modifier = Modifier
 
     Spacer(modifier = Modifier.height(50.dp))
     Text("Actividad de Sopa de letras", fontSize = 25.sp,  textAlign = TextAlign.Center,
-        modifier = Modifier.fillMaxWidth(), )
+        modifier = Modifier.fillMaxWidth(), color = Color.White )
     Spacer(modifier = Modifier.height(50.dp))
-    Text("Vidas: ${vidas}",  fontSize = 20.sp)
-    Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp)
+    Text("Vidas: ${vidas}",  fontSize = 20.sp, color = Color.White)
+    Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp, color = Color.White)
     Spacer(modifier = Modifier.height(15.dp))
-    Text("Encuentra las Siguientes Palabras", fontSize = 20.sp)
+    Text("Encuentra las Siguientes Palabras", fontSize = 20.sp, color = Color.White)
     Spacer(modifier = Modifier.height(10.dp))
-    Text("PERRO, GATO, LEON,TIGRE", fontSize = 18.sp)
+    Text("PERRO, GATO, LEON,TIGRE", fontSize = 18.sp, color = Color.White)
 
 
     Box(
@@ -284,34 +179,6 @@ Column(    modifier = Modifier
             if( indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) &&  cambioListaSelected != selectedIndices.size){
                 cambioListaSelected = selectedIndices.size
             }
-            /*
-            else{
-
-
-
-
-                Toast.makeText(context, " tamaño ${selectedIndices.size} indice agregado ${selectedIndices[selectedIndices.size-1]}", Toast.LENGTH_SHORT).show()
-                //si el ultimo  indice no corrresponde a ninguna palabra
-                DateUser.erroresSopaLetras++
-                if(DateUser.erroresSopaLetras == 2 &&  cambioListaSelected != selectedIndices.size){
-                    cambioListaSelected = selectedIndices.size
-                    //por cada dos errores quito una vida
-
-                    DateUser.vidasSopaLetras--
-
-                    DateUser.erroresSopaLetras = 0
-                    vidas=DateUser.vidasSecuencia
-                    Toast.makeText(context, "vidas ${DateUser.vidasSopaLetras}", Toast.LENGTH_SHORT).show()
-                }
-                if(DateUser.vidasSopaLetras == 0){
-                    //perdiste todas las vidas
-                    //pantalla de game over
-                    Toast.makeText(context, "vidas ${DateUser.vidasSopaLetras}", Toast.LENGTH_SHORT).show()
-                    //  navController.navigate(AppScreens.screenGameOverSopaLetras.route)
-                }
-            }
-
-*/
 
         }
 
@@ -359,15 +226,15 @@ fun gameSopaLetrasNivel2(navController: NavController) {
 
         Spacer(modifier = Modifier.height(50.dp))
         Text("Actividad de Sopa de letras", fontSize = 25.sp,  textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(), )
+            modifier = Modifier.fillMaxWidth(), color = Color.White)
         Spacer(modifier = Modifier.height(50.dp))
-        Text("Vidas: ${vidas}",  fontSize = 20.sp)
+        Text("Vidas: ${vidas}",  fontSize = 20.sp, color = Color.White)
 
-        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp)
+        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp, color = Color.White)
         Spacer(modifier = Modifier.height(15.dp))
-        Text("Encuentra las Siguientes Palabras", fontSize = 20.sp)
+        Text("Encuentra las Siguientes Palabras", fontSize = 20.sp, color = Color.White)
         Spacer(modifier = Modifier.height(10.dp))
-        Text("TRNEDOR, PLATO, VASO, CUCHARA, SARTEN", fontSize = 18.sp)
+        Text("TRNEDOR, PLATO, VASO, CUCHARA, SARTEN", fontSize = 18.sp, color = Color.White)
         /*
    * Tenedores
 Cucharas Platos
@@ -399,7 +266,7 @@ Vasos Cacerolas
             //verifico si todas la sopa de letras esta llena correctamente
             if(completado && selectedIndices.size>= indicesCorrectos.size){
 
-                Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
+              //  Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
 
 
                 val errores = selectedIndices.filterNot { indicesCorrectos.contains(it) }
@@ -410,7 +277,7 @@ Vasos Cacerolas
                     DateUser.vidasSopaLetras=3
                 }
                 if(DateUser.nivelSopaLetras==2){
-                    Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
+                   // Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
                     DateUser.nivelSopaLetras=3
                     navController.navigate(AppScreens.screenGameOverSopaLetrasNivel3.route)
 
@@ -476,14 +343,14 @@ fun gameSopaLetrasNivel3(navController: NavController) {
 
         Spacer(modifier = Modifier.height(50.dp))
         Text("Actividad de Sopa de letras", fontSize = 25.sp,  textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(), )
+            modifier = Modifier.fillMaxWidth(),color = Color.White )
         Spacer(modifier = Modifier.height(50.dp))
-        Text("Vidas: ${vidas}",  fontSize = 20.sp)
-        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp)
+        Text("Vidas: ${vidas}",  fontSize = 20.sp, color = Color.White)
+        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp, color = Color.White)
         Spacer(modifier = Modifier.height(15.dp))
-        Text("Encuentra las Siguientes Palabras", fontSize = 20.sp)
+        Text("Encuentra las Siguientes Palabras", fontSize = 20.sp, color = Color.White)
         Spacer(modifier = Modifier.height(10.dp))
-        Text("BOLIVIA, BRASIL, GUAYANA, PERU")
+        Text("BOLIVIA, BRASIL, GUAYANA, PERU", color = Color.White)
 
         Box(
             modifier = Modifier
@@ -510,7 +377,7 @@ fun gameSopaLetrasNivel3(navController: NavController) {
             //verifico si todas la sopa de letras esta llena correctamente
             if(completado && selectedIndices.size>= indicesCorrectos.size){
 
-                Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
 
 
                 val errores = selectedIndices.filterNot { indicesCorrectos.contains(it) }
@@ -526,7 +393,7 @@ fun gameSopaLetrasNivel3(navController: NavController) {
                     try {
                         navController.navigate(AppScreens.screenFelicitacionesGameSopaLetras.route)
                     }catch (ex:Exception){
-                        Toast.makeText(context, "Eroor  al cmabiar  $ex", Toast.LENGTH_SHORT).show()
+                       // Toast.makeText(context, "Eroor  al cmabiar  $ex", Toast.LENGTH_SHORT).show()
                     Log.d("errorn",ex.toString() )
                     }
 

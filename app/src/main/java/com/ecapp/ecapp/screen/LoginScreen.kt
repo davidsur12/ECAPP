@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -138,8 +139,11 @@ fun Formulario2(navController: NavController) {
                 )
             )
 
+
             TextField(
                 value = password,
+                visualTransformation = PasswordVisualTransformation(),
+
                 onValueChange = { newPassword -> password = newPassword },
                 label = { Text("Contraseña") },
                 // visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -165,6 +169,7 @@ fun Formulario2(navController: NavController) {
                 Log.d("Informacion2" , "password = $password")
                 DateUser.correo=correo
                 val home = {
+                    DateUser.correo=correo
                     navController.navigate(AppScreens.screenUser.route)
                    // val intent = Intent(context, Home::class.java)
                     //context.startActivity(intent)

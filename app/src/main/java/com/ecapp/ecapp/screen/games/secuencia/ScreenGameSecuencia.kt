@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +20,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AcUnit
 import androidx.compose.material.icons.filled.AccessAlarm
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.Anchor
@@ -39,15 +39,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
-import com.ecapp.ecapp.screen.games.gameOverMemoria
-import com.ecapp.ecapp.screen.games.screenGameMemoriaNivel1
 import com.ecapp.ecapp.utils.DateUser
 import kotlinx.coroutines.delay
 
@@ -157,30 +158,32 @@ fun gameSecuencia(navController: NavController){
     val btnPistaVisibility = remember { mutableStateOf(false) }
     vidas = DateUser.vidasSecuencia
     Column(horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center) {
+    verticalArrangement = Arrangement.Center,
+        modifier = Modifier.background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))) {
 
     Spacer(modifier = Modifier.height(50.dp))
-    Text("Actividad de Secuencia", fontSize = 25.sp,  textAlign = TextAlign.Center,
+    Text("Actividad de Secuencia", fontSize = 25.sp,  textAlign = TextAlign.Center, color = Color.White,
         modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(20.dp))
-        Text("Nivel ${DateUser.GameSecuenciaNivel+1}")
+        Text("Nivel ${DateUser.GameSecuenciaNivel+1}", color = Color.White)
         Spacer(modifier = Modifier.height(20.dp))
-    Text("Total de Vidas $vidas ")
+    Text("Total de Vidas $vidas ", color = Color.White)
 
         Spacer(modifier = Modifier.height(10.dp))
         if(txtInicio.value){
             //si es verdadero muestra el texto de observar las siguientes imagenes de lo contrario
             //el texto de completa la secuencia que acabas de ver
         }
-        Text(if(txtInicio.value)"Observa la Secuencia de las Imagenes " else " Completa la Secuencia que Acabas de Ver")
+        Text(if(txtInicio.value)"Observa la Secuencia de las Imagenes " else " Completa la Secuencia que Acabas de Ver", color = Color.White)
     Spacer(modifier = Modifier.height(20.dp))
 
 
         if (showLazyRow.value) {
             //secuencia a seguir
             LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                modifier = Modifier.fillMaxWidth().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                horizontalArrangement = Arrangement.Center,
+
             ) {
                 items(iconos) { icono ->
                     Image(
@@ -189,6 +192,7 @@ fun gameSecuencia(navController: NavController){
                         modifier = Modifier
                             .size(40.dp)
                             .padding(8.dp)
+                        ,colorFilter = ColorFilter.tint(Color.White)
                     )
                 }
             }
@@ -202,8 +206,9 @@ fun gameSecuencia(navController: NavController){
             if (btnPista.value == true) {
                 //secuencia a seguir
                 LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                    modifier = Modifier.fillMaxWidth().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                    horizontalArrangement = Arrangement.Center,
+
                 ) {
                     items(iconos) { icono ->
                         Image(
@@ -225,7 +230,7 @@ fun gameSecuencia(navController: NavController){
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(28.dp) // Añade un margen alrededor del botón
+                    .padding(28.dp).background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)) // Añade un margen alrededor del botón
             ) {
 
 
@@ -296,14 +301,7 @@ fun gameSecuencia(navController: NavController){
 
 
         Spacer(modifier = Modifier.height(16.dp))
-/*
-        // Botón para agregar un icono
-        Button(onClick = {
-            // Añade un icono nuevo a la lista
-            iconosSelecionados.add(Icons.Default.Star)
-        }) {
-            Text("Agregar Icono")
-        }*/
+
 if(iconos == iconosSelecionados){
 
     // silas listas son iguales pasas al siguiente nivel
@@ -344,28 +342,7 @@ if(iconos == iconosSelecionados){
 
 
         Spacer(modifier = Modifier.height(8.dp))
-/*
-        // Botón para quitar el último icono
-        Button(onClick = {
-            // Quita el último icono de la lista si hay alguno
-            menuBotones.value=!menuBotones.value
-            if (iconosSelecionados.isNotEmpty()) {
-                iconosSelecionados.removeLast()
-            }
-        }) {
-            Text("Quitar Icono")
-        }
-        */
 
-/*
-        if(DateUser.GameSecuenciaNivel>=8){
-
-            navController.navigate(AppScreens.screenGameOverSecuencia.route)
-            //Toast.makeText(context, "Felicitaciones", Toast.LENGTH_SHORT).show()
-
-            // navController.navigate(AppScreens.screenFelicitacionesGameSecuencia.route)
-        }
-        */
         if(btnPistaVisibility.value){
 
 

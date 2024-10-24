@@ -1,8 +1,7 @@
-package com.ecapp.ecapp.screen.games
+package com.ecapp.ecapp.screen.games.cancelacioObjetos
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,10 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.DateUser
 
@@ -133,7 +132,9 @@ fun ScreenFelicitacionesM(navController: NavController){
                     }
                 }
 
+                DateUser.calificacionGameMemoria=DateUser.vidasGameMemoria
 
+                FirebaseCloudUser().agregarCalificacion( "2025", DateUser.calificacionGameMemoria, "cancelación_objetos")
                 Button(onClick = {navController.navigate(AppScreens.screenMemoria.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
                 Button(onClick = {navController.navigate(AppScreens.screenUser.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
 

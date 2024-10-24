@@ -87,7 +87,7 @@ fun Games(navController: NavController){
                 contentDescription = "Juegos de Memoria",
                 modifier = Modifier.size(24.dp) // Ajusta el tamaño del icono
             )
-            Text(text =  "Juegos de Memoria" , color = Color.Black,)
+            Text(text =  "Cancelacion de Objetos" , color = Color.Black,)
 
         }
 
@@ -118,7 +118,7 @@ fun Games(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenPerfilUser.route)
+                navController.navigate(AppScreens.screenRompecabesas.route)
             }) {
 
             Icon(
@@ -169,23 +169,7 @@ fun Games(navController: NavController){
         }
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
-            onClick = {
 
-                navController.navigate(AppScreens.screenRompecabesas.route)
-            }) {
-
-            Icon(
-                tint = Color.Black,
-                imageVector = Icons.Default.PlayArrow, // Usa un icono predeterminado
-                contentDescription = "Ejercicios de Secuencia",
-                modifier = Modifier.size(24.dp) // Ajusta el tamaño del icono
-            )
-            Text(text =  "Rompecabezas" , color = Color.Black,)
-
-        }
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(

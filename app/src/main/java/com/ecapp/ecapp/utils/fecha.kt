@@ -34,20 +34,20 @@ object DateUser {
     var totalVidasGameMemoria=5
 
     //vidas del juego secuencia
-
+    var calificacionGameSecuencia = 0
     var vidasSecuencia=5
     var GameSecuenciaNivel=0
     var erroresGameSecuencia = 0
 
 
     //vidas de la sopa de letras
-
+    var  calificacionGameSopaLetras = 0
     var vidasSopaLetras = 5
     var erroresSopaLetras=0
     var nivelSopaLetras = 1
 
     //vidas rompecabezas
-
+    var  calificacionGameRompeCabezas = 0
     var vidasRompecabesas = 5
     var erroresRompecabezas = 0
     var nivelRompeCabezas = 1

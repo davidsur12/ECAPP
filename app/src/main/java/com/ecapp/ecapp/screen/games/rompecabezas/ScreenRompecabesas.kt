@@ -1,4 +1,4 @@
-package com.ecapp.ecapp.screen.games
+package com.ecapp.ecapp.screen.games.rompecabezas
 
 import android.annotation.SuppressLint
 import androidx.compose.material3.Scaffold
@@ -14,60 +14,37 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-
-import androidx.compose.ui.draganddrop.DragAndDropEvent
-import androidx.compose.ui.draganddrop.DragAndDropTarget
-import androidx.compose.ui.draganddrop.DragAndDropTransferData
-import androidx.compose.ui.draganddrop.mimeTypes
-import androidx.compose.ui.draganddrop.toAndroidDragEvent
 
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
-import kotlin.random.Random
-
-
-import androidx.compose.ui.unit.dp
 
 
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.DateUser
-import kotlin.math.roundToInt
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -204,7 +181,8 @@ fun gameRompeCabezasNivel1(navController: NavController) {
                                                 offsets[i].second + imageYOffset.toPx(),
                                                 imageSizePx,
                                                 boxCoords
-                                            )) {
+                                            )
+                                        ) {
                                             if (i == boxIndex) {
                                                 /*
                                                 Toast.makeText(
@@ -219,7 +197,7 @@ fun gameRompeCabezasNivel1(navController: NavController) {
 
                                                 // Verificar si todas las imágenes están colocadas correctamente
                                                 if (correctPlacementCounter == 9) {
-                                                    Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
+                                                   // Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
                                                     DateUser.nivelRompeCabezas = 2
                                                     DateUser.vidasRompecabesas = DateUser.vidasRompecabesas-(errorCounter/4).toInt()//por cada 4 errores quito una vida
                                                     navController.navigate(AppScreens.screenGameRompeCabezasNivel2.route)
@@ -373,7 +351,8 @@ fun  ScreenGameRompeCabezasNivel2(navController: NavController) {
                                                 offsets[i].second + imageYOffset.toPx(),
                                                 imageSizePx,
                                                 boxCoords
-                                            )) {
+                                            )
+                                        ) {
                                             if (i == boxIndex) {
                                                 /*
                                                 Toast.makeText(
@@ -388,7 +367,7 @@ fun  ScreenGameRompeCabezasNivel2(navController: NavController) {
 
                                                 // Verificar si todas las imágenes están colocadas correctamente
                                                 if (correctPlacementCounter == 9) {
-                                                    Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
+                                                   // Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
                                                     DateUser.nivelRompeCabezas = 3
                                                     DateUser.vidasRompecabesas = DateUser.vidasRompecabesas-(errorCounter/4).toInt()//por cada 4 errores quito una vida
 
@@ -540,7 +519,8 @@ fun  ScreenGameRompeCabezasNivel3(navController: NavController) {
                                                 offsets[i].second + imageYOffset.toPx(),
                                                 imageSizePx,
                                                 boxCoords
-                                            )) {
+                                            )
+                                        ) {
                                             if (i == boxIndex) {
                                                 /*
                                                 Toast.makeText(
@@ -555,7 +535,7 @@ fun  ScreenGameRompeCabezasNivel3(navController: NavController) {
 
                                                 // Verificar si todas las imágenes están colocadas correctamente
                                                 if (correctPlacementCounter == 9) {
-                                                    Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
+                                                   // Toast.makeText(context, "¡Juego Terminado!", Toast.LENGTH_LONG).show()
                                                     DateUser.nivelRompeCabezas = 1
                                                     DateUser.vidasRompecabesas = DateUser.vidasRompecabesas-(errorCounter/4).toInt()//por cada 4 errores quito una vida
 

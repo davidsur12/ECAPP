@@ -13,7 +13,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,10 +20,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -41,6 +40,13 @@ fun HomeScreenUser(navController: NavController){
 
 @Composable
 fun HomeScreen2(navController: NavController){
+    try{
+        FirebaseCloudUser().crearDocumentosGames()
+    }
+    catch(ex: Exception){
+
+
+    }
 
 
     Column(modifier = Modifier.fillMaxSize()
@@ -90,7 +96,7 @@ fun HomeScreen2(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                //navController.navigate(AppScreens.screenHome.route)
+                navController.navigate(AppScreens.screenHome.route)
             }) {
             Text(text =  "Progreso Cognitivo" , color = Color.Black)
 

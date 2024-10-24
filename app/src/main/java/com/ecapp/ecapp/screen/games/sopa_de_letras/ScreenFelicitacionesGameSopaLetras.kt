@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.DateUser
 
@@ -137,7 +138,8 @@ fun FelicitacionesSecuencia(navController: NavController){
                 }
             }
 
-
+            DateUser.calificacionGameSopaLetras = DateUser.vidasSopaLetras
+            FirebaseCloudUser().agregarCalificacion( "2025", DateUser.calificacionGameSopaLetras, "sopa_letras")
             Button(onClick = {navController.navigate(AppScreens.screenMemoria.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
             Button(onClick = {navController.navigate(AppScreens.screenUser.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
 

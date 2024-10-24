@@ -10,18 +10,18 @@ import com.ecapp.ecapp.screen.HomeScreenn
 import com.ecapp.ecapp.screen.PerfilUser
 import com.ecapp.ecapp.screen.RegistroUser
 import com.ecapp.ecapp.screen.ScreenGames
-import com.ecapp.ecapp.screen.games.ScreenFelicitacionesMemoria
-import com.ecapp.ecapp.screen.games.ScreenGameMemoria
-import com.ecapp.ecapp.screen.games.ScreenGameOverMemoria
-import com.ecapp.ecapp.screen.games.ScreenGameRompeCabezasNivel2
-import com.ecapp.ecapp.screen.games.ScreenGameRompeCabezasNivel3
-import com.ecapp.ecapp.screen.games.ScreenRompecabesas
+import com.ecapp.ecapp.screen.games.cancelacioObjetos.ScreenFelicitacionesMemoria
+import com.ecapp.ecapp.screen.games.cancelacioObjetos.ScreenGameMemoria
+import com.ecapp.ecapp.screen.games.cancelacioObjetos.ScreenGameOverMemoria
+import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameRompeCabezasNivel2
+import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameRompeCabezasNivel3
+import com.ecapp.ecapp.screen.games.rompecabezas.ScreenRompecabesas
 
 import com.ecapp.ecapp.screen.games.laberinto.ScreenGameLaberinto
 import com.ecapp.ecapp.screen.games.rompecabezas.ScreenFelicitacionesRompeCabezas
 import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameOverRompeCabezas
-import com.ecapp.ecapp.screen.games.screenGameMemoriaNivel2
-import com.ecapp.ecapp.screen.games.screenGameMemoriaNivel3
+import com.ecapp.ecapp.screen.games.cancelacioObjetos.screenGameMemoriaNivel2
+import com.ecapp.ecapp.screen.games.cancelacioObjetos.screenGameMemoriaNivel3
 import com.ecapp.ecapp.screen.games.secuencia.ScreenFelicitacionesSecuencia
 import com.ecapp.ecapp.screen.games.secuencia.ScreenGameOverSecuencia
 import com.ecapp.ecapp.screen.games.secuencia.ScreenGameSecuencia
@@ -31,7 +31,7 @@ import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameOverSopaLetras
 import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameSopaLetras
 import com.ecapp.ecapp.screen.games.sopa_de_letras.gameSopaLetrasNivel2
 import com.ecapp.ecapp.screen.games.sopa_de_letras.gameSopaLetrasNivel3
-import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameRompeCabezas
+
 
 @Composable
 fun AppNavegation(){
@@ -148,11 +148,7 @@ fun AppNavegation(){
         }
 
 
-        //pantalla de RompeCabezas
-        composable(route = AppScreens.screenGameRompeCabezas.route) {
-            ScreenGameRompeCabezas(navController)
 
-        }
 
         //pantalla de GameOver RompeCabezas
         composable(route = AppScreens.screenGameOverRompeCabezas.route) {
