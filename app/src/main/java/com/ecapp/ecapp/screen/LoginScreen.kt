@@ -48,9 +48,7 @@ fun loginScreen(navController: NavController){
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = { isLoggedIn = !isLoggedIn }) {
-            Text(text = if (isLoggedIn) "Cerrar sesión" else "Iniciar sesión")
-        }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 

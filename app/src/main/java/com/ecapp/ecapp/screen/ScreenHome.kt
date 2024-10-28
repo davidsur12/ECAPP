@@ -1,7 +1,9 @@
 package com.ecapp.ecapp.screen
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,9 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.btnRegistro
+import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreenn(navController: NavController){
@@ -36,6 +40,7 @@ fun HomeScreenn(navController: NavController){
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun app(navController: NavController){
 
@@ -106,7 +111,8 @@ fun app(navController: NavController){
         }, "Iniciar Session")
 
         btnRegistro(onClick = {
-            navController.navigate(AppScreens.screenRegisterUser.route)
+
+             navController.navigate(AppScreens.screenRegisterUser.route)
           //  navController.navigate(AppScreens.screenMemoria.route)
            // navController.navigate(AppScreens.screenGameSopaLetras.route)
             //navController.navigate(AppScreens.screenGameLaberinto.route)

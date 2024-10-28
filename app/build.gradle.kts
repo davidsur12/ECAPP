@@ -52,7 +52,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
+
+
 
 dependencies {
 
@@ -88,4 +91,5 @@ dependencies {
     implementation ("androidx.navigation:navigation-compose:{latest_version}")
     implementation("com.google.firebase:firebase-firestore")
     implementation ("androidx.compose.material:material-icons-extended:1.7.3")
+
 }

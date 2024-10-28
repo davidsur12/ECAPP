@@ -1,5 +1,7 @@
 package com.ecapp.ecapp.navegation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,8 +33,18 @@ import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameOverSopaLetras
 import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameSopaLetras
 import com.ecapp.ecapp.screen.games.sopa_de_letras.gameSopaLetrasNivel2
 import com.ecapp.ecapp.screen.games.sopa_de_letras.gameSopaLetrasNivel3
+import com.ecapp.ecapp.screen.progreso.ScreenProgreso
+import com.ecapp.ecapp.screen.progreso.ScreenProgreso.ScreenProgresoCancelacionObjetos
+import com.ecapp.ecapp.screen.progreso.ScreenProgreso.ScreenProgresoRompeCabezas
+import com.ecapp.ecapp.screen.progreso.ScreenProgreso.ScreenProgresoSecuencia
+import com.ecapp.ecapp.screen.progreso.ScreenProgreso.ScreenProgresoSopaLetras
 
 
+import com.ecapp.ecapp.screen.progreso.ScreenProgresoGamesOpciones
+import com.ecapp.ecapp.screen.progreso.graficos.ScreenGraficos
+
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavegation(){
     val navController = rememberNavController()
@@ -174,8 +186,68 @@ fun AppNavegation(){
 
         }
 
+        //pantalla de progreso cognitivo
+        composable(route = AppScreens.screenProgresoCognitivo.route) {
+            ScreenProgreso(navController)
+
+        }
+
+/*
+        //pantalla de  Resumen Diario
+        composable(route = AppScreens.screenProgresoGames.route) {
+            ScreenProgresoGames(navController)
+
+        }
+        */
+
+        //pantalla de  progreso de los juegos sopa de letras
+        composable(route = AppScreens.screenProgresoGamesSopaLetras.route) {
+            ScreenProgresoSopaLetras(navController)
+
+        }
+
+        //pantalla de  progreso de los juegos secuencia
+        composable(route = AppScreens.screenProgresoGamesSecuencia.route) {
+            ScreenProgresoSecuencia(navController)
+
+        }
+
+        //pantalla de  progreso de los cancelacion objetos
+        composable(route = AppScreens.screenProgresoGamesCancelacionObjetos.route) {
+            ScreenProgresoCancelacionObjetos(navController)
+
+        }
+
+        //pantalla de  progreso de los cancelacion objetos
+        composable(route = AppScreens.screenProgresoGamesRompeCabezas.route) {
+            ScreenProgresoRompeCabezas(navController)
+
+        }
+
+        //pantalla de  progreso cognitivo
+        composable(route = AppScreens.screenProgresoGames.route) {
+            ScreenProgreso(navController)
+
+        }
+
+//pantalla de  progreso cognitivo
+        composable(route = AppScreens.screenProgresoGamesOPciones.route) {
+            ScreenProgresoGamesOpciones(navController)
+
+        }
+
+        //pantalla de  progreso cognitivo
+        composable(route = AppScreens.screenProgresoGamesGraficos.route) {
+            ScreenGraficos(navController)
+
+        }
 
 
 
-}
+
+
+
+
+
+    }
 }

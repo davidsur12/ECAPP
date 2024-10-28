@@ -314,7 +314,7 @@ if(iconos == iconosSelecionados){
     }
     else{
 
-        Toast.makeText(context, "listas similares ", Toast.LENGTH_SHORT).show()
+      //  Toast.makeText(context, "listas similares ", Toast.LENGTH_SHORT).show()
         DateUser.GameSecuenciaNivel = DateUser.GameSecuenciaNivel+1
         DateUser.erroresGameSecuencia = 0
         navController.navigate(AppScreens.screenGameSecuencia.route)
@@ -349,7 +349,7 @@ if(iconos == iconosSelecionados){
             Button(onClick = {
 
                 btnPista.value=true
-                Toast.makeText(context, "Pista", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(context, "Pista", Toast.LENGTH_SHORT).show()
             }, modifier = Modifier.width(300.dp)) {
                 Text("Pista")
             }

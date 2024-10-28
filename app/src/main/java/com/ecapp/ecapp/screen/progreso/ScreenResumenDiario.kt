@@ -1,10 +1,13 @@
-package com.ecapp.ecapp.screen
+package com.ecapp.ecapp.screen.progreso
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,55 +19,50 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DatePicker
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.DateUser
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenGames(navController: NavController){
+fun ScreenProgresoGamesOpciones(navController: NavController){
     Scaffold {
 
-        Games(navController)
+        progresoGamesOpciones(navController)
     }
 }
 
 @Composable
-fun Games(navController: NavController){
+fun progresoGamesOpciones(navController: NavController){
     BackHandler{
         navController.navigate("screenUser") {
             popUpTo("screenMemoria") { inclusive = true } // Elimina la pantalla actual de la pila
         }
     }
-
-    DateUser.nivelSopaLetras = 1
-    DateUser.vidasSopaLetras = 5
-    DateUser.GameSecuenciaNivel= 1
-    DateUser.vidasSecuencia = 5
-    DateUser.vidasSopaLetras = 5
-    DateUser.nivelSopaLetras = 1
-    DateUser.vidasRompecabesas = 5
-    DateUser.nivelRompeCabezas = 1
-    DateUser.vidasGameMemoria = 5
 
 
     Column(modifier = Modifier.fillMaxSize()
@@ -76,8 +74,6 @@ fun Games(navController: NavController){
         ),horizontalAlignment = Alignment.CenterHorizontally
     ){
 
-        Text("Actividad de Secuencia", fontSize = 25.sp,  textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth())
 
         Spacer(modifier = Modifier.height(50.dp))
 
@@ -90,7 +86,7 @@ fun Games(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenMemoria.route)
+                navController.navigate(AppScreens.screenProgresoGamesCancelacionObjetos.route)
             }) {
 
             Icon(
@@ -110,7 +106,7 @@ fun Games(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenGameSecuencia.route)
+                navController.navigate(AppScreens.screenProgresoGamesCancelacionObjetos.route)
             }) {
 
             Icon(
@@ -130,7 +126,7 @@ fun Games(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenRompecabesas.route)
+                navController.navigate(AppScreens.screenProgresoGamesRompeCabezas.route)
             }) {
 
             Icon(
@@ -148,7 +144,7 @@ fun Games(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenGameSopaLetras.route)
+                navController.navigate(AppScreens.screenProgresoGamesSopaLetras.route)
             }) {
 
             Icon(
@@ -184,15 +180,7 @@ fun Games(navController: NavController){
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
-            modifier = Modifier.width(200.dp),
-            onClick = {
-                Firebase.auth.signOut()
-                navController.navigate(AppScreens.screenHome.route)
-            }) {
-            Text(text =  "Cerrar sesión" )
 
-        }
 
 
 

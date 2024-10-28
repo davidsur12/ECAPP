@@ -1,6 +1,8 @@
 package com.ecapp.ecapp.cloud
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.ecapp.ecapp.utils.DateUser
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -132,6 +134,123 @@ class FirebaseCloudUser {
         }
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDatosGameDia(juego:String){
+
+        val db = FirebaseFirestore.getInstance()
+
+// Referencia a la colección 'juegos' dentro del documento del usuario 'franco@gmail.com'
+        val juegosCollectionRef = db.collection("users").document("franco@gmail.com").collection("juegos")
+        juegosCollectionRef.get().addOnSuccessListener { querySnapshot ->
+            querySnapshot.documents.forEach { document ->
+                // Obtén el arreglo 'evaluaciones' de cada documento
+                val evaluaciones = document.get("evaluaciones") as? List<Map<String, Any>> ?: emptyList()
+
+                // Recorrer cada evaluación en el arreglo y mostrar sus valores
+                evaluaciones.forEach { evaluacion ->
+                    val fecha = evaluacion["fecha"] as? String
+                    val calificacion = evaluacion["calificacion"] as? Long
+println(fecha)
+                    // Mostrar los valores obtenidos
+                    Log.d("infofire", "Fecha: $fecha, Calificación: $calificacion")
+                }
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("infofire", "Error obteniendo evaluaciones: ", exception)
+        }
+
+        fun getRompecabezasData() {
+            // Obtén la instancia de Firebase Firestore
+            val db = FirebaseFirestore.getInstance()
+
+            // Ruta al documento "rompecabezas"
+            val docRef = db.collection("users")
+                .document("franco@gmail.com")
+                .collection("juegos")
+                .document("rompecabezas")
+
+            // Obtener los datos del documento
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // El documento se ha obtenido correctamente
+                        val data = document.data
+                        // Aquí puedes trabajar con los datos obtenidos
+                        println("Datos de 'rompecabezas': $data")
+                    } else {
+                        println("El documento no existe.")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Error al obtener el documento
+                    println("Error al obtener el documento: $exception")
+                }
+        }
+
+
+        /*
+                val db = FirebaseFirestore.getInstance()
+
+        // Acceder a la colección 'users' y luego al documento con el correo 'franco@gmail.com'
+        // Dentro de este documento, acceder a la colección 'juegos'
+                val userDocRef = db.collection("users").document("franco@gmail.com").collection("juegos")
+        // Obtener la fecha actual en el mismo formato que en Firebase
+                val currentDate = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)
+
+                // Filtrar las evaluaciones por la fecha actual
+                userDocRef.get().addOnSuccessListener { querySnapshot ->
+                    querySnapshot.documents.forEach { document ->
+                        // Accedemos al campo 'evaluaciones' dentro de cada documento de la colección 'juegos'
+                        val evaluaciones = document.get("evaluaciones") as? List<Map<String, Any>> ?: emptyList()
+
+                        // Filtrar las evaluaciones por la fecha actual
+                        val evaluacionesHoy = evaluaciones.filter { evaluacion ->
+                            evaluacion["fecha"] == currentDate // Compara con la fecha actual
+                        }
+
+                        // Mostrar las evaluaciones obtenidas
+                        evaluacionesHoy.forEach {
+                            val fecha = it["fecha"] as String
+                            val calificacion = it["calificacion"] as Long
+                            Log.d("Firestore", "Fecha: $fecha, Calificación: $calificacion")
+                        }
+                    }
+                }
+
+        */
+    }
+
+
+    fun getEvaluaciones(callback: (List<Map<String, Any>>?) -> Unit, juego: String) {
+        // Obtén la instancia de Firebase Firestore
+        val db = FirebaseFirestore.getInstance()
+
+        // Ruta al documento "rompecabezas"
+        val docRef = db.collection("users")
+            .document(DateUser.correo)
+            .collection("Juegos")
+            .document(juego)
+
+        // Obtener los datos del documento
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    // El documento se ha obtenido correctamente
+                    val evaluaciones = document.get("evaluaciones") as? List<Map<String, Any>>
+                    // Devolver el array "evaluaciones" a través del callback
+                    callback(evaluaciones)
+                } else {
+                    println("El documento no existe.")
+                    callback(null)
+                }
+            }
+            .addOnFailureListener { exception ->
+                // Error al obtener el documento
+                println("Error al obtener el documento: $exception")
+                callback(null)
+            }
+    }
 }
 
 

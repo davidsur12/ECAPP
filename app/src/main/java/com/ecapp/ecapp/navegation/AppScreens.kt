@@ -29,5 +29,16 @@ object  screenHome:AppScreens("screenHome")
     object  screenGameRompeCabezasNivel2:AppScreens(" ScreenGameRompeCabezasNivel2")
     object  screenGameRompeCabezasNivel3:AppScreens(" ScreenGameRompeCabezasNivel3")
     object  screenFelicitacionesGameRompeCabezas:AppScreens("ScreenGameFelicitacionesRompeCabezas")
+    object  screenProgresoCognitivo:AppScreens("ScreenProgresoCognitivo")
+    object  screenProgresoGames:AppScreens("ScreenProgresoCognitivo")
+    object  screenProgresoGamesSopaLetras:AppScreens("ScreenProgresoGameSopaLetras")
+    object  screenProgresoGamesSecuencia:AppScreens("ScreenProgresoGameSecuencia")
+    object  screenProgresoGamesCancelacionObjetos:AppScreens("ScreenProgresoGameCancelacionObjetos")
+    object  screenProgresoGamesRompeCabezas:AppScreens("ScreenProgresoGameRompeCabezas")
+    object  screenProgresoGamesOPciones:AppScreens("ScreenProgresoGamesOpciones")
+    object  screenProgresoGamesGraficos:AppScreens("ScreenProgresoGamesGraficos")
+
+
+
 
 }

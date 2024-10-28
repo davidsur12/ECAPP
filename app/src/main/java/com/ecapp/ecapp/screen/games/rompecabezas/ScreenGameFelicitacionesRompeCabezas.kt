@@ -1,7 +1,11 @@
 package com.ecapp.ecapp.screen.games.rompecabezas
 
 import android.annotation.SuppressLint
+import android.os.Build
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,14 +24,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.DateUser
+import java.time.LocalDateTime
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ScreenFelicitacionesRompeCabezas(navController: NavController){
@@ -39,6 +46,7 @@ fun ScreenFelicitacionesRompeCabezas(navController: NavController){
 
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun felicitacionesRompeCabezas(navController: NavController){
 
@@ -131,9 +139,12 @@ fun felicitacionesRompeCabezas(navController: NavController){
                     }
                 }
             }
-            DateUser.calificacionGameRompeCabezas = DateUser.nivelRompeCabezas
+            val context = LocalContext.current
 
-            FirebaseCloudUser().agregarCalificacion( "2025", DateUser.calificacionGameRompeCabezas, "rompecabezas")
+            DateUser.calificacionGameRompeCabezas = DateUser.vidasRompecabesas
+            Toast.makeText(context, "vidas: ${DateUser.calificacionGameRompeCabezas}", Toast.LENGTH_SHORT).show()
+            Log.d("infoCalificacion", "calificacion: ${DateUser.calificacionGameRompeCabezas} vidas: ${DateUser.vidasRompecabesas} ")
+            FirebaseCloudUser().agregarCalificacion( LocalDateTime.now().toString(), DateUser.calificacionGameRompeCabezas, "rompecabezas")
 
             Button(onClick = {navController.navigate(AppScreens.screenRompecabesas.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
             Button(onClick = {navController.navigate(AppScreens.screenUser.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }

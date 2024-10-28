@@ -96,7 +96,7 @@ fun HomeScreen2(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenHome.route)
+                navController.navigate(AppScreens.screenProgresoCognitivo.route)
             }) {
             Text(text =  "Progreso Cognitivo" , color = Color.Black)
 

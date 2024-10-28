@@ -64,6 +64,14 @@ fun ScreenGameSopaLetras(navController: NavController){
 @Composable
 fun gameSopaLetrasNivel1(navController: NavController) {
 
+
+  /*
+   if(DateUser.nivelSopaLetras != 1){
+       DateUser.vidasSopaLetras=5
+       DateUser.nivelSopaLetras=1
+   }
+    */
+
     BackHandler{
         navController.navigate("screenGames") {
             popUpTo("ScreenGameSopaLetras") { inclusive = true } // Elimina la pantalla actual de la pila
@@ -188,9 +196,155 @@ Column(    modifier = Modifier
 }
 }
 
-
 @Composable
 fun gameSopaLetrasNivel2(navController: NavController) {
+
+
+    /*
+     if(DateUser.nivelSopaLetras != 1){
+         DateUser.vidasSopaLetras=5
+         DateUser.nivelSopaLetras=1
+     }
+      */
+
+    BackHandler{
+        navController.navigate("screenGames") {
+            popUpTo("ScreenGameSopaLetras") { inclusive = true } // Elimina la pantalla actual de la pila
+        }
+    }
+
+
+
+    val context = LocalContext.current
+    // Ejemplo de letras para la sopa de letras
+    val letters = listOf(
+        'T', 'E', 'N', 'E', 'D','O','R',
+        'P', 'L', 'A', 'T', 'O','Y','P',
+        'K', 'V', 'A', 'S', 'O','W','O',
+        'C', 'U', 'C', 'H', 'A','R','A',
+        'S', 'A', 'R', 'T', 'E','N','O',
+    )
+
+    val indicesCorrectos = listOf(0,1,2,3,4,5,6,7,8,9,10,11,15,16,17,18,23,24,25,26,27,28,29,30,31,32,33)
+
+
+    // Tamaño del tablero
+    val gridSize = 7
+
+    // Lista mutable para almacenar los índices seleccionados
+    val selectedIndices = remember { mutableStateListOf<Int>() }
+    var vidas by remember { mutableStateOf(0) }
+    var cambioListaSelected by remember { mutableStateOf(0) }
+    vidas = DateUser.vidasSopaLetras
+    cambioListaSelected = 0
+
+    Column(    modifier = Modifier
+        .fillMaxSize().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+        verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
+        horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Spacer(modifier = Modifier.height(50.dp))
+        Text("Actividad de Sopa de letras", fontSize = 25.sp,  textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(), color = Color.White )
+        Spacer(modifier = Modifier.height(50.dp))
+        Text("Vidas: ${vidas}",  fontSize = 20.sp, color = Color.White)
+        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp, color = Color.White)
+        Spacer(modifier = Modifier.height(15.dp))
+        Text("Encuentra las Siguientes Palabras", fontSize = 20.sp, color = Color.White)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text("PERRO, GATO, LEON,TIGRE", fontSize = 18.sp, color = Color.White)
+
+
+        Box(
+            modifier = Modifier
+                //.fillMaxSize()
+                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+                .padding(16.dp)
+        ) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(gridSize),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center)
+            ) {
+                itemsIndexed(letters) { index, letter ->
+                    LetterBox(letter, index, selectedIndices)
+                }
+
+
+            }
+
+
+
+            // Mostrar los índices seleccionados
+            /*
+                Text(
+                    text = "Índices seleccionados: ${selectedIndices.joinToString(", ")}",
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(16.dp),
+                    color = Color.Black
+                )
+                    */
+            //val completado = indicesCorrectos.containsAll(selectedIndices)
+            val completado = selectedIndices.containsAll(indicesCorrectos)
+            //verifico si todas la sopa de letras esta llena correctamente
+            if(completado && selectedIndices.size>= indicesCorrectos.size){
+
+
+
+
+                val errores = selectedIndices.filterNot { indicesCorrectos.contains(it) }
+                var contErrores = errores.count()
+                DateUser.erroresSopaLetras = contErrores
+
+                if( contErrores>=2){
+                    contErrores=0
+                    DateUser.vidasSopaLetras =  DateUser.vidasSopaLetras--
+                    DateUser.erroresSopaLetras = 0
+                }
+                /*
+                if(DateUser.nivelSopaLetras==1){
+                    Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
+                    DateUser.nivelSopaLetras=2
+                    navController.navigate(AppScreens.screenGameOverSopaLetrasNivel2.route)
+
+                }
+                */
+
+                if(DateUser.nivelSopaLetras==2){
+                    // Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
+                    DateUser.nivelSopaLetras=3
+                    navController.navigate(AppScreens.screenGameOverSopaLetrasNivel3.route)
+
+                }
+
+
+
+            }
+            else{
+
+
+                // Toast.makeText(context, "Sopa de letras no completada", Toast.LENGTH_SHORT).show()
+                //if(indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) )
+                if(selectedIndices.size>0  )
+                {// &&   cambioListaSelected != selectedIndices.size
+
+                    if( indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) &&  cambioListaSelected != selectedIndices.size){
+                        cambioListaSelected = selectedIndices.size
+                    }
+
+                }
+
+            }
+
+        }
+    }
+}
+
+
+@Composable
+fun gameSopaLetrasNivel22(navController: NavController) {
 
     BackHandler{
         navController.navigate("screenGames") {
@@ -273,8 +427,8 @@ Vasos Cacerolas
                 var contErrores = errores.count()
                 DateUser.erroresSopaLetras = contErrores
                 if( contErrores>=2){
-
-                    DateUser.vidasSopaLetras=3
+                    contErrores=0
+                    DateUser.vidasSopaLetras--
                 }
                 if(DateUser.nivelSopaLetras==2){
                    // Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
@@ -383,14 +537,16 @@ fun gameSopaLetrasNivel3(navController: NavController) {
                 val errores = selectedIndices.filterNot { indicesCorrectos.contains(it) }
                 var contErrores = errores.count()
                 DateUser.erroresSopaLetras = contErrores
-                if( contErrores>=2){
+                if( contErrores>=5){
+                    //si comente dos errores se quita una vida
                     contErrores=0
-                    DateUser.vidasSopaLetras=2
+                    DateUser.vidasSopaLetras--
                 }
                 if(DateUser.nivelSopaLetras==3){
                     DateUser.nivelSopaLetras=4
 
                     try {
+                        Toast.makeText(context, "calificacion: ${DateUser.calificacionGameSopaLetras} vidas: ${DateUser.vidasSopaLetras}", Toast.LENGTH_SHORT).show()
                         navController.navigate(AppScreens.screenFelicitacionesGameSopaLetras.route)
                     }catch (ex:Exception){
                        // Toast.makeText(context, "Eroor  al cmabiar  $ex", Toast.LENGTH_SHORT).show()

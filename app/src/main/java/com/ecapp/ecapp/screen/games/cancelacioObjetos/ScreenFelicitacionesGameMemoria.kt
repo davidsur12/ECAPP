@@ -1,7 +1,9 @@
 package com.ecapp.ecapp.screen.games.cancelacioObjetos
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,8 +28,10 @@ import androidx.navigation.NavController
 import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.DateUser
+import java.time.LocalDateTime
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ScreenFelicitacionesMemoria(navController: NavController){
@@ -39,6 +43,7 @@ fun ScreenFelicitacionesMemoria(navController: NavController){
 
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ScreenFelicitacionesM(navController: NavController){
 
@@ -134,7 +139,7 @@ fun ScreenFelicitacionesM(navController: NavController){
 
                 DateUser.calificacionGameMemoria=DateUser.vidasGameMemoria
 
-                FirebaseCloudUser().agregarCalificacion( "2025", DateUser.calificacionGameMemoria, "cancelación_objetos")
+                FirebaseCloudUser().agregarCalificacion( LocalDateTime.now().toString(), DateUser.calificacionGameMemoria, "cancelación_objetos")
                 Button(onClick = {navController.navigate(AppScreens.screenMemoria.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
                 Button(onClick = {navController.navigate(AppScreens.screenUser.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
 

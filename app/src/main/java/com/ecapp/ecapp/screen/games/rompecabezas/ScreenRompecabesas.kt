@@ -227,6 +227,9 @@ fun gameRompeCabezasNivel1(navController: NavController) {
         }
     }
 }
+
+
+
 @Composable
 fun  ScreenGameRompeCabezasNivel2(navController: NavController) {
     DateUser.nivelRompeCabezas = 2
@@ -570,6 +573,8 @@ fun  ScreenGameRompeCabezasNivel3(navController: NavController) {
         }
     }
 }
+
+
 // Función para comprobar si la imagen está dentro de la caja
 fun isImageInsideBox(
     offsetX: Float,
