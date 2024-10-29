@@ -2,7 +2,18 @@ package com.ecapp.ecapp.utils
 
 object DateUser {
 
+fun reseteoDatos(){
 
+    DateUser.nivelSopaLetras = 1
+    DateUser.vidasSopaLetras = 5
+    DateUser.GameSecuenciaNivel= 1
+    DateUser.vidasSecuencia = 5
+    DateUser.vidasSopaLetras = 5
+    DateUser.nivelSopaLetras = 1
+    DateUser.vidasRompecabesas = 5
+    DateUser.nivelRompeCabezas = 1
+    DateUser.vidasGameMemoria = 5
+}
     //calificaciones de los juegos
     //la calificacion se hara con estellas de oro , plata o bronce
     //dificultad la dificulta  se hara segun la calificacion

@@ -142,8 +142,10 @@ fun FelicitacionesSecuencia(navController: NavController){
 
             DateUser.calificacionGameSecuencia = DateUser.vidasSecuencia
             FirebaseCloudUser().agregarCalificacion( LocalDateTime.now().toString(), DateUser.calificacionGameSecuencia, "secuencia")
-            Button(onClick = {navController.navigate(AppScreens.screenGameSecuencia.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
-            Button(onClick = {navController.navigate(AppScreens.screenUser.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
+            Button(onClick = {navController.navigate(AppScreens.screenGameSecuencia.route)
+                             DateUser.reseteoDatos()} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
+            Button(onClick = {navController.navigate(AppScreens.screenUser.route)
+                DateUser.reseteoDatos()}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
 
         }
 

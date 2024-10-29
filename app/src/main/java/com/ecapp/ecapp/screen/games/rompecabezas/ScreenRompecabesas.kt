@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 
 import androidx.compose.foundation.Image
 
@@ -60,6 +61,12 @@ fun ScreenRompecabesas(navController: NavController){
 
 @Composable
 fun gameRompeCabezasNivel1(navController: NavController) {
+    BackHandler{
+        navController.navigate("screenGames") {
+            popUpTo("screenRompecabesas") { inclusive = true } // Elimina la pantalla actual de la pila
+        }
+    }
+
     DateUser.nivelRompeCabezas = 1
     DateUser.vidasRompecabesas = 5
     // Variables para la posición de las imágenes (inicialmente en la parte inferior)
@@ -232,6 +239,13 @@ fun gameRompeCabezasNivel1(navController: NavController) {
 
 @Composable
 fun  ScreenGameRompeCabezasNivel2(navController: NavController) {
+
+    BackHandler{
+        navController.navigate("screenGames") {
+            popUpTo("screenGameMemorianivel2") { inclusive = true } // Elimina la pantalla actual de la pila
+        }
+    }
+
     DateUser.nivelRompeCabezas = 2
     //por cada 4 errores quito una vida
 
@@ -402,6 +416,14 @@ fun  ScreenGameRompeCabezasNivel2(navController: NavController) {
 }
 @Composable
 fun  ScreenGameRompeCabezasNivel3(navController: NavController) {
+
+    BackHandler{
+        navController.navigate("screenGames") {
+            popUpTo("screenGameMemorianivel3") { inclusive = true } // Elimina la pantalla actual de la pila
+        }
+    }
+
+
     DateUser.nivelRompeCabezas = 3
     // Variables para la posición de las imágenes (inicialmente en la parte inferior)
     val density = LocalDensity.current

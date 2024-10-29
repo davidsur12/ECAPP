@@ -56,15 +56,7 @@ fun Games(navController: NavController){
         }
     }
 
-    DateUser.nivelSopaLetras = 1
-    DateUser.vidasSopaLetras = 5
-    DateUser.GameSecuenciaNivel= 1
-    DateUser.vidasSecuencia = 5
-    DateUser.vidasSopaLetras = 5
-    DateUser.nivelSopaLetras = 1
-    DateUser.vidasRompecabesas = 5
-    DateUser.nivelRompeCabezas = 1
-    DateUser.vidasGameMemoria = 5
+
 
 
     Column(modifier = Modifier.fillMaxSize()

@@ -142,7 +142,7 @@ fun felicitacionesRompeCabezas(navController: NavController){
             val context = LocalContext.current
 
             DateUser.calificacionGameRompeCabezas = DateUser.vidasRompecabesas
-            Toast.makeText(context, "vidas: ${DateUser.calificacionGameRompeCabezas}", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(context, "vidas: ${DateUser.calificacionGameRompeCabezas}", Toast.LENGTH_SHORT).show()
             Log.d("infoCalificacion", "calificacion: ${DateUser.calificacionGameRompeCabezas} vidas: ${DateUser.vidasRompecabesas} ")
             FirebaseCloudUser().agregarCalificacion( LocalDateTime.now().toString(), DateUser.calificacionGameRompeCabezas, "rompecabezas")
 
