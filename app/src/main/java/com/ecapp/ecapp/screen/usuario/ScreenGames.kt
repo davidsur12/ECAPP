@@ -1,15 +1,13 @@
-package com.ecapp.ecapp.screen
+package com.ecapp.ecapp.screen.usuario
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -18,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DatePicker
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,10 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -41,7 +35,7 @@ import com.google.firebase.auth.auth
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenGames(navController: NavController){
+fun ScreenGames(navController: NavController) {
     Scaffold {
 
         Games(navController)
@@ -49,37 +43,35 @@ fun ScreenGames(navController: NavController){
 }
 
 @Composable
-fun Games(navController: NavController){
-    BackHandler{
+fun Games(navController: NavController) {
+    BackHandler {
         navController.navigate("screenUser") {
             popUpTo("screenMemoria") { inclusive = true } // Elimina la pantalla actual de la pila
         }
     }
 
 
+DateUser.GameSecuenciaNivel=0
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                colorResource(com.ecapp.ecapp.R.color.morado_fondo)
+            )
+            .verticalScroll(
+                rememberScrollState(),
+            ), horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
 
-    Column(modifier = Modifier.fillMaxSize()
-        .background(
-            colorResource(com.ecapp.ecapp.R.color.morado_fondo)
-        )
-        .verticalScroll(
-            rememberScrollState(),
-        ),horizontalAlignment = Alignment.CenterHorizontally
-    ){
-
-        Text("Actividad de Secuencia", fontSize = 25.sp,  textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth())
-
-        Spacer(modifier = Modifier.height(50.dp))
-
-
-
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(70.dp))
 
         Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
+            modifier = Modifier
+                .width(270.dp)
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(Color.White),
             onClick = {
 
                 navController.navigate(AppScreens.screenMemoria.route)
@@ -88,18 +80,20 @@ fun Games(navController: NavController){
             Icon(
                 tint = Color.Black,
                 imageVector = Icons.Default.PlayArrow, // Usa un icono predeterminado
-                contentDescription = "Juegos de Memoria",
+                contentDescription = "Cancelacion de Objetos",
                 modifier = Modifier.size(24.dp) // Ajusta el tamaño del icono
             )
-            Text(text =  "Cancelacion de Objetos" , color = Color.Black,)
+            Text(text = "Cancelacion de Objetos", color = Color.Black)
 
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
+            modifier = Modifier
+                .width(270.dp)
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(Color.White),
             onClick = {
 
                 navController.navigate(AppScreens.screenGameSecuencia.route)
@@ -108,18 +102,20 @@ fun Games(navController: NavController){
             Icon(
                 tint = Color.Black,
                 imageVector = Icons.Default.PlayArrow, // Usa un icono predeterminado
-                contentDescription = "Cancelacion de Objetos",
+                contentDescription = "Secuencia",
                 modifier = Modifier.size(24.dp) // Ajusta el tamaño del icono
             )
-            Text(text =  "Secuencia" , color = Color.Black,)
+            Text(text = "Secuencia", color = Color.Black)
 
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
+            modifier = Modifier
+                .width(270.dp)
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(Color.White),
             onClick = {
 
                 navController.navigate(AppScreens.screenRompecabesas.route)
@@ -131,13 +127,15 @@ fun Games(navController: NavController){
                 contentDescription = "Rompecabezas",
                 modifier = Modifier.size(24.dp) // Ajusta el tamaño del icono
             )
-            Text(text =  "Rompecabezas" , color = Color.Black,)
+            Text(text = "Rompecabezas", color = Color.Black)
 
         }
         Spacer(modifier = Modifier.height(20.dp))
         Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
+            modifier = Modifier
+                .width(270.dp)
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(Color.White),
             onClick = {
 
                 navController.navigate(AppScreens.screenGameSopaLetras.route)
@@ -149,17 +147,20 @@ fun Games(navController: NavController){
                 contentDescription = "Sopa de Letras",
                 modifier = Modifier.size(24.dp) // Ajusta el tamaño del icono
             )
-            Text(text =  "Sopa de Letras" , color = Color.Black,)
+            Text(text = "Sopa de Letras", color = Color.Black)
 
         }
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
+            modifier = Modifier
+                .width(270.dp)
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(Color.White),
             onClick = {
 
-                navController.navigate(AppScreens.screenPerfilUser.route)
+
+                navController.navigate(AppScreens.screenGameLaberinto.route)
             }) {
 
             Icon(
@@ -168,7 +169,7 @@ fun Games(navController: NavController){
                 contentDescription = "Laberintos",
                 modifier = Modifier.size(24.dp) // Ajusta el tamaño del icono
             )
-            Text(text =  "Laberintos" , color = Color.Black,)
+            Text(text = "Laberintos", color = Color.Black)
 
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -182,10 +183,9 @@ fun Games(navController: NavController){
                 Firebase.auth.signOut()
                 navController.navigate(AppScreens.screenHome.route)
             }) {
-            Text(text =  "Cerrar sesión" )
+            Text(text = "Cerrar sesión")
 
         }
-
 
 
     }

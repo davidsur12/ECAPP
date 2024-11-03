@@ -1,9 +1,7 @@
-package com.ecapp.ecapp.screen.games.sopa_de_letras
+package com.ecapp.ecapp.screen.games.laberinto
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
@@ -34,18 +32,16 @@ import com.ecapp.ecapp.utils.Configuraciones
 import com.ecapp.ecapp.utils.DateUser
 import java.time.LocalDateTime
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenFelicitacionesSopaLetras(navController: NavController){
+fun ScreenFelicitacionesLaberinbto(navController: NavController){
     val context = LocalContext.current
     Scaffold {
-
         if(Configuraciones.ActivateSonido){
             Configuraciones.reproducirSonidoConCorrutinas(context ,   com.ecapp.ecapp.R.raw.victoria)
         }
-        FelicitacionesSecuencia(navController)
+        ScreenFelicitacionesSecuencia(navController)
 
     }
 }
@@ -54,13 +50,7 @@ fun ScreenFelicitacionesSopaLetras(navController: NavController){
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun FelicitacionesSecuencia(navController: NavController){
-
-    BackHandler{
-        navController.navigate("screenGames") {
-            popUpTo("ScreenFelicitacionesSopaLetras") { inclusive = true } // Elimina la pantalla actual de la pila
-        }
-    }
+fun ScreenFelicitacionesSecuencia(navController: NavController){
 
     BackHandler{
         navController.navigate("screenGames") {
@@ -87,7 +77,7 @@ fun FelicitacionesSecuencia(navController: NavController){
 
             Text(text = "Felicitaciones", fontSize = 45.sp)
             Text(text = "Calificacion", fontSize = 25.sp)
-            if( DateUser.vidasSopaLetras==5){
+            if( DateUser.vidasLaberinto==5){
                 //0 errores la calificacion sera de 3 estrella de oro
 
                 Row(
@@ -108,7 +98,7 @@ fun FelicitacionesSecuencia(navController: NavController){
                     }
                 }
             }
-            if(DateUser.vidasSopaLetras>=2 &&  DateUser.vidasSopaLetras<5){
+            if(DateUser.vidasLaberinto>=2 &&  DateUser.vidasLaberinto<5){
                 // calificacion sera de 2 estrellas de plata
                 Row(
                     modifier = Modifier
@@ -130,7 +120,7 @@ fun FelicitacionesSecuencia(navController: NavController){
 
 
             }
-            if(DateUser.vidasSopaLetras==1){
+            if(DateUser.vidasLaberinto==1){
                 //sin vids la calificacion sera de 1 estrellas de bronce
 
                 Row(
@@ -151,12 +141,11 @@ fun FelicitacionesSecuencia(navController: NavController){
                     }
                 }
             }
-            val context = LocalContext.current
-            DateUser.calificacionGameSopaLetras = DateUser.vidasSopaLetras
-            Log.d("informacionVidas", "Vidas: ${DateUser.vidasSopaLetras} calificacion: ${DateUser.calificacionGameSopaLetras}")
 
-            FirebaseCloudUser().agregarCalificacion(LocalDateTime.now().toString(), DateUser.calificacionGameSopaLetras, "sopa_letras")
-            Button(onClick = {navController.navigate(AppScreens.screenGameSopaLetras.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
+           DateUser.calificacionLaberinto = DateUser.vidasLaberinto
+
+            FirebaseCloudUser().agregarCalificacion( LocalDateTime.now().toString(), DateUser.calificacionLaberinto, "laberinto")
+            Button(onClick = {navController.navigate(AppScreens.screenGameLaberinto.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
             Button(onClick = {navController.navigate(AppScreens.screenUser.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
 
         }

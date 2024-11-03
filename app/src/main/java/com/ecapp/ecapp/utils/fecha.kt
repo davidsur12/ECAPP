@@ -64,6 +64,13 @@ fun reseteoDatos(){
     var nivelRompeCabezas = 1
 
 
+    //vidas  laberinto
+    var calificacionGameLaberinto = 5
+    var vidasLaberinto = 5
+    var nivelLaberinto = 0
+    var calificacionLaberinto = 1
+
+
 
 
 

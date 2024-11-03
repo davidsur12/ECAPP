@@ -49,15 +49,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
+import com.ecapp.ecapp.utils.Configuraciones
 import com.ecapp.ecapp.utils.DateUser
 import kotlinx.coroutines.delay
 
+
+/*
+
+Este juego trata de observar una secuencia de imagenes y reproducirla de igual forma
+se comienza con 5 vidas y se resta una vida por cada error
+
+*/
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ScreenGameSecuencia(navController: NavController){
     Scaffold {
-
-
 
         gameSecuencia(navController)
     }
@@ -71,20 +77,15 @@ fun gameSecuencia(navController: NavController){
             popUpTo("screenGameSecuencia") { inclusive = true } // Elimina la pantalla actual de la pila
         }
     }
-
     val context = LocalContext.current
-
-
-
-
     val menuBotones = remember { mutableStateOf(false) }
 
-//lista de imagenes  de la secuencia
+    //lista de imagenes  de la secuencia
     var iconos = listOf(
         Icons.Default.Favorite, Icons.Default.AccessAlarm,
         Icons.Default.Home,  Icons.Default.Anchor,
         );
-
+//lista de imagenes de las que se puede escojer
     val iconsOpciones = listOf(
         Icons.Default.Favorite, Icons.Default.AccessAlarm,
         Icons.Default.Home,  Icons.Default.Anchor,
@@ -93,8 +94,7 @@ fun gameSecuencia(navController: NavController){
 
         )
 
-
-    var iconosSecuencia =  iconos.shuffled().take(4)
+    //lista de iconos de los 10 niveles
   when(DateUser.GameSecuenciaNivel){
       0->iconos=listOf(
           Icons.Default.Favorite, Icons.Default.AccessAlarm,
@@ -149,33 +149,43 @@ fun gameSecuencia(navController: NavController){
 
   }
 
-    var vidas by remember { mutableStateOf(0) }
-    val showLazyRow = remember { mutableStateOf(true) }
-    val opcionesRow = remember { mutableStateOf(false) }
-    val btnInicioGame = remember { mutableStateOf(true) }
-    val txtInicio = remember { mutableStateOf(true) }
-    val btnPista = remember { mutableStateOf(false) }
-    val btnPistaVisibility = remember { mutableStateOf(false) }
-    vidas = DateUser.vidasSecuencia
+
+    //variables de control
+    var vidas by remember { mutableStateOf(0) }// vidas del juego
+    val showLazyRow = remember { mutableStateOf(true) } //muestra la secuencia a seguir y lo oculta segun corresponda
+    val opcionesRow = remember { mutableStateOf(false) }//muestra las opciones de imagenes a escoger segun corresponda
+    val btnInicioGame = remember { mutableStateOf(true) }//controla la pantalla de observar la secuencia  a la de reproducir la secuencia
+    val txtInicio = remember { mutableStateOf(true) }//controla la visibilidad o oculta el texto segun corresponda
+    val btnPista = remember { mutableStateOf(false) }//Hace visible la pista o la oculta segun corresponda
+    val btnPistaVisibility = remember { mutableStateOf(false) }//muetra el boton de pista segun corresponda
+    vidas = DateUser.vidasSecuencia//cargo las vidas segun avance el juego
+
+
+    /*
+    columna que muestra la pantalla de inicio observar la secuencia
+    cuando se presiona el boton de "Estoy Listo" se oculta la secuencia y se muestra
+    las imagenes de opciones y los botones de pista y borrar
+    */
     Column(horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.Center,
         modifier = Modifier.background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))) {
 
     Spacer(modifier = Modifier.height(50.dp))
-    Text("Actividad de Secuencia", fontSize = 25.sp,  textAlign = TextAlign.Center, color = Color.White,
+    Text("Actividad de Secuencia", fontSize = Configuraciones.fontSizeTitulos.sp,  textAlign = TextAlign.Center, color = Color.White,
         modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(20.dp))
-        Text("Nivel ${DateUser.GameSecuenciaNivel+1}", color = Color.White)
+        Text("Nivel ${DateUser.GameSecuenciaNivel+1}", color = Color.White, fontSize = 25.sp)
         Spacer(modifier = Modifier.height(20.dp))
-    Text("Total de Vidas $vidas ", color = Color.White)
+    Text("Total de Vidas $vidas ", color = Color.White,  fontSize = Configuraciones.fontSizeNormal.sp,)
 
         Spacer(modifier = Modifier.height(10.dp))
         if(txtInicio.value){
             //si es verdadero muestra el texto de observar las siguientes imagenes de lo contrario
             //el texto de completa la secuencia que acabas de ver
         }
-        Text(if(txtInicio.value)"Observa la Secuencia de las Imagenes " else " Completa la Secuencia que Acabas de Ver", color = Color.White)
-    Spacer(modifier = Modifier.height(20.dp))
+        Text(if(txtInicio.value)"Observa la Secuencia de las Imagenes " else " Completa la Secuencia que Acabas de Ver", color = Color.White,
+            fontSize = Configuraciones.fontSizeNormal.sp, textAlign = TextAlign.Center)
+        Spacer(modifier = Modifier.height(20.dp))
 
 
         if (showLazyRow.value) {
@@ -190,7 +200,7 @@ fun gameSecuencia(navController: NavController){
                         imageVector = icono,
                         contentDescription = "Icono",
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(45.dp)
                             .padding(8.dp)
                         ,colorFilter = ColorFilter.tint(Color.White)
                     )
@@ -243,7 +253,7 @@ fun gameSecuencia(navController: NavController){
 
                 },    modifier = Modifier.align(Alignment.BottomCenter).width(300.dp)) {
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Estoy Listo")
+                    Text(text = "Estoy Listo",  fontSize = Configuraciones.fontSizeNormal.sp,)
                 }
             }
 
@@ -273,7 +283,7 @@ fun gameSecuencia(navController: NavController){
                     imageVector = icono,
                     contentDescription = "Icono",
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(50.dp)
                         .padding(8.dp)
                 )
             }
@@ -289,7 +299,7 @@ fun gameSecuencia(navController: NavController){
                         imageVector = icono,
                         contentDescription = "Icono",
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(50.dp)
                             .padding(8.dp)
                             .clickable{
                                 iconosSelecionados.add(icono)
@@ -345,13 +355,13 @@ if(iconos == iconosSelecionados){
 
         if(btnPistaVisibility.value){
 
-
+//se muestra el los dos botones de pista y borrar
             Button(onClick = {
 
                 btnPista.value=true
                // Toast.makeText(context, "Pista", Toast.LENGTH_SHORT).show()
             }, modifier = Modifier.width(300.dp)) {
-                Text("Pista")
+                Text("Pista",  fontSize = Configuraciones.fontSizeNormal.sp,)
             }
 
             Button(onClick = {
@@ -359,7 +369,7 @@ if(iconos == iconosSelecionados){
 
                 iconosSelecionados.clear()
             }, modifier = Modifier.width(300.dp)) {
-                Text("Borrar")
+                Text("Borrar",  fontSize = Configuraciones.fontSizeNormal.sp,)
             }
 
 

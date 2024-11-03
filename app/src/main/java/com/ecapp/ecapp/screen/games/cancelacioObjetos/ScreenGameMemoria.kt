@@ -1,17 +1,13 @@
 package com.ecapp.ecapp.screen.games.cancelacioObjetos
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,12 +24,10 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Aod
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,21 +39,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
+import com.ecapp.ecapp.utils.Configuraciones
 import com.ecapp.ecapp.utils.DateUser
 
+/*
+El siguiente juego consta de encontrar las imagenes iguales a la imagen principal
+en una cuadricula cuando se encuentren todas las imagenes se pasara al siguiente nivel
+este juego consta de 3 niveles por cadan error se pierde una vida.
+*/
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ScreenGameMemoria(navController: NavController){
     Scaffold {
-
-
+//scaffold se llama comienza en el nivel 1
         screenGameMemoriaNivel1(navController)
     }
 }
@@ -71,14 +69,14 @@ fun screenGameMemoriaNivel1(navController: NavController) {
         }
     }
 
-    val context = LocalContext.current
+    //la siguiente variable es un contador que permiten llevar un control para reducir una vida segun los errores
     var errores by remember { mutableStateOf(0) }
-    var vidas by remember { mutableStateOf(5) }
+    var vidas by remember { mutableStateOf(5) }//inicia con 5 vidas
 
     // Set para almacenar las imágenes correctas seleccionadas
     val imagenesCorrectasSeleccionadas = remember { mutableSetOf<Int>() }
 
-    // Lista de iconos (simula las parejas)
+    // Lista de iconos  de la cuadricula
     val icons = listOf(
         Icons.Default.Favorite, Icons.Default.AccessAlarm,
         Icons.Default.Home, Icons.Default.Anchor,
@@ -89,13 +87,13 @@ fun screenGameMemoriaNivel1(navController: NavController) {
         Icons.Default.AccessibilityNew, Icons.Default.AcUnit,
         Icons.Default.AcUnit, Icons.Default.AccessibilityNew
     )
-
+//variables que permiten colorear el fondo en rojo uando se selecione una imagen
     var isCircleVisible = remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
     var estados1 = remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
     var estadosColor = remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
     val iconVisibility = remember { mutableStateListOf(*Array(icons.size) { true }) }
 
-    // Determina cuántas imágenes correctas (Icons.Default.Favorite) hay en total
+    // Determina cuántas imágenes correctas hay en total
     val totalImagenesCorrectas = icons.count { it == Icons.Default.Favorite }
 
     Column(
@@ -105,20 +103,25 @@ fun screenGameMemoriaNivel1(navController: NavController) {
     ) {
         Spacer(modifier = Modifier.height(50.dp))
         Text(
-            "Cancelacion de Objetos", fontSize = 25.sp, textAlign = TextAlign.Center,
+            "Cancelacion de Objetos", fontSize = Configuraciones.fontSizeTitulos.sp, textAlign = TextAlign.Center,
             color = Color.White
         )
-        Text("Total de Vidas $vidas", color = Color.White)
+        Text("Total de Vidas $vidas", color = Color.White, fontSize = Configuraciones.fontSizeNormal.sp)
 
         LazyVerticalGrid(
+            //este es un componente grafico que permite crear una cuadricula vertical
             columns = GridCells.Fixed(4), // Ajustar el número de columnas según el diseño
             modifier = Modifier.fillMaxWidth(), //todo el ancho de la pantalla
-            verticalArrangement = Arrangement.Center,
-            horizontalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,//se alinea de forma central
+            horizontalArrangement = Arrangement.Center//se alinea de forma central
         ) {
+            //se usa para iterar una lista de elementos
             items(estadosColor.size) { index ->
+                //le agrego el color de fondo segun si es selecionado o no
                 val estado = estadosColor[index]
                 if (iconVisibility[index]) {
+
+                    //si es verdadero no asido selecionado por lotanto solo se muestra en icono en blanco
                     Box(
                         modifier = Modifier
                             .size(100.dp)
@@ -131,7 +134,7 @@ fun screenGameMemoriaNivel1(navController: NavController) {
                                 if (Icons.Default.Favorite == icons[index]) {
                                     // Si se selecciona la imagen correcta, se añade a la lista de imágenes correctas
                                     imagenesCorrectasSeleccionadas.add(index)
-                                   // Toast.makeText(context, "Ítem correcto", Toast.LENGTH_SHORT).show()
+
 
                                     // Verificar si se han seleccionado todas las imágenes correctas
                                     if (imagenesCorrectasSeleccionadas.size == totalImagenesCorrectas) {
@@ -140,10 +143,13 @@ fun screenGameMemoriaNivel1(navController: NavController) {
                                     }
                                 } else {
                                     // Si la imagen es incorrecta, reducir una vida
+                                    /*
+                                    el contador de errores se da ya que debe completarse  cirto numero de errores
+                                    para reducir una vida
+                                    */
                                     errores++
                                     vidas-- // Resta una vida
-                                   // Toast.makeText(context, "Ítem erróneo", Toast.LENGTH_SHORT).show()
-                                    DateUser.erroresGameMemoria = errores
+                                    DateUser.erroresGameMemoria = errores//los errores se siguen contando
                                     DateUser.vidasGameMemoria = vidas
 
                                     if (vidas <= 0) { // Si termina con las vidas
@@ -161,7 +167,7 @@ fun screenGameMemoriaNivel1(navController: NavController) {
                             )
                         }
 
-                        // Imagen o Icono
+                        // Icono
                         Icon(
                             imageVector = icons[index],
                             contentDescription = "Icon",
@@ -174,7 +180,7 @@ fun screenGameMemoriaNivel1(navController: NavController) {
                 }
             }
         }
-
+//texto informativo
         Box(
             modifier = Modifier
                 .fillMaxWidth() // Ocupa todo el espacio disponible
@@ -182,7 +188,7 @@ fun screenGameMemoriaNivel1(navController: NavController) {
             Text(
                 text = "Por favor Encuentra la Siguiente Imagen",
                 modifier = Modifier.align(Alignment.Center),
-                fontSize = 20.sp,
+                fontSize = Configuraciones.fontSizeNormal.sp,
                 color = Color.White
             )
         }
@@ -222,6 +228,7 @@ fun screenGameMemoriaNivel2(navController: NavController) {
     // Set para almacenar las imágenes incorrectas ya seleccionadas
     val selectedIncorrectIndices = remember { mutableSetOf<Int>() }
 
+     //lista de imagenes de la cuadricula
     val icons = listOf(
         com.ecapp.ecapp.R.drawable.siete, com.ecapp.ecapp.R.drawable.ocho,
         com.ecapp.ecapp.R.drawable.cinco, com.ecapp.ecapp.R.drawable.seis,
@@ -249,8 +256,8 @@ fun screenGameMemoriaNivel2(navController: NavController) {
         modifier = Modifier.background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
     ) {
         Spacer(modifier = Modifier.height(50.dp))
-        Text("Cancelación de Objetos", fontSize = 25.sp, textAlign = TextAlign.Center, color = Color.White)
-        Text("Total de Vidas $vidas", color = Color.White)
+        Text("Cancelación de Objetos",fontSize = Configuraciones.fontSizeTitulos.sp, textAlign = TextAlign.Center, color = Color.White)
+        Text("Total de Vidas $vidas", color = Color.White, fontSize = Configuraciones.fontSizeNormal.sp)
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
@@ -326,7 +333,7 @@ fun screenGameMemoriaNivel2(navController: NavController) {
             Text(
                 text = "Por favor Encuentra el Siguiente Número",
                 modifier = Modifier.align(Alignment.Center),
-                fontSize = 20.sp,
+                fontSize = Configuraciones.fontSizeNormal.sp,
                 color = Color.Black
             )
         }
@@ -390,10 +397,10 @@ vidas=DateUser.vidasGameMemoria
     ) {
         Spacer(modifier = Modifier.height(50.dp))
         Text(
-            "Cancelacion de Objetos", fontSize = 25.sp, textAlign = TextAlign.Center,
+            "Cancelacion de Objetos", fontSize = Configuraciones.fontSizeTitulos.sp, textAlign = TextAlign.Center,
             color = Color.White
         )
-        Text("Total de Vidas $vidas", color = Color.White)
+        Text("Total de Vidas $vidas", color = Color.White,  fontSize = Configuraciones.fontSizeNormal.sp)
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
@@ -467,7 +474,7 @@ vidas=DateUser.vidasGameMemoria
             Text(
                 text = "Por favor Encuentra la Siguiente Imagen",
                 modifier = Modifier.align(Alignment.Center),
-                fontSize = 20.sp,
+                fontSize = Configuraciones.fontSizeNormal.sp,
                 color = Color.Black
             )
         }

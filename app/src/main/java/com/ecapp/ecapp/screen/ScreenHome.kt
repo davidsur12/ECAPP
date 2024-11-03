@@ -3,6 +3,7 @@ package com.ecapp.ecapp.screen
 import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -13,75 +14,90 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.ecapp.ecapp.btnRegistro
-import com.ecapp.ecapp.cloud.FirebaseCloudUser
+
 import com.ecapp.ecapp.navegation.AppScreens
+import com.ecapp.ecapp.utils.Configuraciones
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreenn(navController: NavController){
-
-    Scaffold{
+fun HomeScreenn(navController: NavController) {
+//es un layout que proporciona una estructura básica para las interfaces de usuario de Compose
+    Scaffold {
         app(navController)
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun app(navController: NavController){
+fun app(navController: NavController) {
 
+    BackHandler{
+        navController.navigate("screenHome") {
+            popUpTo("screenHome") { inclusive = true } // Elimina la pantalla actual de la pila
+        }
+    }
 
     Column(
         modifier = Modifier
-            .fillMaxSize().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),  // Ocupa todo el espacio disponible
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),  // Ocupa todo el espacio disponible
         verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
         horizontalAlignment = Alignment.CenterHorizontally   // Centra los elementos verticalmente
     ) {
 
-        Text("ECAAP",
-            modifier = Modifier.padding(start = 16.dp, top = 90.dp, end = 16.dp, bottom = 20.dp),
+        Text(
+            "ECAAP",
+            modifier = Modifier.padding(start = 16.dp, top = 90.dp, end = 16.dp, bottom = 20.dp),//modifico la posicion me diante un padding
             style = androidx.compose.ui.text.TextStyle(
                 fontSize = 45.sp, // Cambiar tamaño de la fuente
                 fontWeight = FontWeight.Bold // Cambiar el peso de la fuente (negrita)
-            ))
-
-
-
-        Image(painter = painterResource(id = com.ecapp.ecapp.R.drawable.nutricionista, ),
-            contentDescription = null,
-            // modifier = Modifier.background(Color.Red).padding(50.dp)
+            )
         )
 
 
-        Text("Aplicación Estimulación Cognitiva" ,
-            modifier = Modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp),
-            color = colorResource(com.ecapp.ecapp.R.color.white),
+
+        Image(
+            painter = painterResource(id = com.ecapp.ecapp.R.drawable.nutricionista),//cargo la imagen
+            contentDescription = null,//la descripcion es null
+
+        )
+
+
+        Text(
+            "Aplicación Estimulación Cognitiva",
+            modifier = Modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp),//modifico la posicion me diante un padding
+            color = colorResource(com.ecapp.ecapp.R.color.white),//cambio el colora balnco
             style = androidx.compose.ui.text.TextStyle(
                 fontSize = 18.sp, // Cambiar tamaño de la fuente
                 fontWeight = FontWeight.Bold, // Cambiar el peso de la fuente (negrita)
 
 
-            ))
-        // Dibujar una línea horizontal
+            )
+        )
+        //Línea horizontal
         Canvas(
             modifier = Modifier
                 .fillMaxWidth() // Ocupar el ancho completo
                 .height(15.dp) // Altura de la línea
-                .padding(5.dp)
+                .padding(5.dp) //un padding para una separacion
         ) {
 
             drawLine(
@@ -95,27 +111,31 @@ fun app(navController: NavController){
 
         btnRegistro(onClick = {
             // Acción para el botón simple
-            println("Botón Simple presionado")
 
-            try{
+
+            try {
+                //me dirigo al screen  de inicio de session
                 navController.navigate(AppScreens.screenLogin.route)
 
-            }catch(ex: Exception){
-                Log.d("error" , "${ex.message}");
+            } catch (ex: Exception) {
+                //Error al cambiar de pantalla
+                Log.d("error", "${ex.message}");
 
             }
 
 
-            // Crear Intent para iniciar SecondActivity
+
 
         }, "Iniciar Session")
-
+        val context = LocalContext.current
         btnRegistro(onClick = {
+            //me dirigo al screen de registro de usuario
+            //Configuraciones.reproducirSonidoConCorrutinas(context ,   com.ecapp.ecapp.R.raw.victoria)
 
-            // navController.navigate(AppScreens.screenRegisterUser.route)
-          //  navController.navigate(AppScreens.screenMemoria.route)
-           // navController.navigate(AppScreens.screenGameSopaLetras.route)
-            navController.navigate(AppScreens.screenGameLaberinto.route)
+             navController.navigate(AppScreens.screenRegisterUser.route)
+            //  navController.navigate(AppScreens.screenMemoria.route)
+            // navController.navigate(AppScreens.screenGameSopaLetras.route)
+            //navController.navigate(AppScreens.screenGameLaberinto.route)
             //navController.navigate(AppScreens.screenRompecabesas.route)
 
         }, "Registrarse")
@@ -123,4 +143,16 @@ fun app(navController: NavController){
 }
 
 
-
+@Composable
+fun btnRegistro(onClick: () -> Unit, nombre: String) {
+    OutlinedButton(
+        onClick = onClick,
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = Color.White // Cambiar el fondo a blanco
+        ),
+        modifier = Modifier.padding(16.dp)
+            .width(300.dp)
+    ) {
+        Text(text = nombre)
+    }
+}

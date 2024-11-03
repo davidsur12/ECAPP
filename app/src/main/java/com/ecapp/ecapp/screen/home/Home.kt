@@ -16,13 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ecapp.ecapp.MainActivity
 import com.ecapp.ecapp.screen.home.ui.theme.ECAPPTheme
-import com.ecapp.ecapp.screen.login.LoginScreenViewModel
+import com.ecapp.ecapp.cloud.LoginScreenViewModel
 
 class Home : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

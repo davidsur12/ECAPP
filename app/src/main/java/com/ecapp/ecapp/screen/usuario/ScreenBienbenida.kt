@@ -1,4 +1,4 @@
-package com.ecapp.ecapp.screen
+package com.ecapp.ecapp.screen.usuario
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController

@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
+import com.ecapp.ecapp.utils.Configuraciones
 import com.ecapp.ecapp.utils.DateUser
 import java.time.LocalDateTime
 
@@ -38,7 +39,11 @@ import java.time.LocalDateTime
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ScreenFelicitacionesRompeCabezas(navController: NavController){
+    val context = LocalContext.current
     Scaffold {
+        if(Configuraciones.ActivateSonido){
+            Configuraciones.reproducirSonidoConCorrutinas(context ,   com.ecapp.ecapp.R.raw.victoria)
+        }
         felicitacionesRompeCabezas(navController)
 
     }

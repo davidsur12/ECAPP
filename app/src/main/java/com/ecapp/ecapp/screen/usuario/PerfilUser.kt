@@ -1,4 +1,4 @@
-package com.ecapp.ecapp.screen
+package com.ecapp.ecapp.screen.usuario
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -44,18 +47,22 @@ Scaffold { InfoUser(navController) }
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun InfoUser(navController: NavController){
-
+//regreso a la pantalla de opciones y borro de la pila la pantalla actual
     BackHandler{
         navController.navigate("screenUser") {
-            popUpTo("screenMemoria") { inclusive = true } // Elimina la pantalla actual de la pila
+            popUpTo("screenUser") { inclusive = true } // Elimina la pantalla actual de la pila
         }
     }
 
+
+    //variables que almacenan la informacion
     var nombre by remember { mutableStateOf("") }
     var fechaNac by remember { mutableStateOf("") }
     var genero by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
     var telefono by remember { mutableStateOf("") }
+
+
     Column(
         modifier = Modifier.fillMaxSize()
             .background(
@@ -69,7 +76,15 @@ fun InfoUser(navController: NavController){
         Spacer(modifier = Modifier.height(50.dp))
         Text("Informacion Personal",textAlign = TextAlign.Center ,
             fontSize = 24.sp, color = Color.White)
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Icon(
+            imageVector = Icons.Default.Person, // Selecciona el ícono que quieras
+            contentDescription = "Ícono de favorito",
+            tint = Color.White,
+            modifier = Modifier.size(130.dp)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             value = nombre,
             onValueChange = { nombre = it },
@@ -119,8 +134,17 @@ fun InfoUser(navController: NavController){
 
         Spacer(modifier = Modifier.height(50.dp))
         //FirebaseCloudUser().getUserById(DateUser.correo)
+
         CoroutineScope(Dispatchers.IO).launch {
-            val userData = FirebaseCloudUser().getUserById(DateUser.correo)
+
+            /*
+            creamos una corutina una especie de tarea asincrona que cuando obtiene los datos
+            del usuario que se consultaron con el metodo getDataUser de la clase FirebaseCloudUser
+            pasandole como parametro el correo ya que es el identificador asigna los valores a las repestivas
+            variables
+
+            */
+            val userData = FirebaseCloudUser().getDataUser(DateUser.correo)
             if (userData != null) {
                 nombre = userData["Nombre"].toString() + " " + userData["Apellido"]
                 fechaNac = userData["FechaNac"].toString()

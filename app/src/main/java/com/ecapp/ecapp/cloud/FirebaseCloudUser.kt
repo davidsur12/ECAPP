@@ -50,7 +50,9 @@ class FirebaseCloudUser {
             }
     }
 
-    suspend fun getUserById(userId: String): HashMap<String, Any>? {
+    suspend fun getDataUser(userId: String): HashMap<String, Any>? {
+        //obtine los datos con los que se registro el usuario
+        //se usa la constate users ya que este es el nombre de la collection
         val db = FirebaseFirestore.getInstance()
 
         return try {

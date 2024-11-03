@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.screen.games.secuencia.gameSecuencia
+import com.ecapp.ecapp.utils.Configuraciones
 import com.ecapp.ecapp.utils.DateUser
 import kotlin.random.Random
 
@@ -108,15 +109,15 @@ Column(    modifier = Modifier
     horizontalAlignment = Alignment.CenterHorizontally) {
 
     Spacer(modifier = Modifier.height(50.dp))
-    Text("Actividad de Sopa de letras", fontSize = 25.sp,  textAlign = TextAlign.Center,
+    Text("Actividad de Sopa de letras", fontSize = Configuraciones.fontSizeTitulos.sp,  textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxWidth(), color = Color.White )
     Spacer(modifier = Modifier.height(50.dp))
-    Text("Vidas: ${vidas}",  fontSize = 20.sp, color = Color.White)
-    Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp, color = Color.White)
+    Text("Vidas: ${vidas}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
+    Text("Nivel: ${DateUser.nivelSopaLetras}", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
     Spacer(modifier = Modifier.height(15.dp))
-    Text("Encuentra las Siguientes Palabras", fontSize = 20.sp, color = Color.White)
+    Text("Encuentra las Siguientes Palabras", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
     Spacer(modifier = Modifier.height(10.dp))
-    Text("PERRO, GATO, LEON,TIGRE", fontSize = 18.sp, color = Color.White)
+    Text("PERRO, GATO, LEON,TIGRE", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
 
 
     Box(
@@ -244,15 +245,15 @@ fun gameSopaLetrasNivel2(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         Spacer(modifier = Modifier.height(50.dp))
-        Text("Actividad de Sopa de letras", fontSize = 25.sp,  textAlign = TextAlign.Center,
+        Text("Actividad de Sopa de letras", fontSize = Configuraciones.fontSizeTitulos.sp,  textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(), color = Color.White )
         Spacer(modifier = Modifier.height(50.dp))
-        Text("Vidas: ${vidas}",  fontSize = 20.sp, color = Color.White)
-        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp, color = Color.White)
+        Text("Vidas: ${vidas}",  fontSize = Configuraciones.fontSizeNormal.sp,color = Color.White)
+        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
         Spacer(modifier = Modifier.height(15.dp))
-        Text("Encuentra las Siguientes Palabras", fontSize = 20.sp, color = Color.White)
+        Text("Encuentra las Siguientes Palabras", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
         Spacer(modifier = Modifier.height(10.dp))
-        Text("PERRO, GATO, LEON,TIGRE", fontSize = 18.sp, color = Color.White)
+        Text("PERRO, GATO, LEON,TIGRE", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
 
 
         Box(
@@ -379,16 +380,16 @@ fun gameSopaLetrasNivel22(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         Spacer(modifier = Modifier.height(50.dp))
-        Text("Actividad de Sopa de letras", fontSize = 25.sp,  textAlign = TextAlign.Center,
+        Text("Actividad de Sopa de letras", fontSize = Configuraciones.fontSizeTitulos.sp,  textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(), color = Color.White)
         Spacer(modifier = Modifier.height(50.dp))
-        Text("Vidas: ${vidas}",  fontSize = 20.sp, color = Color.White)
+        Text("Vidas: ${vidas}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
 
-        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp, color = Color.White)
+        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
         Spacer(modifier = Modifier.height(15.dp))
-        Text("Encuentra las Siguientes Palabras", fontSize = 20.sp, color = Color.White)
+        Text("Encuentra las Siguientes Palabras", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
         Spacer(modifier = Modifier.height(10.dp))
-        Text("TRNEDOR, PLATO, VASO, CUCHARA, SARTEN", fontSize = 18.sp, color = Color.White)
+        Text("TRNEDOR, PLATO, VASO, CUCHARA, SARTEN", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
         /*
    * Tenedores
 Cucharas Platos
@@ -496,15 +497,15 @@ fun gameSopaLetrasNivel3(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         Spacer(modifier = Modifier.height(50.dp))
-        Text("Actividad de Sopa de letras", fontSize = 25.sp,  textAlign = TextAlign.Center,
+        Text("Actividad de Sopa de letras", fontSize = Configuraciones.fontSizeTitulos.sp,  textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),color = Color.White )
         Spacer(modifier = Modifier.height(50.dp))
-        Text("Vidas: ${vidas}",  fontSize = 20.sp, color = Color.White)
-        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = 20.sp, color = Color.White)
+        Text("Vidas: ${vidas}", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
+        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
         Spacer(modifier = Modifier.height(15.dp))
-        Text("Encuentra las Siguientes Palabras", fontSize = 20.sp, color = Color.White)
+        Text("Encuentra las Siguientes Palabras", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
         Spacer(modifier = Modifier.height(10.dp))
-        Text("BOLIVIA, BRASIL, GUAYANA, PERU", color = Color.White)
+        Text("BOLIVIA, BRASIL, GUAYANA, PERU", color = Color.White , fontSize = Configuraciones.fontSizeNormal.sp,)
 
         Box(
             modifier = Modifier
@@ -608,7 +609,7 @@ fun LetterBox(letter: Char, index: Int, selectedIndices: MutableList<Int>) {
     ) {
         Text(
             text = letter.toString(),
-            fontSize = 24.sp,
+            fontSize = Configuraciones.fontSizeNormal.sp,
             color = Color.Black,
             textAlign = TextAlign.Center
         )
@@ -638,7 +639,7 @@ fun LetterBox2(letter: Char, index: Int, selectedIndices: MutableList<Int>) {
     ) {
         Text(
             text = letter.toString(),
-            fontSize = 24.sp,
+            fontSize = Configuraciones.fontSizeNormal.sp,
             color = Color.Black,
             textAlign = TextAlign.Center
         )
@@ -668,7 +669,7 @@ fun LetterBox3(letter: Char, index: Int, selectedIndices: MutableList<Int>) {
     ) {
         Text(
             text = letter.toString(),
-            fontSize = 24.sp,
+            fontSize = Configuraciones.fontSizeNormal.sp,
             color = Color.Black,
             textAlign = TextAlign.Center
         )

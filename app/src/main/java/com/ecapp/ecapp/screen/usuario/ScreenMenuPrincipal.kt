@@ -1,19 +1,29 @@
-package com.ecapp.ecapp.screen
+package com.ecapp.ecapp.screen.usuario
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,16 +41,16 @@ import com.google.firebase.auth.auth
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreenUser(navController: NavController){
-    Scaffold {
-
-        HomeScreen2(navController)
-    }
-}
-
-@Composable
 fun HomeScreen2(navController: NavController){
+
+    BackHandler{
+        navController.navigate("screenUser") {
+            popUpTo("screenUser") { inclusive = true } // Elimina la pantalla actual de la pila
+        }
+    }
+
     try{
+        //si el usuario no tiene los documentos  de los juegos registrados lo creo
         FirebaseCloudUser().crearDocumentosGames()
     }
     catch(ex: Exception){
@@ -48,7 +58,7 @@ fun HomeScreen2(navController: NavController){
 
     }
 
-
+//columna que ocupa todo el tamaño de la pantalla y alineado de forma centrada con un fondo de color morado
     Column(modifier = Modifier.fillMaxSize()
         .background(
             colorResource(com.ecapp.ecapp.R.color.morado_fondo)
@@ -58,17 +68,18 @@ fun HomeScreen2(navController: NavController){
         ),horizontalAlignment = Alignment.CenterHorizontally
     ){
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(50.dp))//separacion del top
+        //Texto de menu
         Text("MENU",
             color = Color.White, // Color del texto
             fontSize = 27.sp,   // Tamaño del texto
             fontWeight = FontWeight.Bold,)
 
-        Spacer(modifier = Modifier.height(50.dp))
+        //Espacio
+        Spacer(modifier = Modifier.height(70.dp))
 
 
-
-        Spacer(modifier = Modifier.height(20.dp))
+        //Menu de botones que me permite navegar entre las diferentes opciones
         Button(
             modifier = Modifier.width(270.dp).height(50.dp),
             colors = ButtonDefaults.buttonColors( Color.White),
@@ -87,7 +98,7 @@ fun HomeScreen2(navController: NavController){
 
                 navController.navigate(AppScreens.screenGames.route)
             }) {
-            Text(text =  "Actividades de Estimulacion Cognitiva" , color = Color.Black,textAlign = TextAlign.Center)
+            Text(text =  "Actividades de Estimulacion" , color = Color.Black,textAlign = TextAlign.Center)
 
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -107,7 +118,7 @@ fun HomeScreen2(navController: NavController){
             colors = ButtonDefaults.buttonColors( Color.White),
             onClick = {
 
-                //navController.navigate(AppScreens.screenHome.route)
+                navController.navigate(AppScreens.screenConfiguraciones.route)
             }) {
             Text(text =  "Configuraciones" , color = Color.Black)
 
@@ -116,13 +127,14 @@ fun HomeScreen2(navController: NavController){
         Button(
             modifier = Modifier.width(200.dp),
             onClick = {
+                //boton de cierre de session
                 Firebase.auth.signOut()
                 navController.navigate(AppScreens.screenHome.route)
             }) {
             Text(text =  "Cerrar sesión" )
 
         }
+    }
+}
 
 
-
-    }}

@@ -6,12 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ecapp.ecapp.screen.Bienbenida
-import com.ecapp.ecapp.screen.HomeScreen2
+import com.ecapp.ecapp.screen.usuario.Bienbenida
+import com.ecapp.ecapp.screen.usuario.HomeScreen2
 import com.ecapp.ecapp.screen.HomeScreenn
-import com.ecapp.ecapp.screen.PerfilUser
+import com.ecapp.ecapp.screen.usuario.PerfilUser
 import com.ecapp.ecapp.screen.RegistroUser
-import com.ecapp.ecapp.screen.ScreenGames
+import com.ecapp.ecapp.screen.ScreenConfiguracion
+import com.ecapp.ecapp.screen.usuario.ScreenGames
 import com.ecapp.ecapp.screen.games.cancelacioObjetos.ScreenFelicitacionesMemoria
 import com.ecapp.ecapp.screen.games.cancelacioObjetos.ScreenGameMemoria
 import com.ecapp.ecapp.screen.games.cancelacioObjetos.ScreenGameOverMemoria
@@ -24,10 +25,12 @@ import com.ecapp.ecapp.screen.games.rompecabezas.ScreenFelicitacionesRompeCabeza
 import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameOverRompeCabezas
 import com.ecapp.ecapp.screen.games.cancelacioObjetos.screenGameMemoriaNivel2
 import com.ecapp.ecapp.screen.games.cancelacioObjetos.screenGameMemoriaNivel3
+import com.ecapp.ecapp.screen.games.laberinto.ScreenFelicitacionesLaberinbto
+import com.ecapp.ecapp.screen.games.laberinto.ScreenGameOverLaberinto
 import com.ecapp.ecapp.screen.games.secuencia.ScreenFelicitacionesSecuencia
 import com.ecapp.ecapp.screen.games.secuencia.ScreenGameOverSecuencia
 import com.ecapp.ecapp.screen.games.secuencia.ScreenGameSecuencia
-import com.ecapp.ecapp.screen.loginScreen
+import com.ecapp.ecapp.screen.login.loginScreen
 import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenFelicitacionesSopaLetras
 import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameOverSopaLetras
 import com.ecapp.ecapp.screen.games.sopa_de_letras.ScreenGameSopaLetras
@@ -242,7 +245,23 @@ fun AppNavegation(){
 
         }
 
+        //pantalla de  felicitaciones Game laberinto
+        composable(route = AppScreens.screenFelicitacionesGamesLaberinto.route) {
+            ScreenFelicitacionesLaberinbto(navController)
 
+        }
+
+        //pantalla de  game over Game  laberinto
+        composable(route = AppScreens.screenGameOverLaberinto.route) {
+            ScreenGameOverLaberinto(navController)
+
+        }
+
+        //pantalla configuracion
+        composable(route = AppScreens.screenConfiguraciones.route) {
+            ScreenConfiguracion(navController)
+
+        }
 
 
 

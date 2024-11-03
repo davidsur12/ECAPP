@@ -2,11 +2,14 @@ package com.ecapp.ecapp
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,9 +36,8 @@ import androidx.compose.material3.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import com.ecapp.ecapp.navegation.AppNavegation
-import com.ecapp.ecapp.screen.HomeScreenn
 import com.ecapp.ecapp.screen.Loginctivity
-import com.ecapp.ecapp.screen.login.LoginScreenViewModel
+import com.ecapp.ecapp.cloud.LoginScreenViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.firestore
@@ -44,8 +46,8 @@ import com.google.firebase.firestore.firestore
 class MainActivity : ComponentActivity() {
 
 
-    var viewModel: LoginScreenViewModel  = LoginScreenViewModel();
-    val db = Firebase.firestore
+    var viewModel: LoginScreenViewModel = LoginScreenViewModel();
+
     public override fun onStart() {
         super.onStart()
 
@@ -62,6 +64,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
+            @RequiresApi(Build.VERSION_CODES.O)
             @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,128 +78,24 @@ class MainActivity : ComponentActivity() {
             ECAPPTheme {
                 Scaffold(modifier = Modifier.fillMaxSize().background(Color(0xba00ca))) {
                     AppNavegation()
-                //app()
-                   /* Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                    */
+
                 }
             }
 
 
         }
     }
-}
 
-
-@Composable
-fun app(){
-
-    val context = LocalContext.current
-    Column(
-        modifier = Modifier
-            .fillMaxSize().background(colorResource(R.color.morado_fondo)),  // Ocupa todo el espacio disponible
-        verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
-        horizontalAlignment = Alignment.CenterHorizontally   // Centra los elementos verticalmente
-         ) {
-
-            Text("ECAAP",
-                modifier = Modifier.padding(start = 16.dp, top = 90.dp, end = 16.dp, bottom = 20.dp),
-                style = androidx.compose.ui.text.TextStyle(
-                    fontSize = 45.sp, // Cambiar tamaño de la fuente
-                    fontWeight = FontWeight.Bold // Cambiar el peso de la fuente (negrita)
-                ))
-
-
-
-        Image(painter = painterResource(id = R.drawable.nutricionista, ),
-            contentDescription = null,
-           // modifier = Modifier.background(Color.Red).padding(50.dp)
-             )
-
-
-        Text("Aplicación Estimulación Cognitiva" ,
-            modifier = Modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp),
-            color = colorResource(R.color.white),
-            style = androidx.compose.ui.text.TextStyle(
-                fontSize = 18.sp, // Cambiar tamaño de la fuente
-                fontWeight = FontWeight.Bold, // Cambiar el peso de la fuente (negrita)
-
-
-            ))
-        // Dibujar una línea horizontal
-        Canvas(
-            modifier = Modifier
-                .fillMaxWidth() // Ocupar el ancho completo
-                .height(15.dp) // Altura de la línea
-                .padding(5.dp)
-        ) {
-
-            drawLine(
-                color = Color.Blue, // Color de la línea
-                start = androidx.compose.ui.geometry.Offset(0f, 0f), // Punto de inicio (x, y)
-                end = androidx.compose.ui.geometry.Offset(size.width, 0f), // Punto final (x, y)
-                strokeWidth = 2f // Grosor de la línea
-            )
-        }
-
-
-        btnRegistro(onClick = {
-            // Acción para el botón simple
-            println("Botón Simple presionado")
-
-try{
-    val intent = Intent(context, Loginctivity::class.java)
-    context.startActivity(intent)
-}catch(ex: Exception){
-    Log.d("error" , "${ex.message}");
-
-}
-
-
-            // Crear Intent para iniciar SecondActivity
-
-        }, "Iniciar Session")
-
-        btnRegistro(onClick = {
-            // Acción para el botón simple
-            println("Botón Simple presionado")
-        }, "Registrarse")
-    }
-    }
-
-
-
-
-@Composable
-fun btnRegistro(onClick: () -> Unit, nombre: String) {
-    OutlinedButton(
-        onClick = onClick,
-        colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = Color.White // Cambiar el fondo a blanco
-        ),
-        modifier = Modifier.padding(16.dp)
-            .width(300.dp)
-    ) {
-        Text(text = nombre)
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ECAPPTheme {
-        Greeting("Android")
+    override fun onPause() {
+        super.onPause()
+        Toast.makeText(this,"OnPause", Toast.LENGTH_SHORT).show()
     }
 
 
 }
+
+
+
+
+
+
