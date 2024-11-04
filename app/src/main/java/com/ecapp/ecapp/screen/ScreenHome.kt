@@ -64,7 +64,7 @@ fun app(navController: NavController) {
     ) {
 
         Text(
-            "ECAAP",
+            "ECAPP",
             modifier = Modifier.padding(start = 16.dp, top = 90.dp, end = 16.dp, bottom = 20.dp),//modifico la posicion me diante un padding
             style = androidx.compose.ui.text.TextStyle(
                 fontSize = 45.sp, // Cambiar tamaño de la fuente
@@ -86,7 +86,7 @@ fun app(navController: NavController) {
             modifier = Modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp),//modifico la posicion me diante un padding
             color = colorResource(com.ecapp.ecapp.R.color.white),//cambio el colora balnco
             style = androidx.compose.ui.text.TextStyle(
-                fontSize = 18.sp, // Cambiar tamaño de la fuente
+                fontSize = 20.sp, // Cambiar tamaño de la fuente
                 fontWeight = FontWeight.Bold, // Cambiar el peso de la fuente (negrita)
 
 
@@ -153,6 +153,6 @@ fun btnRegistro(onClick: () -> Unit, nombre: String) {
         modifier = Modifier.padding(16.dp)
             .width(300.dp)
     ) {
-        Text(text = nombre)
+        Text(text = nombre, fontSize = 18.sp)
     }
 }

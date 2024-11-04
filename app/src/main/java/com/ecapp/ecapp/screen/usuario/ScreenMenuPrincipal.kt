@@ -16,11 +16,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +42,7 @@ import com.google.firebase.auth.auth
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen2(navController: NavController){
 
@@ -59,82 +62,106 @@ fun HomeScreen2(navController: NavController){
     }
 
 //columna que ocupa todo el tamaño de la pantalla y alineado de forma centrada con un fondo de color morado
-    Column(modifier = Modifier.fillMaxSize()
-        .background(
-            colorResource(com.ecapp.ecapp.R.color.morado_fondo)
-        )
-        .verticalScroll(
-            rememberScrollState(),
-        ),horizontalAlignment = Alignment.CenterHorizontally
-    ){
 
-        Spacer(modifier = Modifier.height(50.dp))//separacion del top
-        //Texto de menu
-        Text("MENU",
-            color = Color.White, // Color del texto
-            fontSize = 27.sp,   // Tamaño del texto
-            fontWeight = FontWeight.Bold,)
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+        topBar = {
+            TopAppBar(
 
-        //Espacio
-        Spacer(modifier = Modifier.height(70.dp))
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.purple_500),
+                    titleContentColor = Color.White,
+                ),
+                title = {
+                    Text("ECAPP")
+                }
+            )
+        },
+        content ={paddingValues ->
+            Column(modifier = Modifier.fillMaxSize()
+                .padding(paddingValues)
+                .background(
+                    colorResource(com.ecapp.ecapp.R.color.morado_fondo)
+                )
+                .verticalScroll(
+                    rememberScrollState(),
+                ),horizontalAlignment = Alignment.CenterHorizontally
+            ){
+
+                Spacer(modifier = Modifier.height(50.dp))//separacion del top
+                //Texto de menu
+                Text("MENU",
+                    color = Color.White, // Color del texto
+                    fontSize = 27.sp,   // Tamaño del texto
+                    fontWeight = FontWeight.Bold,)
+
+                //Espacio
+                Spacer(modifier = Modifier.height(70.dp))
 
 
-        //Menu de botones que me permite navegar entre las diferentes opciones
-        Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
-            onClick = {
+                //Menu de botones que me permite navegar entre las diferentes opciones
+                Button(
+                    modifier = Modifier.width(270.dp).height(50.dp),
+                    colors = ButtonDefaults.buttonColors( Color.White),
+                    onClick = {
 
-                navController.navigate(AppScreens.screenPerfilUser.route)
-            }) {
-            Text(text =  "Perfil del Usuario" , color = Color.Black,)
+                        navController.navigate(AppScreens.screenPerfilUser.route)
+                    }) {
+                    Text(text =  "Perfil del Usuario" , color = Color.Black, fontSize = 17.sp)
 
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Button(
+                    modifier = Modifier.width(270.dp).height(50.dp),
+                    colors = ButtonDefaults.buttonColors( Color.White),
+                    onClick = {
+
+                        navController.navigate(AppScreens.screenGames.route)
+                    }) {
+                    Text(text =  "Actividades de Estimulacion" , color = Color.Black,textAlign = TextAlign.Center,  fontSize = 17.sp)
+
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Button(
+                    modifier = Modifier.width(270.dp).height(50.dp),
+                    colors = ButtonDefaults.buttonColors( Color.White),
+                    onClick = {
+
+                        navController.navigate(AppScreens.screenProgresoCognitivo.route)
+                    }) {
+                    Text(text =  "Progreso Cognitivo" , color = Color.Black,  fontSize = 17.sp )
+
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Button(
+                    modifier = Modifier.width(270.dp).height(50.dp),
+                    colors = ButtonDefaults.buttonColors( Color.White),
+                    onClick = {
+
+                        navController.navigate(AppScreens.screenConfiguraciones.route)
+                    }) {
+                    Text(text =  "Configuraciones" , color = Color.Black,  fontSize = 17.sp)
+
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Button(
+                    modifier = Modifier.width(200.dp),
+                    onClick = {
+                        //boton de cierre de session
+                        Firebase.auth.signOut()
+                        navController.navigate(AppScreens.screenHome.route)
+                    }) {
+                    Text(text =  "Cerrar sesión" ,  fontSize = 17.sp)
+
+                }
+            }
         }
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
-            onClick = {
 
-                navController.navigate(AppScreens.screenGames.route)
-            }) {
-            Text(text =  "Actividades de Estimulacion" , color = Color.Black,textAlign = TextAlign.Center)
+    )
 
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
-            onClick = {
 
-                navController.navigate(AppScreens.screenProgresoCognitivo.route)
-            }) {
-            Text(text =  "Progreso Cognitivo" , color = Color.Black)
-
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
-            onClick = {
-
-                navController.navigate(AppScreens.screenConfiguraciones.route)
-            }) {
-            Text(text =  "Configuraciones" , color = Color.Black)
-
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(
-            modifier = Modifier.width(200.dp),
-            onClick = {
-                //boton de cierre de session
-                Firebase.auth.signOut()
-                navController.navigate(AppScreens.screenHome.route)
-            }) {
-            Text(text =  "Cerrar sesión" )
-
-        }
-    }
 }
 
 

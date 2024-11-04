@@ -27,26 +27,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.utils.Configuraciones
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenProgresoRompeCabezas(navController: NavController){
-    Scaffold {
+fun ScreenProgresoLaberinto(navController: NavController){
 
-        progresoRompeCabezas(navController)
-    }
+
+    progresoLaberinto(navController)
+
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun progresoRompeCabezas(navController: NavController){
+fun progresoLaberinto(navController: NavController){
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -61,7 +61,7 @@ fun progresoRompeCabezas(navController: NavController){
                     titleContentColor = Color.White,
                 ),
                 title = {
-                    Text("Resumen semanal")
+                    Text("Resumen Semanal")
                 }
             )
         },
@@ -77,7 +77,8 @@ fun progresoRompeCabezas(navController: NavController){
 
             ){
 
-                Spacer(modifier = Modifier.height(50.dp))
+
+                Spacer(modifier = Modifier.height(20.dp))
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -85,7 +86,7 @@ fun progresoRompeCabezas(navController: NavController){
                     contentAlignment = Alignment.Center // Centra el contenido del Box
                 ) {
                     Image(
-                        painter = painterResource(id = com.ecapp.ecapp.R.drawable.rompecabezas),
+                        painter = painterResource(id = com.ecapp.ecapp.R.drawable.laberinto),
                         contentDescription = null,
                         modifier = Modifier
                             .width(170.dp)
@@ -93,13 +94,16 @@ fun progresoRompeCabezas(navController: NavController){
                     )
                 }
 
-                Text("Resumen Semanal Rompecabezas", color = Color.White, fontSize = Configuraciones.fontSizeNormal.sp)
+                Spacer(modifier = Modifier.height(20.dp))
 
-                resumenDatos( "rompecabezas")
+
+                Text("Resumen Semanal Laberinto", color = Color.White,
+                    fontSize = Configuraciones.fontSizeNormal.sp, textAlign = TextAlign.Center)
+
+                resumenDatos( "laberinto")
             }
         }
 
     )
-
 
 }

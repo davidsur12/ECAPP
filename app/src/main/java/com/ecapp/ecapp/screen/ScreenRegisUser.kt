@@ -191,8 +191,10 @@ private fun FormularioRegistro(navController: NavController) {
                             , Toast.LENGTH_SHORT).show()
                 }else{
                     //DateUser.correo=correo
+                    /*
                     Toast.makeText(context, "nombre: $nombre  apellido: $apellido  fecha:${DateUser.fechaNacimiento}  genero: ${DateUser.genero}  " +
                             "correo: ${DateUser.correo}  " , Toast.LENGTH_SHORT).show()
+                    */
                     Log.d("info", "nombre: $nombre  apellido: $apellido  fecha:${DateUser.fechaNacimiento}  " +
                             "genero:  ${DateUser.genero}")
 
@@ -240,6 +242,7 @@ private fun FormularioRegistro(navController: NavController) {
                            )
 
                            FirebaseCloudUser().crearUser(correo,user)
+                           DateUser.correo = correo
                        }catch (ex:Exception){
 
                        }
@@ -264,7 +267,7 @@ private fun FormularioRegistro(navController: NavController) {
             modifier = Modifier.padding(16.dp)
                 .width(300.dp)
         ) {
-            Text(text = "Registrar",  )
+            Text(text = "Registrar", fontSize = 18.sp )
         }
 
 
@@ -328,7 +331,7 @@ fun GenderSelection() {
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Masculino", color = Color.White)
+            Text(text = "Masculino", color = Color.White, fontSize = 18.sp)
             Checkbox(
                 checked = isMaleChecked,
                 onCheckedChange = { isChecked ->
@@ -345,7 +348,7 @@ fun GenderSelection() {
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Femenino", color = Color.White)
+            Text(text = "Femenino", color = Color.White, fontSize = 18.sp)
             Checkbox(
 
                 checked = isFemaleChecked,

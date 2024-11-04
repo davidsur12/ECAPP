@@ -68,8 +68,6 @@ class FirebaseCloudUser {
         }
     }
 
-
-
     fun crearDocumentosGames() {
         val db = FirebaseFirestore.getInstance()
 
@@ -89,13 +87,55 @@ class FirebaseCloudUser {
             // Verificar si el subdocumento ya existe
             docRef.get().addOnSuccessListener { documentSnapshot ->
                 if (!documentSnapshot.exists()) {
+                    // Crear el subdocumento vacío solo si no existe
+                    docRef.set(hashMapOf<String, Any>()) // Enviar un HashMap vacío
+                        .addOnSuccessListener {
+                            Log.d("info", "Subdocumento '$id' creado exitosamente en '$idDocumentoPrincipal/Juegos'.")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.d("info", "Error al crear el subdocumento '$id': ${e.message}")
+                        }
+                } else {
+                    Log.d("info", "El subdocumento '$id' ya existe, no se crea de nuevo.")
+                }
+            }.addOnFailureListener { e ->
+                Log.d("info", "Error al verificar el subdocumento '$id': ${e.message}")
+            }
+        }
+    }
+
+/*
+    fun crearDocumentosGames() {
+        val db = FirebaseFirestore.getInstance()
+        val evaluacion = hashMapOf(
+            "fecha" to "2024-11-04T02:09:52.534238",
+            "calificacion" to 5
+        )
+        // ID del documento principal existente
+        val idDocumentoPrincipal = DateUser.correo
+
+        // Lista de identificadores de subdocumentos que deseas crear
+        val identificadores = listOf("cancelación_objetos", "secuencia", "rompecabezas", "sopa_letras", "laberinto")
+
+        for (id in identificadores) {
+            // Referencia a la subcolección dentro del documento principal
+            val docRef = db.collection("users")
+                .document(idDocumentoPrincipal)
+                .collection("Juegos")
+                .document(id)
+
+            // Verificar si el subdocumento ya existe
+            docRef.get().addOnSuccessListener { documentSnapshot ->
+                if (!documentSnapshot.exists()) {
                     // Crear el subdocumento solo si no existe
+                 /*
                     val datos = hashMapOf(
                         "fecha" to id,
                         "Calificacion" to "Descripción del juego $id" // Agrega más campos según sea necesario
                     )
+                    */
 
-                    docRef.set(datos)
+                    docRef.set(evaluacion)
                         .addOnSuccessListener {
                             Log.d("info","Subdocumento '$id' creado exitosamente en '$idDocumentoPrincipal/tiposDeJuegos'.")
                         }
@@ -110,7 +150,7 @@ class FirebaseCloudUser {
             }
         }
     }
-
+*/
     fun agregarCalificacion( fecha: String, calificacion: Int, juego: String) {
         val db = FirebaseFirestore.getInstance()
 

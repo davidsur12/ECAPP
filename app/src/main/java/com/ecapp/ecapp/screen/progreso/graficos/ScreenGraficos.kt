@@ -14,10 +14,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
@@ -31,19 +34,65 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.screen.progreso.progresoGamesOpciones
+import com.ecapp.ecapp.utils.Configuraciones
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ScreenGraficos(navController: NavController) {
-    Scaffold(modifier = Modifier.background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))) {
-        LazyColumn(
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+        topBar = {
+            TopAppBar(
+
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.purple_500),
+                    titleContentColor = androidx.compose.ui.graphics.Color.White,
+                ),
+                title = {
+                    Text("Graficos de Evolucion")
+                }
+            )
+        },
+        content ={paddingValues ->
+
+            Spacer(modifier = Modifier.height(50.dp))
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+                    .padding(paddingValues),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Agregar múltiples gráficos a la pantalla
+                items(5) { index ->
+                    // Puedes cambiar el nombre del juego o usar el mismo para todos
+                    when (index) {
+                        0 -> resumenDatos2("sopa_letras", "Sopa de letras 1")
+                        1 -> resumenDatos2("secuencia", "Secuencia")
+                        2 -> resumenDatos2("rompecabezas", "Rompecabezas")
+                        3 -> resumenDatos2("cancelación_objetos", "SCancelacion de Objetos")
+
+                    }
+                    Spacer(modifier = Modifier.height(16.dp)) // Espacio entre gráficos
+                }
+            }
+        }
+
+    )
+}
+
+
+/*
+ LazyColumn(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -60,8 +109,7 @@ fun ScreenGraficos(navController: NavController) {
                 Spacer(modifier = Modifier.height(16.dp)) // Espacio entre gráficos
             }
         }
-    }
-}
+*/
 
 /*
 fun ScreenGraficos(navController: NavController){
@@ -181,13 +229,13 @@ fun resumenDatos2(juegos: String, nombreGame: String) {
         ) {
             // Generar el gráfico con los datos
             Spacer(modifier = Modifier.height(10.dp))
-            Text("$nombreGame", color = androidx.compose.ui.graphics.Color.White )
+            Text("$nombreGame", color = androidx.compose.ui.graphics.Color.White, fontSize = Configuraciones.fontSizeNormal.sp )
             Spacer(modifier = Modifier.height(20.dp))
             BarChart(data = data)
 
             // Mostrar los datos de las primeras 5 evaluaciones
             data.forEach { (fecha, calificacion) ->
-                Text("Calificación: $calificacion", color = androidx.compose.ui.graphics.Color.White)
+                Text("Calificación: $calificacion", color = androidx.compose.ui.graphics.Color.White,fontSize = Configuraciones.fontSizeNormal.sp  )
             }
         }
     } else {

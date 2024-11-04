@@ -41,6 +41,7 @@ import com.ecapp.ecapp.screen.progreso.ScreenProgreso.ScreenProgresoCancelacionO
 import com.ecapp.ecapp.screen.progreso.ScreenProgreso.ScreenProgresoRompeCabezas
 import com.ecapp.ecapp.screen.progreso.ScreenProgreso.ScreenProgresoSecuencia
 import com.ecapp.ecapp.screen.progreso.ScreenProgreso.ScreenProgresoSopaLetras
+import com.ecapp.ecapp.screen.progreso.ScreenProgreso.progresoLaberinto
 
 
 import com.ecapp.ecapp.screen.progreso.ScreenProgresoGamesOpciones
@@ -260,6 +261,12 @@ fun AppNavegation(){
         //pantalla configuracion
         composable(route = AppScreens.screenConfiguraciones.route) {
             ScreenConfiguracion(navController)
+
+        }
+
+        //pantalla progreso laberinto
+        composable(route = AppScreens.screenProgresoLaberinto.route) {
+            progresoLaberinto(navController)
 
         }
 

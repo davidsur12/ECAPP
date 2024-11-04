@@ -3,7 +3,9 @@ package com.ecapp.ecapp.screen
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,11 +19,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -105,6 +112,7 @@ fun  configuracion(navController: NavController){
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen() {
     val context = LocalContext.current
@@ -119,70 +127,99 @@ fun SettingsScreen() {
             .fillMaxSize()
             .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
         topBar = {
+            TopAppBar(
 
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp)
-                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
-        ) {
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.purple_500),
+                    titleContentColor = Color.White,
+                ),
+                title = {
+                    Text("ECAPP")
+                }
+            )
+        },
+        content =  { paddingValues ->
 
-            Spacer(modifier = Modifier.height(50.dp))
-            // Opción de sonido
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Sonido",
-                    fontSize = 30.sp,
-                    modifier = Modifier.weight(1f),
-                    color = Color.White
-                )
-                Switch(
-                    checked = isSoundEnabled.value,
-                    onCheckedChange = { isSoundEnabled.value = it
-                    Configuraciones.ActivateSonido = isSoundEnabled.value
-                    }
-                )
-            }
-
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
-
-            // Opción de tamaño de fuente
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-            ) {
-                Text(
-                    text = "Tamaño de fuente",
-                    fontSize = 30.sp,
-                    color = Color.White
-                )
-                Slider(
-                    value = fontSize.value,
-                    onValueChange = { fontSize.value = it
-                      //  Toast.makeText(context, "${fontSize.value}", Toast.LENGTH_SHORT).show()
-                                    Configuraciones.fontSizeTitulos = fontSize.value
-                        Configuraciones.fontSizeNormal = fontSize.value - 6
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(paddingValues)
+                    .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+            )
 
-                                    },
-                    colors = SliderDefaults.colors(
-                        thumbColor = Color.Red, // Color del botón deslizante
-                        activeTrackColor = Color.White, // Color de la pista activa (donde está el valor actual)
-                        inactiveTrackColor = Color.Gray // Color de la pista inactiva
-                    ),
-                    valueRange = 12f..28f, // Rango de tamaño de fuente en sp
-                    steps = 6 // Opcional: número de pasos intermedios entre el valor mínimo y máximo
+            {
 
-                )
+                Spacer(modifier = Modifier.height(50.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center // Centra el contenido del Box
+                ) {
+                    Image(
+                        painter = painterResource(id = com.ecapp.ecapp.R.drawable.ajuste),
+                        contentDescription = null
+                    )
+                }
+
+
+
+                // Opción de sonido
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Sonido",
+                        fontSize = 30.sp,
+                        modifier = Modifier.weight(1f),
+                        color = Color.White
+                    )
+                    Switch(
+                        checked = isSoundEnabled.value,
+                        onCheckedChange = { isSoundEnabled.value = it
+                            Configuraciones.ActivateSonido = isSoundEnabled.value
+                        }
+                    )
+                }
+
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+                // Opción de tamaño de fuente
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 14.dp)
+                ) {
+                    Text(
+                        text = "Tamaño de fuente: ${fontSize.value.toInt()}",
+                        fontSize = 30.sp,
+                        color = Color.White
+                    )
+                    Slider(
+                        value = fontSize.value,
+                        onValueChange = { fontSize.value = it
+                            //  Toast.makeText(context, "${fontSize.value}", Toast.LENGTH_SHORT).show()
+                            Configuraciones.fontSizeTitulos = fontSize.value
+                            Configuraciones.fontSizeNormal = fontSize.value - 6
+
+                        },
+                        colors = SliderDefaults.colors(
+                            thumbColor = Color.Red, // Color del botón deslizante
+                            activeTrackColor = Color.White, // Color de la pista activa (donde está el valor actual)
+                            inactiveTrackColor = Color.Gray // Color de la pista inactiva
+                        ),
+                        valueRange = 12f..28f, // Rango de tamaño de fuente en sp
+                        steps = 6 // Opcional: número de pasos intermedios entre el valor mínimo y máximo
+
+                    )
+                }
             }
         }
-    }
+
+    )
+
 }

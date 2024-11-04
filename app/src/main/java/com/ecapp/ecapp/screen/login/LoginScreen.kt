@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -92,10 +93,12 @@ fun Formulario(navController: NavController) {
     ) {
 
         Text(
+
             stringResource(com.ecapp.ecapp.R.string.inicio_session),
             modifier = Modifier.padding(start = 16.dp, top = 90.dp, end = 16.dp, bottom = 20.dp),
             style = androidx.compose.ui.text.TextStyle(
-                fontSize = 20.sp, // Cambiar tamaño de la fuente
+                color = Color.White,
+                fontSize = 28.sp, // Cambiar tamaño de la fuente
                 fontWeight = FontWeight.Bold // Cambiar el peso de la fuente (negrita)
             )
         )
@@ -118,7 +121,7 @@ fun Formulario(navController: NavController) {
                 ),
                 color = colorResource(com.ecapp.ecapp.R.color.white),
                 style = androidx.compose.ui.text.TextStyle(
-                    fontSize = 18.sp, // Cambiar tamaño de la fuente
+                    fontSize = 20.sp, // Cambiar tamaño de la fuente
                     fontWeight = FontWeight.Bold, // Cambiar el peso de la fuente (negrita)
 
 
@@ -146,7 +149,7 @@ fun Formulario(navController: NavController) {
                 ),
                 color = colorResource(com.ecapp.ecapp.R.color.white),
                 style = androidx.compose.ui.text.TextStyle(
-                    fontSize = 18.sp, // Cambiar tamaño de la fuente
+                    fontSize = 20.sp, // Cambiar tamaño de la fuente
                     fontWeight = FontWeight.Bold, // Cambiar el peso de la fuente (negrita)
 
 

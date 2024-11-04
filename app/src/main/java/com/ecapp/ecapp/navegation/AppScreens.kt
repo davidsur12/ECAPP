@@ -40,6 +40,7 @@ sealed class AppScreens (val route: String) {
     object  screenFelicitacionesGamesLaberinto:AppScreens("ScreenFelicitacionesGamesLaberinto")
     object  screenGameOverLaberinto:AppScreens("ScreenFelicitacionesGamesSecuencia")
     object  screenConfiguraciones:AppScreens("ScreenConfiguraciones")
+    object  screenProgresoLaberinto:AppScreens("ScreenProgresoLaberinto")
 
 
 
