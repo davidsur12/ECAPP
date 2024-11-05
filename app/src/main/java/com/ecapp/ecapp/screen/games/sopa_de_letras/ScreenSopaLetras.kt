@@ -87,7 +87,7 @@ fun gameSopaLetrasNivel1(navController: NavController) {
         'P', 'E', 'R', 'R', 'O',
         'F', 'G', 'H', 'I', 'T',
         'K', 'L', 'M', 'N', 'A',
-        'T', 'I', 'G', 'R', 'G',
+        'L', 'O', 'B', 'O', 'G',
         'U', 'L', 'E', 'O', 'N'
     )
 
@@ -117,7 +117,7 @@ Column(    modifier = Modifier
     Spacer(modifier = Modifier.height(15.dp))
     Text("Encuentra las Siguientes Palabras", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
     Spacer(modifier = Modifier.height(10.dp))
-    Text("PERRO, GATO, LEON,TIGRE", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
+    Text("PERRO, GATO, LEON,LOBO", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
 
 
     Box(

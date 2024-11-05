@@ -105,13 +105,16 @@ fun MazeGameApp(navController: NavController, nivel: MutableState<Int>, lives: M
 
 
 
-    val mazes = listOf(  listOf(
-        listOf(1, 1, 1, 1, 1, 1, 1),
-        listOf(1, 0, 0, 0, 1, 0, 1),
-        listOf(1, 0, 1, 0, 1, 0, 1),
-        listOf(1, 0, 1, 0, 0, 0, 1),
-        listOf(1, 1, 1, 1, 1, 1, 1)
-    ),
+    val mazes = listOf(
+        // Nivel 1
+        listOf(
+            listOf(1, 1, 1, 1, 1, 1, 1),
+            listOf(1, 0, 0, 0, 1, 0, 1),
+            listOf(1, 0, 1, 0, 1, 0, 1),
+            listOf(1, 0, 1, 0, 0, 0, 1),
+            listOf(1, 1, 1, 1, 1, 1, 1)
+        ),
+        // Nivel 2
         listOf(
             listOf(1, 1, 1, 1, 1, 1, 1),
             listOf(1, 0, 0, 1, 0, 0, 1),
@@ -119,7 +122,7 @@ fun MazeGameApp(navController: NavController, nivel: MutableState<Int>, lives: M
             listOf(1, 0, 0, 0, 0, 0, 1),
             listOf(1, 1, 1, 1, 1, 1, 1)
         ),
-        // Agrega más laberintos aquí
+        // Nivel 3
         listOf(
             listOf(1, 1, 1, 1, 1, 1, 1),
             listOf(1, 0, 1, 0, 1, 0, 1),
@@ -128,6 +131,7 @@ fun MazeGameApp(navController: NavController, nivel: MutableState<Int>, lives: M
             listOf(1, 0, 0, 0, 0, 0, 1),
             listOf(1, 1, 1, 1, 1, 1, 1)
         ),
+        // Nivel 4
         listOf(
             listOf(1, 1, 1, 1, 1, 1, 1),
             listOf(1, 0, 0, 1, 0, 0, 1),
@@ -135,13 +139,105 @@ fun MazeGameApp(navController: NavController, nivel: MutableState<Int>, lives: M
             listOf(1, 0, 0, 0, 0, 0, 1),
             listOf(1, 1, 1, 1, 1, 1, 1)
         ),
+        // Nivel 5
         listOf(
             listOf(1, 1, 1, 1, 1, 1, 1),
             listOf(1, 0, 0, 1, 1, 0, 1),
             listOf(1, 0, 0, 0, 0, 0, 1),
             listOf(1, 1, 1, 1, 1, 0, 0),
             listOf(1, 1, 1, 1, 1, 0, 1)
-        ))
+        ),
+        // Nivel 6
+        listOf(
+            listOf(1, 1, 1, 1, 1, 1, 1),
+            listOf(1, 0, 0, 1, 0, 0, 1),
+            listOf(1, 0, 1, 0, 1, 1, 1),
+            listOf(1, 0, 0, 0, 0, 0, 1),
+            listOf(1, 1, 1, 1, 1, 1, 1)
+        ),
+        // Nivel 7
+        listOf(
+            listOf(1, 1, 1, 1, 1, 1, 1),
+            listOf(1, 0, 1, 0, 1, 0, 1),
+            listOf(1, 0, 1, 0, 0, 0, 1),
+            listOf(1, 0, 1, 0, 1, 0, 1),
+            listOf(1, 0, 0, 0, 1, 0, 1),
+            listOf(1, 1, 1, 1, 1, 1, 1)
+        ),
+        // Nivel 8
+        listOf(
+            listOf(1, 1, 1, 1, 1, 1, 1),
+            listOf(1, 0, 0, 1, 0, 0, 1),
+            listOf(1, 1, 0, 0, 0, 1, 1),
+            listOf(1, 0, 0, 0, 1, 0, 1),
+            listOf(1, 0, 1, 0, 0, 0, 1),
+            listOf(1, 1, 1, 1, 1, 1, 1)
+        ),
+        // Nivel 9
+        listOf(
+            listOf(1, 1, 1, 1, 1, 1, 1),
+            listOf(1, 0, 1, 0, 1, 0, 1),
+            listOf(1, 0, 1, 0, 0, 0, 1),
+            listOf(1, 0, 0, 0, 1, 0, 1),
+            listOf(1, 1, 1, 0, 1, 0, 1),
+            listOf(1, 1, 1, 1, 1, 1, 1)
+        ),
+        // Nivel 10
+        listOf(
+            listOf(1, 1, 1, 1, 1, 1, 1),
+            listOf(1, 0, 1, 1, 1, 0, 1),
+            listOf(1, 0, 0, 0, 1, 0, 1),
+            listOf(1, 1, 0, 1, 1, 0, 1),
+            listOf(1, 0, 0, 0, 0, 0, 1),
+            listOf(1, 1, 1, 1, 1, 1, 1)
+        ),
+        // Nivel 11
+                listOf(
+                listOf(1, 1, 1, 1, 1, 1, 1),
+        listOf(1, 0, 0, 0, 0, 0, 1),
+        listOf(1, 0, 1, 1, 0, 0, 1),
+        listOf(1, 0, 0, 0, 1, 0, 1),
+        listOf(1, 1, 1, 0, 0, 0, 1),
+        listOf(1, 1, 1, 1, 1, 1, 1)
+    ),
+    // Nivel 12
+    listOf(
+        listOf(1, 1, 1, 1, 1, 1, 1),
+        listOf(1, 0, 0, 0, 0, 0, 1),
+        listOf(1, 0, 1, 0, 1, 0, 1),
+        listOf(1, 0, 0, 0, 1, 0, 1),
+        listOf(1, 1, 1, 1, 1, 0, 1),
+        listOf(1, 1, 1, 1, 1, 1, 1)
+    ),
+    // Nivel 13
+    listOf(
+        listOf(1, 1, 1, 1, 1, 1, 1),
+        listOf(1, 0, 0, 0, 1, 0, 1),
+        listOf(1, 0, 1, 1, 1, 0, 1),
+        listOf(1, 0, 1, 0, 0, 0, 1),
+        listOf(1, 0, 0, 0, 0, 1, 1),
+        listOf(1, 1, 1, 1, 1, 1, 1)
+    ),
+    // Nivel 14
+    listOf(
+        listOf(1, 1, 1, 1, 1, 1, 1),
+        listOf(1, 0, 1, 0, 0, 0, 1),
+        listOf(1, 0, 1, 0, 1, 0, 1),
+        listOf(1, 0, 0, 0, 1, 0, 1),
+        listOf(1, 1, 1, 1, 1, 0, 1),
+        listOf(1, 1, 1, 1, 1, 1, 1)
+    ),
+    // Nivel 15
+    listOf(
+        listOf(1, 1, 1, 1, 1, 1, 1),
+        listOf(1, 0, 1, 1, 1, 0, 1),
+        listOf(1, 0, 0, 0, 1, 0, 1),
+        listOf(1, 1, 1, 0, 1, 0, 1),
+        listOf(1, 0, 0, 0, 0, 0, 1),
+        listOf(1, 1, 1, 1, 1, 1, 1)
+    )
+    )
+
 
     val playerPosition = remember { mutableStateOf(Pair(1, 1)) }
     val goalPosition = remember { mutableStateOf(Pair(3, 5)) }

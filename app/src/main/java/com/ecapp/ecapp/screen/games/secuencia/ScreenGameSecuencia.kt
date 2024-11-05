@@ -62,13 +62,16 @@ se comienza con 5 vidas y se resta una vida por cada error
 */
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenGameSecuencia(navController: NavController){
-    Scaffold {
-
+fun ScreenGameSecuencia(navController: NavController) {
+    // Usamos un Box para aplicar el color de fondo
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)) // Establece el color de fondo
+    ) {
         gameSecuencia(navController)
     }
 }
-
 
 @Composable
 fun gameSecuencia(navController: NavController){
@@ -240,23 +243,26 @@ fun gameSecuencia(navController: NavController){
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(28.dp).background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)) // Añade un margen alrededor del botón
+                    .padding(30.dp)
+                    .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)) // Añade un margen alrededor del contenido
             ) {
-
-
-                Button(onClick = {  showLazyRow.value = false
-                    opcionesRow.value = true
-                    btnInicioGame.value=false
-                    menuBotones.value=!menuBotones.value
-                    txtInicio.value = false
-                    btnPistaVisibility.value=true
-
-                },    modifier = Modifier.align(Alignment.BottomCenter).width(300.dp)) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Estoy Listo",  fontSize = Configuraciones.fontSizeNormal.sp,)
+                Button(
+                    onClick = {
+                        showLazyRow.value = false
+                        opcionesRow.value = true
+                        btnInicioGame.value = false
+                        menuBotones.value = !menuBotones.value
+                        txtInicio.value = false
+                        btnPistaVisibility.value = true
+                    },
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter) // Alinea el botón al centro inferior
+                        .padding(bottom = 32.dp) // Ajusta la distancia desde el borde inferior
+                        .width(300.dp) // Ancho del botón
+                ) {
+                    Text(text = "Estoy Listo", fontSize = Configuraciones.fontSizeNormal.sp)
                 }
             }
-
 
 
         }

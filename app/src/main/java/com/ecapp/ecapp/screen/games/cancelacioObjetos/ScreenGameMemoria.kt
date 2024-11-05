@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,8 +21,10 @@ import androidx.compose.material.icons.filled.AcUnit
 import androidx.compose.material.icons.filled.AccessAlarm
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.Anchor
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Aod
 import androidx.compose.material3.Icon
@@ -53,9 +56,239 @@ en una cuadricula cuando se encuentren todas las imagenes se pasara al siguiente
 este juego consta de 3 niveles por cadan error se pierde una vida.
 */
 
+
+
+@Composable
+fun ScreenGameMemoria(navController: NavController) {
+    BackHandler {
+        navController.navigate("screenGames") {
+            popUpTo("screenMemoria") { inclusive = true }
+        }
+    }
+    var nivel by remember { mutableStateOf(1) }
+    var errores by remember { mutableStateOf(0) }
+    var vidas by remember { mutableStateOf(5) }
+    val imagenesCorrectasSeleccionadas = remember { mutableSetOf<Int>() }
+
+    // Define 20 niveles, cada uno con una lista de 16 íconos y un ícono objetivo
+    val iconosPorNivel = listOf(
+        Pair(listOf(Icons.Default.Favorite, Icons.Default.Home, Icons.Default.Star, Icons.Default.Favorite,
+            Icons.Default.Star, Icons.Default.Home, Icons.Default.Favorite, Icons.Default.Star,
+            Icons.Default.Home, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Home,
+            Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Home, Icons.Default.Star), Icons.Default.Favorite),
+
+        Pair(listOf(Icons.Default.Star, Icons.Default.AccessAlarm, Icons.Default.Favorite, Icons.Default.Star,
+            Icons.Default.Favorite, Icons.Default.AccessAlarm, Icons.Default.Star, Icons.Default.Favorite,
+            Icons.Default.AccessAlarm, Icons.Default.Star, Icons.Default.Favorite, Icons.Default.AccessAlarm,
+            Icons.Default.Star, Icons.Default.Favorite, Icons.Default.AccessAlarm, Icons.Default.Star), Icons.Default.AccessAlarm),
+
+        Pair(listOf(Icons.Default.Email, Icons.Default.Favorite, Icons.Default.Home, Icons.Default.Email,
+            Icons.Default.Home, Icons.Default.Favorite, Icons.Default.Email, Icons.Default.Favorite,
+            Icons.Default.Home, Icons.Default.Email, Icons.Default.Favorite, Icons.Default.Home,
+            Icons.Default.Email, Icons.Default.Favorite, Icons.Default.Home, Icons.Default.Favorite), Icons.Default.Email),
+
+        Pair(listOf(Icons.Default.Phone, Icons.Default.Star, Icons.Default.Email, Icons.Default.Phone,
+            Icons.Default.Email, Icons.Default.Star, Icons.Default.Phone, Icons.Default.Email,
+            Icons.Default.Star, Icons.Default.Phone, Icons.Default.Email, Icons.Default.Star,
+            Icons.Default.Phone, Icons.Default.Email, Icons.Default.Star, Icons.Default.Phone), Icons.Default.Phone),
+
+        Pair(listOf(Icons.Default.Favorite, Icons.Default.Email, Icons.Default.Phone, Icons.Default.Favorite,
+            Icons.Default.Phone, Icons.Default.Email, Icons.Default.Favorite, Icons.Default.Phone,
+            Icons.Default.Email, Icons.Default.Favorite, Icons.Default.Phone, Icons.Default.Email,
+            Icons.Default.Favorite, Icons.Default.Phone, Icons.Default.Email, Icons.Default.Favorite), Icons.Default.Phone),
+
+        Pair(listOf(Icons.Default.Home, Icons.Default.Star, Icons.Default.Favorite, Icons.Default.Phone,
+            Icons.Default.Home, Icons.Default.Star, Icons.Default.Email, Icons.Default.Favorite,
+            Icons.Default.Star, Icons.Default.Home, Icons.Default.Email, Icons.Default.Phone,
+            Icons.Default.Favorite, Icons.Default.Email, Icons.Default.Phone, Icons.Default.Star), Icons.Default.Star),
+
+        Pair(listOf(Icons.Default.Phone, Icons.Default.Favorite, Icons.Default.Home, Icons.Default.Email,
+            Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Star, Icons.Default.Email,
+            Icons.Default.Home, Icons.Default.Favorite, Icons.Default.Phone, Icons.Default.Email,
+            Icons.Default.Star, Icons.Default.Favorite, Icons.Default.Email, Icons.Default.Phone), Icons.Default.Home),
+
+        Pair(listOf(Icons.Default.Star, Icons.Default.Star, Icons.Default.Email, Icons.Default.Email,
+            Icons.Default.Phone, Icons.Default.Phone, Icons.Default.Home, Icons.Default.Home,
+            Icons.Default.Favorite, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Star,
+            Icons.Default.Home, Icons.Default.Email, Icons.Default.Phone, Icons.Default.Favorite), Icons.Default.Email),
+
+        Pair(listOf(Icons.Default.Favorite, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Email,
+            Icons.Default.Phone, Icons.Default.Home, Icons.Default.Email, Icons.Default.Favorite,
+            Icons.Default.Star, Icons.Default.Star, Icons.Default.Favorite, Icons.Default.Email,
+            Icons.Default.Phone, Icons.Default.Home, Icons.Default.Star, Icons.Default.Favorite), Icons.Default.Phone),
+
+        Pair(listOf(Icons.Default.Phone, Icons.Default.Favorite, Icons.Default.Email, Icons.Default.Email,
+            Icons.Default.Star, Icons.Default.Home, Icons.Default.Favorite, Icons.Default.Phone,
+            Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Email, Icons.Default.Star,
+            Icons.Default.Favorite, Icons.Default.Phone, Icons.Default.Email, Icons.Default.Home), Icons.Default.Star),
+
+        // Continúa agregando listas similares para los niveles del 11 al 20...
+
+        Pair(listOf(Icons.Default.Home, Icons.Default.Phone, Icons.Default.Star, Icons.Default.Email,
+            Icons.Default.Favorite, Icons.Default.Home, Icons.Default.Star, Icons.Default.Phone,
+            Icons.Default.Email, Icons.Default.Star, Icons.Default.Email, Icons.Default.Favorite,
+            Icons.Default.Phone, Icons.Default.Favorite, Icons.Default.Home, Icons.Default.Star), Icons.Default.Home),
+
+        Pair(listOf(Icons.Default.Email, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Phone,
+            Icons.Default.Email, Icons.Default.Star, Icons.Default.Home, Icons.Default.Phone,
+            Icons.Default.Star, Icons.Default.Email, Icons.Default.Home, Icons.Default.Favorite,
+            Icons.Default.Phone, Icons.Default.Star, Icons.Default.Favorite, Icons.Default.Home), Icons.Default.Favorite),
+
+        Pair(listOf(Icons.Default.Phone, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Home,
+            Icons.Default.Email, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Email,
+            Icons.Default.Home, Icons.Default.Favorite, Icons.Default.Email, Icons.Default.Phone,
+            Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Phone, Icons.Default.Home), Icons.Default.Email),
+
+        Pair(listOf(Icons.Default.Star, Icons.Default.Favorite, Icons.Default.Email, Icons.Default.Home,
+            Icons.Default.Phone, Icons.Default.Star, Icons.Default.Home, Icons.Default.Favorite,
+            Icons.Default.Phone, Icons.Default.Email, Icons.Default.Home, Icons.Default.Star,
+            Icons.Default.Email, Icons.Default.Phone, Icons.Default.Favorite, Icons.Default.Star), Icons.Default.Phone),
+
+        Pair(listOf(Icons.Default.Home, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Email,
+            Icons.Default.Phone, Icons.Default.Star, Icons.Default.Favorite, Icons.Default.Email,
+            Icons.Default.Star, Icons.Default.Phone, Icons.Default.Favorite, Icons.Default.Home,
+            Icons.Default.Email, Icons.Default.Home, Icons.Default.Favorite, Icons.Default.Star), Icons.Default.Star),
+
+        Pair(listOf(Icons.Default.Email, Icons.Default.Home, Icons.Default.Phone, Icons.Default.Star,
+            Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Home, Icons.Default.Email,
+            Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Phone, Icons.Default.Favorite,
+            Icons.Default.Email, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Home), Icons.Default.Phone),
+
+        Pair(listOf(Icons.Default.Favorite, Icons.Default.Phone, Icons.Default.Email, Icons.Default.Star,
+            Icons.Default.Home, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Phone,
+            Icons.Default.Email, Icons.Default.Home, Icons.Default.Star, Icons.Default.Favorite,
+            Icons.Default.Phone, Icons.Default.Home, Icons.Default.Email, Icons.Default.Star), Icons.Default.Email),
+
+        Pair(listOf(Icons.Default.Star, Icons.Default.Email, Icons.Default.Phone, Icons.Default.Favorite,
+            Icons.Default.Home, Icons.Default.Star, Icons.Default.Email, Icons.Default.Favorite,
+            Icons.Default.Star, Icons.Default.Phone, Icons.Default.Favorite, Icons.Default.Star,
+            Icons.Default.Email, Icons.Default.Home, Icons.Default.Phone, Icons.Default.Favorite), Icons.Default.Home),
+
+        Pair(listOf(Icons.Default.Email, Icons.Default.Phone, Icons.Default.Favorite, Icons.Default.Star,
+            Icons.Default.Home, Icons.Default.Phone, Icons.Default.Star, Icons.Default.Favorite,
+            Icons.Default.Star, Icons.Default.Email, Icons.Default.Phone, Icons.Default.Favorite,
+            Icons.Default.Home, Icons.Default.Star, Icons.Default.Email, Icons.Default.Favorite), Icons.Default.Star),
+
+        Pair(listOf(Icons.Default.Favorite, Icons.Default.Email, Icons.Default.Star, Icons.Default.Home,
+            Icons.Default.Phone, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Email,
+            Icons.Default.Phone, Icons.Default.Star, Icons.Default.Favorite, Icons.Default.Home,
+            Icons.Default.Email, Icons.Default.Favorite, Icons.Default.Star, Icons.Default.Home), Icons.Default.Star)
+    )
+    // Asigna el conjunto de íconos y el ícono objetivo para el nivel actual
+    val icons = iconosPorNivel.getOrElse(nivel - 1) { iconosPorNivel[0] }.first
+    val targetIcon = iconosPorNivel.getOrElse(nivel - 1) { iconosPorNivel[0] }.second
+    val totalImagenesCorrectas = icons.count { it == targetIcon }
+
+    // Lista para almacenar el estado de selección de cada ícono
+    val iconSelectedStates = remember { mutableStateListOf(*Array(icons.size) { mutableStateOf(false) }) }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+    ) {
+        Spacer(modifier = Modifier.height(50.dp))
+
+        // Texto de nivel actual
+        Text(
+            text = "Nivel: $nivel",
+            fontSize = Configuraciones.fontSizeTitulos.sp,
+            color = Color.White,
+            textAlign = TextAlign.Center
+        )
+
+        Text(
+            "Cancelación de Objetos",
+            fontSize = Configuraciones.fontSizeTitulos.sp,
+            textAlign = TextAlign.Center,
+            color = Color.White
+        )
+
+        Text("Total de Vidas: $vidas", color = Color.White, fontSize = Configuraciones.fontSizeNormal.sp)
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(4),  // Cambiamos a 4 columnas para 4x4
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            items(icons.size) { index ->
+                Box(
+                    modifier = Modifier
+                        .size(80.dp)  // Ajusta el tamaño de los iconos según sea necesario
+                        .padding(8.dp)
+                        .clickable {
+                            if (!iconSelectedStates[index].value) {
+                                iconSelectedStates[index].value = true  // Cambia a rojo solo el ícono seleccionado
+
+                                if (icons[index] == targetIcon) {
+                                    imagenesCorrectasSeleccionadas.add(index)
+
+                                    if (imagenesCorrectasSeleccionadas.size == totalImagenesCorrectas) {
+                                        if (nivel < iconosPorNivel.size) {
+                                            nivel++
+                                            imagenesCorrectasSeleccionadas.clear()
+                                            iconSelectedStates.replaceAll { mutableStateOf(false) }  // Resetea los colores para el nuevo nivel
+                                        } else {
+                                            DateUser.calificacionGameMemoria =vidas
+                                            DateUser.vidasGameMemoria =vidas
+                                            navController.navigate(AppScreens.screenFelicitacionesMemoria.route)
+                                        }
+                                    }
+                                } else {
+                                    errores++
+                                    vidas--
+                                    if (vidas <= 0) {
+                                        navController.navigate(AppScreens.screenGameOverMemoria.route)
+                                    }
+                                }
+                            }
+                        }
+                ) {
+                    Icon(
+                        imageVector = icons[index],
+                        contentDescription = "Icon",
+                        tint = if (iconSelectedStates[index].value) Color.Red else Color.White,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .padding(8.dp)
+                    )
+                }
+            }
+        }
+
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "Por favor Encuentra la Siguiente Imagen",
+                modifier = Modifier.align(Alignment.Center),
+                fontSize = Configuraciones.fontSizeNormal.sp,
+                color = Color.White
+            )
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Icon(
+                imageVector = targetIcon,
+                contentDescription = "Target Icon",
+                tint = Color.Red,
+                modifier = Modifier
+                    .size(80.dp)
+                    .padding(8.dp)
+                    .align(Alignment.Center)
+            )
+        }
+    }
+}
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenGameMemoria(navController: NavController){
+fun ScreenGameMemoria2(navController: NavController){
     Scaffold {
 //scaffold se llama comienza en el nivel 1
         screenGameMemoriaNivel1(navController)

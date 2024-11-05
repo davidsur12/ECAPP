@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -114,15 +115,22 @@ fun HomeScreen2(navController: NavController){
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Button(
-                    modifier = Modifier.width(270.dp).height(50.dp),
-                    colors = ButtonDefaults.buttonColors( Color.White),
+                    modifier = Modifier
+                        .wrapContentSize() // Ajusta el tamaño del botón al contenido
+                        .padding(horizontal = 16.dp, vertical = 8.dp), // Agregar un poco de padding si lo deseas
+                    colors = ButtonDefaults.buttonColors(Color.White),
                     onClick = {
-
                         navController.navigate(AppScreens.screenGames.route)
-                    }) {
-                    Text(text =  "Actividades de Estimulacion" , color = Color.Black,textAlign = TextAlign.Center,  fontSize = 17.sp)
-
+                    }
+                ) {
+                    Text(
+                        text = "Actividades de Estimulacion",
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+                        fontSize = 17.sp
+                    )
                 }
+
                 Spacer(modifier = Modifier.height(20.dp))
                 Button(
                     modifier = Modifier.width(270.dp).height(50.dp),
