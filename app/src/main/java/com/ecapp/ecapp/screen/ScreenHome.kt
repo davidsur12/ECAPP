@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
@@ -37,15 +39,13 @@ import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.Configuraciones
 import java.time.format.TextStyle
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreenn(navController: NavController) {
-    // Utilizamos un Scaffold para proporcionar una estructura básica
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        //backgroundColor = colorResource(com.ecapp.ecapp.R.color.morado_fondo) // Color de fondo de la pantalla
+        //backgroundColor = colorResource(com.ecapp.ecapp.R.color.morado_fondo)
     ) {
         app(navController)
     }
@@ -57,79 +57,64 @@ fun app(navController: NavController) {
 
     BackHandler {
         navController.navigate("screenHome") {
-            popUpTo("screenHome") { inclusive = true } // Elimina la pantalla actual de la pila
+            popUpTo("screenHome") { inclusive = true }
         }
     }
 
-    // Usamos Column para organizar los elementos verticalmente
+    // Añadimos verticalScroll para que se pueda desplazar en pantallas pequeñas
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),  // Ocupa todo el espacio disponible
-        verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+            .verticalScroll(rememberScrollState()),  // Permite desplazamiento vertical
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
-
-     ) {
+    ) {
         Text(
             "ECAPP",
-            modifier = Modifier.padding(start = 16.dp, top = 90.dp, end = 16.dp, bottom = 20.dp),//modifico la posicion me diante un padding
+            modifier = Modifier.padding(start = 16.dp, top = 90.dp, end = 16.dp, bottom = 20.dp),
             style = androidx.compose.ui.text.TextStyle(
-                fontSize = 45.sp, // Cambiar tamaño de la fuente
-                fontWeight = FontWeight.Bold // Cambiar el peso de la fuente (negrita)
+                fontSize = 45.sp,
+                fontWeight = FontWeight.Bold
             )
         )
 
-
         Image(
-            painter = painterResource(id = com.ecapp.ecapp.R.drawable.nutricionista), // Cargamos la imagen
-            contentDescription = null, // Descripción nula
-            modifier = Modifier.size(150.dp) // Ajustamos el tamaño de la imagen
+            painter = painterResource(id = com.ecapp.ecapp.R.drawable.nutricionista),
+            contentDescription = null,
+            modifier = Modifier.size(150.dp)
         )
-
-
-
 
         Text(
             "Aplicación Estimulación Cognitiva",
-            modifier = Modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp),//modifico la posicion me diante un padding
-            color = colorResource(com.ecapp.ecapp.R.color.white),//cambio el colora balnco
+            modifier = Modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp),
+            color = colorResource(com.ecapp.ecapp.R.color.white),
             style = androidx.compose.ui.text.TextStyle(
-                fontSize = 20.sp, // Cambiar tamaño de la fuente
-                fontWeight = FontWeight.Bold, // Cambiar el peso de la fuente (negrita)
-
-
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
             )
         )
 
-        // Línea horizontal
         Canvas(
             modifier = Modifier
-                .fillMaxWidth() // Ocupar el ancho completo
-                .height(5.dp) // Altura de la línea
-                .padding(vertical = 10.dp) // Padding para separación
+                .fillMaxWidth()
+                .height(5.dp)
+                .padding(vertical = 10.dp)
         ) {
             drawLine(
-                color = Color.Blue, // Color de la línea
-                start = Offset(0f, 0f), // Punto de inicio
-                end = Offset(size.width, 0f), // Punto final
-                strokeWidth = 2f // Grosor de la línea
+                color = Color.Blue,
+                start = Offset(0f, 0f),
+                end = Offset(size.width, 0f),
+                strokeWidth = 2f
             )
         }
 
-        // Botón de iniciar sesión
         btnRegistro(onClick = {
-            navController.navigate(AppScreens.screenLogin.route) // Navegar a la pantalla de inicio de sesión
+            navController.navigate(AppScreens.screenLogin.route)
         }, "Iniciar Sesión")
 
-        // Botón de registrarse
         btnRegistro(onClick = {
-             navController.navigate(AppScreens.screenRegisterUser.route) // Navegar a la pantalla de registro
-
-           // navController.navigate(AppScreens.screenGameSecuencia.route)
-            //  navController.navigate(AppScreens.screenMemoria.route)
-            // navController.navigate(AppScreens.screenGameSopaLetras.route)
-            //navController.navigate(AppScreens.screenGameLaberinto.route)
-            //navController.navigate(AppScreens.screenRompecabesas.route)
+            navController.navigate(AppScreens.screenRegisterUser.route)
         }, "Registrarse")
     }
 }
@@ -139,15 +124,16 @@ fun btnRegistro(onClick: () -> Unit, nombre: String) {
     OutlinedButton(
         onClick = onClick,
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = Color.White // Fondo del botón
+            containerColor = Color.White
         ),
         modifier = Modifier
-            .padding(vertical = 8.dp) // Añadimos un padding vertical
-            .width(300.dp) // Ancho del botón
+            .padding(vertical = 8.dp)
+            .width(300.dp)
     ) {
         Text(text = nombre, fontSize = 18.sp)
     }
 }
+
 
 /*
 @RequiresApi(Build.VERSION_CODES.O)

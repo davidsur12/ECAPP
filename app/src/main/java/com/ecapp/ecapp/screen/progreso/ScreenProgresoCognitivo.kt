@@ -116,7 +116,7 @@ fun progreso(navController: NavController){
 
                         navController.navigate(AppScreens.screenProgresoGamesGraficos.route)
                     }) {
-                    Text(text =  "Graficos de Evolucion" , color = Color.Black, fontSize = 18.sp)
+                    Text(text =  "Gráficos de evolución" , color = Color.Black, fontSize = 18.sp)
 
                 }
                 Spacer(modifier = Modifier.height(20.dp))

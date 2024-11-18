@@ -152,7 +152,7 @@ fun FelicitacionesSecuencia(navController: NavController){
                 }
             }
             val context = LocalContext.current
-            DateUser.calificacionGameSopaLetras = DateUser.vidasSopaLetras
+           DateUser.calificacionGameSopaLetras = DateUser.vidasSopaLetras
             Log.d("informacionVidas", "Vidas: ${DateUser.vidasSopaLetras} calificacion: ${DateUser.calificacionGameSopaLetras}")
 
             FirebaseCloudUser().agregarCalificacion(LocalDateTime.now().toString(), DateUser.calificacionGameSopaLetras, "sopa_letras")

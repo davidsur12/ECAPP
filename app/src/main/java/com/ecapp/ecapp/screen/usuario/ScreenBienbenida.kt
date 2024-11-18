@@ -1,6 +1,7 @@
 package com.ecapp.ecapp.screen.usuario
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
+import com.ecapp.ecapp.utils.DateUser
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -70,7 +73,8 @@ fun informacionBienbenida(navController: NavController){
             Spacer(modifier = Modifier.height(15.dp))
 
         }
-
+        val context = LocalContext.current
+        Toast.makeText(context, "usuario: ${DateUser.correo}", Toast.LENGTH_SHORT).show()
         Button(
             onClick = {navController.navigate(AppScreens.screenUser.route)},
             modifier = Modifier.padding(16.dp)

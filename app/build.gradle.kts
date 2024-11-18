@@ -15,8 +15,8 @@ android {
         applicationId = "com.ecapp.ecapp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.5"
+        versionCode = 9
+        versionName = "1.11"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -70,7 +70,7 @@ fun gameOverSopaLetras(navController: NavController){
                 modifier = Modifier.size(100.dp) // Cambia el tamaño de la imagen si lo deseas
             )
 
-            Button(onClick = {navController.navigate(AppScreens.screenMemoria.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
+            Button(onClick = {navController.navigate(AppScreens.screenGameSopaLetras.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
             Button(onClick = {navController.navigate(AppScreens.screenUser.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
 
         }

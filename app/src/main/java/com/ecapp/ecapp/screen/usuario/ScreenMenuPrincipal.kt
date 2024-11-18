@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -116,20 +117,23 @@ fun HomeScreen2(navController: NavController){
                 Spacer(modifier = Modifier.height(20.dp))
                 Button(
                     modifier = Modifier
-                        .wrapContentSize() // Ajusta el tamaño del botón al contenido
-                        .padding(horizontal = 16.dp, vertical = 8.dp), // Agregar un poco de padding si lo deseas
+                        .width(270.dp)
+                        .height(50.dp),
                     colors = ButtonDefaults.buttonColors(Color.White),
                     onClick = {
                         navController.navigate(AppScreens.screenGames.route)
                     }
                 ) {
                     Text(
-                        text = "Actividades de Estimulacion",
+                        text = "Actividades de Estimulación",
                         color = Color.Black,
-                        textAlign = TextAlign.Center,
-                        fontSize = 17.sp
+                        fontSize = 17.sp,
+                        maxLines = 1, // Opción para limitar a una línea
+                        overflow = TextOverflow.Ellipsis // Mostrar "..." si el texto es muy largo
                     )
                 }
+
+
 
                 Spacer(modifier = Modifier.height(20.dp))
                 Button(

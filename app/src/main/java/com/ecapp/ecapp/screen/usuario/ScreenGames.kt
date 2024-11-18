@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -108,22 +109,25 @@ DateUser.GameSecuenciaNivel=0
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
+
                 Button(
-                    modifier = Modifier.wrapContentSize(), // Ajusta el tamaño del botón al contenido
+                    modifier = Modifier
+                        .width(270.dp)
+                        .height(50.dp),
                     colors = ButtonDefaults.buttonColors(Color.White),
                     onClick = {
                         navController.navigate(AppScreens.screenMemoria.route)
                     }
                 ) {
-                    Icon(
-                        tint = Color.Black,
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Cancelacion de Objetos",
-                        modifier = Modifier.size(18.dp)
+                    Text(
+                        text = "Cancelación de Objetos",
+                        color = Color.Black,
+                        fontSize = 17.sp,
+                        maxLines = 1, // Opción para limitar a una línea
+                        overflow = TextOverflow.Ellipsis // Mostrar "..." si el texto es muy largo
                     )
-                    Spacer(modifier = Modifier.width(8.dp)) // Espacio entre el icono y el texto
-                    Text(text = "Cancelacion de Objetos", color = Color.Black, fontSize = 17.sp)
                 }
+
 
 
                 Spacer(modifier = Modifier.height(20.dp))

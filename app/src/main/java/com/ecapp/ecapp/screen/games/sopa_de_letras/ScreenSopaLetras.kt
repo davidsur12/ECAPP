@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
@@ -42,639 +43,218 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
-import com.ecapp.ecapp.screen.games.secuencia.gameSecuencia
 import com.ecapp.ecapp.utils.Configuraciones
-import com.ecapp.ecapp.utils.DateUser
-import kotlin.random.Random
-
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenGameSopaLetras(navController: NavController){
-    Scaffold {
-
-
-        //WordSearchGame()
-        //gameSopaLetras(navController)
-        gameSopaLetrasNivel1(navController)
-    }
-}
-
-
-
-@Composable
-fun gameSopaLetrasNivel1(navController: NavController) {
-
-
-  /*
-   if(DateUser.nivelSopaLetras != 1){
-       DateUser.vidasSopaLetras=5
-       DateUser.nivelSopaLetras=1
-   }
-    */
-
-    BackHandler{
+fun ScreenGameSopaLetras(navController: NavController) {
+    BackHandler {
         navController.navigate("screenGames") {
-            popUpTo("ScreenGameSopaLetras") { inclusive = true } // Elimina la pantalla actual de la pila
+            popUpTo("ScreenGameRompeCabezas") { inclusive = true } // Elimina la pantalla actual de la pila
         }
     }
 
-
-
-    val context = LocalContext.current
-    // Ejemplo de letras para la sopa de letras
-    val letters = listOf(
-        'P', 'E', 'R', 'R', 'O',
-        'F', 'G', 'H', 'I', 'T',
-        'K', 'L', 'M', 'N', 'A',
-        'L', 'O', 'B', 'O', 'G',
-        'U', 'L', 'E', 'O', 'N'
+    Scaffold {
+        gameSopaLetras(navController)
+    }
+}
+@Composable
+fun gameSopaLetras(navController: NavController) {
+    val niveles = listOf(
+        NivelConfig(
+            letras = listOf(
+                'P', 'E', 'R', 'R', 'O',
+                'F', 'G', 'A', 'T', 'O',
+                'K', 'L', 'O', 'B', 'O',
+                'O', 'B', 'O', 'G', 'O',
+                'U', 'L', 'E', 'O', 'N'
+            ),
+            indicesCorrectos = listOf(0, 1, 2, 3, 4,6, 7, 8, 9,11, 12, 13, 14, 21, 22, 23, 24),
+            palabras = "PERRO, GATO, LOBO, LEON"
+        ),
+        NivelConfig(
+            letras = listOf(
+                'L', 'O', 'B', 'O', 'X',
+                'G', 'A', 'T', 'O', 'P',
+                'C', 'D', 'A', 'D', 'M',
+                'T', 'O', 'R', 'O', 'Y',
+                'X', 'Y', 'C', 'A', 'O'
+            ),
+            indicesCorrectos = listOf(0, 1, 2, 3, 5,6,7,8,15,16,17,18),
+            palabras = "LOBO, GATO, TORO"
+        ),
+        NivelConfig(
+            letras = listOf(
+                'O', 'L', 'L', 'A', 'X',
+                'C', 'A', 'Z', 'O', 'P',
+                'X', 'V', 'A', 'S', 'O',
+                'A', 'Z', 'A', 'T', 'Y',
+                'M', 'N', 'U', 'E', 'Z'
+            ),
+            indicesCorrectos = listOf(0, 1, 2, 3, 5, 6, 7, 8, 11, 12, 13, 14,15, 16, 17, 18, 21,22,23,24,),
+            palabras = "OLLA, CAZO, VASO, TAZA, NUEZ"
+        ),
+        NivelConfig(
+            letras = listOf(
+                'P', 'A', 'P', 'A', 'R',
+                'C', 'A', 'C', 'A', 'O',
+                'T', 'D', 'V', 'N', 'A',
+                'F', 'R', 'I', 'J', 'O',
+                'M', 'N', 'U', 'E', 'Z'
+            ),
+            indicesCorrectos = listOf(0, 1, 2, 3, 5, 6, 7, 8, 9, 21,22,23,24),
+            palabras = "PAPA, CACAO, NUEZ"
+        ),
+        // Agrega más configuraciones de niveles según sea necesario
     )
 
-    val indicesCorrectos = listOf(0,1,2,3,4,9,14,19,21,22,23,24,15,16,17,18)
 
-    // Tamaño del tablero
-    val gridSize = 5
+    var nivelActual by remember { mutableStateOf(0) }
+    var vidas by remember { mutableStateOf(5) }
+    val context = LocalContext.current
+    var gameOverNavigated by remember { mutableStateOf(false) }
+    var congratulated by remember { mutableStateOf(false) }
 
-    // Lista mutable para almacenar los índices seleccionados
+    val nivelConfig = if (nivelActual < niveles.size) niveles[nivelActual] else null
     val selectedIndices = remember { mutableStateListOf<Int>() }
-    var vidas by remember { mutableStateOf(0) }
-    var cambioListaSelected by remember { mutableStateOf(0) }
-    vidas = DateUser.vidasSopaLetras
-    cambioListaSelected = 0
 
-Column(    modifier = Modifier
-    .fillMaxSize().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
-    verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
-    horizontalAlignment = Alignment.CenterHorizontally) {
-
-    Spacer(modifier = Modifier.height(50.dp))
-    Text("Actividad de Sopa de letras", fontSize = Configuraciones.fontSizeTitulos.sp,  textAlign = TextAlign.Center,
-        modifier = Modifier.fillMaxWidth(), color = Color.White )
-    Spacer(modifier = Modifier.height(50.dp))
-    Text("Vidas: ${vidas}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-    Text("Nivel: ${DateUser.nivelSopaLetras}", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-    Spacer(modifier = Modifier.height(15.dp))
-    Text("Encuentra las Siguientes Palabras", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-    Spacer(modifier = Modifier.height(10.dp))
-    Text("PERRO, GATO, LEON,LOBO", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-
-
-    Box(
-    modifier = Modifier
-        //.fillMaxSize()
-        .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
-        .padding(16.dp)
-) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(gridSize),
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .align(Alignment.Center)
-    ) {
-        itemsIndexed(letters) { index, letter ->
-            LetterBox(letter, index, selectedIndices)
-        }
-
-
-    }
-
-
-
-    // Mostrar los índices seleccionados
-/*
-    Text(
-        text = "Índices seleccionados: ${selectedIndices.joinToString(", ")}",
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
             .padding(16.dp),
-        color = Color.Black
-    )
-        */
-    //val completado = indicesCorrectos.containsAll(selectedIndices)
-        val completado = selectedIndices.containsAll(indicesCorrectos)
-    //verifico si todas la sopa de letras esta llena correctamente
-    if(completado && selectedIndices.size>= indicesCorrectos.size){
-
-
-
-
-        val errores = selectedIndices.filterNot { indicesCorrectos.contains(it) }
-        var contErrores = errores.count()
-        DateUser.erroresSopaLetras = contErrores
-
-        if( contErrores>=2){
-            contErrores=0
-            DateUser.vidasSopaLetras=4
-        }
-        if(DateUser.nivelSopaLetras==1){
-            Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
-            DateUser.nivelSopaLetras=2
-            navController.navigate(AppScreens.screenGameOverSopaLetrasNivel2.route)
-
-        }
-
-
-
-    }
-    else{
-
-
-        // Toast.makeText(context, "Sopa de letras no completada", Toast.LENGTH_SHORT).show()
-        //if(indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) )
-        if(selectedIndices.size>0  )
-        {// &&   cambioListaSelected != selectedIndices.size
-
-            if( indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) &&  cambioListaSelected != selectedIndices.size){
-                cambioListaSelected = selectedIndices.size
-            }
-
-        }
-
-    }
-
-}
-}
-}
-
-@Composable
-fun gameSopaLetrasNivel2(navController: NavController) {
-
-
-    /*
-     if(DateUser.nivelSopaLetras != 1){
-         DateUser.vidasSopaLetras=5
-         DateUser.nivelSopaLetras=1
-     }
-      */
-
-    BackHandler{
-        navController.navigate("screenGames") {
-            popUpTo("ScreenGameSopaLetras") { inclusive = true } // Elimina la pantalla actual de la pila
-        }
-    }
-
-
-
-    val context = LocalContext.current
-    // Ejemplo de letras para la sopa de letras
-    val letters = listOf(
-        'T', 'E', 'N', 'E', 'D','O','R',
-        'P', 'L', 'A', 'T', 'O','Y','P',
-        'K', 'V', 'A', 'S', 'O','W','O',
-        'C', 'U', 'C', 'H', 'A','R','A',
-        'S', 'A', 'R', 'T', 'E','N','O',
-    )
-
-    val indicesCorrectos = listOf(0,1,2,3,4,5,6,7,8,9,10,11,15,16,17,18,23,24,25,26,27,28,29,30,31,32,33)
-
-
-    // Tamaño del tablero
-    val gridSize = 7
-
-    // Lista mutable para almacenar los índices seleccionados
-    val selectedIndices = remember { mutableStateListOf<Int>() }
-    var vidas by remember { mutableStateOf(0) }
-    var cambioListaSelected by remember { mutableStateOf(0) }
-    vidas = DateUser.vidasSopaLetras
-    cambioListaSelected = 0
-
-    Column(    modifier = Modifier
-        .fillMaxSize().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
-        verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
-        horizontalAlignment = Alignment.CenterHorizontally) {
-
-        Spacer(modifier = Modifier.height(50.dp))
-        Text("Actividad de Sopa de letras", fontSize = Configuraciones.fontSizeTitulos.sp,  textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(), color = Color.White )
-        Spacer(modifier = Modifier.height(50.dp))
-        Text("Vidas: ${vidas}",  fontSize = Configuraciones.fontSizeNormal.sp,color = Color.White)
-        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-        Spacer(modifier = Modifier.height(15.dp))
-        Text("Encuentra las Siguientes Palabras", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            "Sopa de Letras",
+            fontSize = Configuraciones.fontSizeNormal.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
+        )
         Spacer(modifier = Modifier.height(10.dp))
-        Text("PERRO, GATO, LEON,TIGRE", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
+        Text("Vidas: $vidas", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
+        Text("Nivel: ${nivelActual + 1}",fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            "Encuentra las palabras:",
+            fontSize = Configuraciones.fontSizeNormal.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(4.dp))
 
+        if (nivelConfig != null) {
+            Text(
+                nivelConfig.palabras,
+                fontSize = Configuraciones.fontSizeNormal.sp,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Box(
             modifier = Modifier
-                //.fillMaxSize()
-                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+                .background(Color(0xFF1E1E1E), shape = RoundedCornerShape(8.dp))
                 .padding(16.dp)
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(gridSize),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center)
-            ) {
-                itemsIndexed(letters) { index, letter ->
-                    LetterBox(letter, index, selectedIndices)
-                }
-
-
-            }
-
-
-
-            // Mostrar los índices seleccionados
-            /*
-                Text(
-                    text = "Índices seleccionados: ${selectedIndices.joinToString(", ")}",
+            nivelConfig?.let {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(5),
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(16.dp),
-                    color = Color.Black
-                )
-                    */
-            //val completado = indicesCorrectos.containsAll(selectedIndices)
-            val completado = selectedIndices.containsAll(indicesCorrectos)
-            //verifico si todas la sopa de letras esta llena correctamente
-            if(completado && selectedIndices.size>= indicesCorrectos.size){
+                        .fillMaxWidth()
+                        .align(Alignment.Center)
+                ) {
+                    itemsIndexed(it.letras) { index, letter ->
+                        LetterBox(
+                            letter = letter,
+                            index = index,
+                            selectedIndices = selectedIndices,
+                            indicesCorrectos = it.indicesCorrectos
+                        ) {
+                            if (!it.indicesCorrectos.contains(index)) {
+                                vidas--
+                                Toast.makeText(context, "¡Letra incorrecta! Perdiste una vida.", Toast.LENGTH_SHORT).show()
 
+                                // Verifica si se han quedado sin vidas
+                                if (vidas <= 0 && !gameOverNavigated) {
+                                    gameOverNavigated = true // Asegura que la navegación solo ocurra una vez
+                                    navController.navigate(AppScreens.screenGameOverSopaLetras.route)
+                                }
+                            } else if (selectedIndices.containsAll(it.indicesCorrectos)) {
+                                // Nivel completado correctamente
+                                selectedIndices.clear()
+                                nivelActual++
 
-
-
-                val errores = selectedIndices.filterNot { indicesCorrectos.contains(it) }
-                var contErrores = errores.count()
-                DateUser.erroresSopaLetras = contErrores
-
-                if( contErrores>=2){
-                    contErrores=0
-                    DateUser.vidasSopaLetras =  DateUser.vidasSopaLetras--
-                    DateUser.erroresSopaLetras = 0
-                }
-                /*
-                if(DateUser.nivelSopaLetras==1){
-                    Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
-                    DateUser.nivelSopaLetras=2
-                    navController.navigate(AppScreens.screenGameOverSopaLetrasNivel2.route)
-
-                }
-                */
-
-                if(DateUser.nivelSopaLetras==2){
-                    // Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
-                    DateUser.nivelSopaLetras=3
-                    navController.navigate(AppScreens.screenGameOverSopaLetrasNivel3.route)
-
-                }
-
-
-
-            }
-            else{
-
-
-                // Toast.makeText(context, "Sopa de letras no completada", Toast.LENGTH_SHORT).show()
-                //if(indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) )
-                if(selectedIndices.size>0  )
-                {// &&   cambioListaSelected != selectedIndices.size
-
-                    if( indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) &&  cambioListaSelected != selectedIndices.size){
-                        cambioListaSelected = selectedIndices.size
+                                if (nivelActual >= niveles.size && !congratulated) {
+                                    congratulated = true
+                                    navController.navigate(AppScreens.screenFelicitacionesGameSopaLetras.route)
+                                }
+                            }
+                        }
                     }
-
-                }
-
-            }
-
-        }
-    }
-}
-
-
-@Composable
-fun gameSopaLetrasNivel22(navController: NavController) {
-
-    BackHandler{
-        navController.navigate("screenGames") {
-            popUpTo("gameSopaLetrasNivel2") { inclusive = true } // Elimina la pantalla actual de la pila
-        }
-    }
-    val context = LocalContext.current
-    // Ejemplo de letras para la sopa de letras
-    val letters = listOf(
-        'T', 'E', 'N', 'E', 'D','O','R',
-        'P', 'L', 'A', 'T', 'O','Y','P',
-        'K', 'V', 'A', 'S', 'O','W','O',
-        'C', 'U', 'C', 'H', 'A','R','A',
-        'S', 'A', 'R', 'T', 'E','N','O',
-    )
-
-    val indicesCorrectos = listOf(0,1,2,3,4,5,6,7,8,9,10,11,15,16,17,18,23,24,25,26,27,28,29,30,31,32,33)
-
-    // Tamaño del tablero
-    val gridSize = 5
-
-    // Lista mutable para almacenar los índices seleccionados
-    val selectedIndices = remember { mutableStateListOf<Int>() }
-    var vidas by remember { mutableStateOf(0) }
-    var cambioListaSelected by remember { mutableStateOf(0) }
-    vidas = DateUser.vidasSopaLetras
-    cambioListaSelected = 0
-
-    Column(    modifier = Modifier
-        .fillMaxSize().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
-        verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
-        horizontalAlignment = Alignment.CenterHorizontally) {
-
-        Spacer(modifier = Modifier.height(50.dp))
-        Text("Actividad de Sopa de letras", fontSize = Configuraciones.fontSizeTitulos.sp,  textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(), color = Color.White)
-        Spacer(modifier = Modifier.height(50.dp))
-        Text("Vidas: ${vidas}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-
-        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-        Spacer(modifier = Modifier.height(15.dp))
-        Text("Encuentra las Siguientes Palabras", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text("TRNEDOR, PLATO, VASO, CUCHARA, SARTEN", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-        /*
-   * Tenedores
-Cucharas Platos
-Vasos Cacerolas
-* Sarten
-   * */
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
-                .padding(16.dp)
-        ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(7),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center)
-            ) {
-                itemsIndexed(letters) { index, letter ->
-                    LetterBox2(letter, index, selectedIndices)
                 }
             }
-
-            // Mostrar los índices seleccionados
-
-
-            //val completado = indicesCorrectos.containsAll(selectedIndices)
-            val completado = selectedIndices.containsAll(indicesCorrectos)
-            //verifico si todas la sopa de letras esta llena correctamente
-            if(completado && selectedIndices.size>= indicesCorrectos.size){
-
-              //  Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
-
-
-                val errores = selectedIndices.filterNot { indicesCorrectos.contains(it) }
-                var contErrores = errores.count()
-                DateUser.erroresSopaLetras = contErrores
-                if( contErrores>=2){
-                    contErrores=0
-                    DateUser.vidasSopaLetras--
-                }
-                if(DateUser.nivelSopaLetras==2){
-                   // Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
-                    DateUser.nivelSopaLetras=3
-                    navController.navigate(AppScreens.screenGameOverSopaLetrasNivel3.route)
-
-                }
-            }
-            else{
-
-
-                // Toast.makeText(context, "Sopa de letras no completada", Toast.LENGTH_SHORT).show()
-                //if(indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) )
-                if(selectedIndices.size>0  )
-                {// &&   cambioListaSelected != selectedIndices.size
-
-                    if( indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) &&  cambioListaSelected != selectedIndices.size){
-                        cambioListaSelected = selectedIndices.size
-                    }
-
-                }
-
-            }
-
         }
     }
 }
 
 @Composable
-fun gameSopaLetrasNivel3(navController: NavController) {
-
-
-    BackHandler{
-        navController.navigate("screenGames") {
-            popUpTo("gameSopaLetrasNivel3") { inclusive = true } // Elimina la pantalla actual de la pila
-        }
-    }
-
-   // Argentina Bolivia Brasil Colombia Guyana
-    val context = LocalContext.current
-    // Ejemplo de letras para la sopa de letras
-    val letters = listOf(
-        'B', 'O', 'L', 'I', 'V','I','A',
-        'B', 'R', 'A', 'S', 'I','L','P',
-        'G', 'U', 'A', 'Y', 'A','N','A',
-        'P', 'E', 'R', 'U', 'A','R','A',
-        'S', 'A', 'P', 'T', 'E','P','O',
-    )
-
-    val indicesCorrectos = listOf(0,1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,21,22,23,24)
-
-    // Tamaño del tablero
-    val gridSize = 5
-
-    // Lista mutable para almacenar los índices seleccionados
-    val selectedIndices = remember { mutableStateListOf<Int>() }
-    var vidas by remember { mutableStateOf(0) }
-    var cambioListaSelected by remember { mutableStateOf(0) }
-    vidas = DateUser.vidasSopaLetras
-    cambioListaSelected = 0
-
-    Column(    modifier = Modifier
-        .fillMaxSize().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
-        verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
-        horizontalAlignment = Alignment.CenterHorizontally) {
-
-        Spacer(modifier = Modifier.height(50.dp))
-        Text("Actividad de Sopa de letras", fontSize = Configuraciones.fontSizeTitulos.sp,  textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),color = Color.White )
-        Spacer(modifier = Modifier.height(50.dp))
-        Text("Vidas: ${vidas}", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-        Text("Nivel: ${DateUser.nivelSopaLetras}",  fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-        Spacer(modifier = Modifier.height(15.dp))
-        Text("Encuentra las Siguientes Palabras", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text("BOLIVIA, BRASIL, GUAYANA, PERU", color = Color.White , fontSize = Configuraciones.fontSizeNormal.sp,)
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
-                .padding(16.dp)
-        ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(7),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center)
-            ) {
-                itemsIndexed(letters) { index, letter ->
-                    LetterBox3(letter, index, selectedIndices)
-                }
-            }
-
-            // Mostrar los índices seleccionados
-
-
-            //val completado = indicesCorrectos.containsAll(selectedIndices)
-            val completado = selectedIndices.containsAll(indicesCorrectos)
-            //verifico si todas la sopa de letras esta llena correctamente
-            if(completado && selectedIndices.size>= indicesCorrectos.size){
-
-               // Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
-
-
-                val errores = selectedIndices.filterNot { indicesCorrectos.contains(it) }
-                var contErrores = errores.count()
-                DateUser.erroresSopaLetras = contErrores
-                if( contErrores>=5){
-                    //si comente dos errores se quita una vida
-                    contErrores=0
-                    DateUser.vidasSopaLetras--
-                }
-                if(DateUser.nivelSopaLetras==3){
-                    DateUser.nivelSopaLetras=4
-
-                    try {
-                        Toast.makeText(context, "calificacion: ${DateUser.calificacionGameSopaLetras} vidas: ${DateUser.vidasSopaLetras}", Toast.LENGTH_SHORT).show()
-                        navController.navigate(AppScreens.screenFelicitacionesGameSopaLetras.route)
-                    }catch (ex:Exception){
-                       // Toast.makeText(context, "Eroor  al cmabiar  $ex", Toast.LENGTH_SHORT).show()
-                    Log.d("errorn",ex.toString() )
-                    }
-
-                   // Toast.makeText(context, "Sopa de letras completada", Toast.LENGTH_SHORT).show()
-                    //DateUser.nivelSopaLetras=0
-
-
-                }
-
-
-
-
-            }
-            else{
-
-
-                // Toast.makeText(context, "Sopa de letras no completada", Toast.LENGTH_SHORT).show()
-                //if(indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) )
-                if(selectedIndices.size>0  )
-                {// &&   cambioListaSelected != selectedIndices.size
-
-                    if( indicesCorrectos.contains(selectedIndices[selectedIndices.size-1]) &&  cambioListaSelected != selectedIndices.size){
-                        cambioListaSelected = selectedIndices.size
-                    }
-
-                }
-
-            }
-
-        }
-    }
-}
-
-
-@Composable
-fun LetterBox(letter: Char, index: Int, selectedIndices: MutableList<Int>) {
-    val context = LocalContext.current
-    var isSelected by remember { mutableStateOf(false) }
+fun LetterBox(
+    letter: Char,
+    index: Int,
+    selectedIndices: MutableList<Int>,
+    indicesCorrectos: List<Int>,
+    onSelect: () -> Unit
+) {
+    val isSelected = selectedIndices.contains(index)
+    val isCorrect = indicesCorrectos.contains(index) && isSelected
+    val isIncorrect = isSelected && !indicesCorrectos.contains(index)
 
     Box(
         modifier = Modifier
-            .size(60.dp)
-            .padding(4.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(if (isSelected) Color.Cyan else Color.White)
+            .size(48.dp)
+            .border(2.dp, Color.Black, RoundedCornerShape(4.dp))
             .clickable {
-                isSelected = !isSelected
-                if (isSelected) {
-                    selectedIndices.add(index) // Agregar índice a la lista
-                } else {
-                    selectedIndices.remove(index) // Eliminar índice si se deselecciona
+                if (!isSelected) {
+                    selectedIndices.add(index)
+                    onSelect()
                 }
-               // Toast.makeText(context, "Índice: $index", Toast.LENGTH_SHORT).show()
-            },
+            }
+            .background(
+                when {
+                    isCorrect -> Color(0xFF00C853) // Verde para correcta
+                    isIncorrect -> Color(0xFFD50000) // Rojo para incorrecta
+                    else -> Color.White // Fondo blanco para no seleccionada
+                },
+                shape = RoundedCornerShape(4.dp)
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = letter.toString(),
             fontSize = Configuraciones.fontSizeNormal.sp,
-            color = Color.Black,
-            textAlign = TextAlign.Center
+            fontWeight = FontWeight.Bold,
+            color = when {
+                isCorrect || isIncorrect -> Color.White
+                else -> Color.Black
+            }
         )
     }
 }
+
+data class NivelConfig(
+    val letras: List<Char>,
+    val indicesCorrectos: List<Int>,
+    val palabras: String
+)
+
 @Composable
-fun LetterBox2(letter: Char, index: Int, selectedIndices: MutableList<Int>) {
-    val context = LocalContext.current
-    var isSelected by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = Modifier
-            .size(60.dp)
-            .padding(4.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(if (isSelected) Color.Cyan else Color.White)
-            .clickable {
-                isSelected = !isSelected
-                if (isSelected) {
-                    selectedIndices.add(index) // Agregar índice a la lista
-                } else {
-                    selectedIndices.remove(index) // Eliminar índice si se deselecciona
-                }
-                // Toast.makeText(context, "Índice: $index", Toast.LENGTH_SHORT).show()
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = letter.toString(),
-            fontSize = Configuraciones.fontSizeNormal.sp,
-            color = Color.Black,
-            textAlign = TextAlign.Center
-        )
-    }
-}
+fun gameSopaLetrasNivel2(navController: NavController){}
 @Composable
-fun LetterBox3(letter: Char, index: Int, selectedIndices: MutableList<Int>) {
-    val context = LocalContext.current
-    var isSelected by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = Modifier
-            .size(60.dp)
-            .padding(4.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(if (isSelected) Color.Cyan else Color.White)
-            .clickable {
-                isSelected = !isSelected
-                if (isSelected) {
-                    selectedIndices.add(index) // Agregar índice a la lista
-                } else {
-                    selectedIndices.remove(index) // Eliminar índice si se deselecciona
-                }
-                // Toast.makeText(context, "Índice: $index", Toast.LENGTH_SHORT).show()
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = letter.toString(),
-            fontSize = Configuraciones.fontSizeNormal.sp,
-            color = Color.Black,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-
+fun gameSopaLetrasNivel3(navController: NavController){}
 
