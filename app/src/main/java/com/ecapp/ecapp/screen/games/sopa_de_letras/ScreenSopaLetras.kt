@@ -131,17 +131,18 @@ fun gameSopaLetras(navController: NavController) {
             "Sopa de Letras",
             fontSize = Configuraciones.fontSizeNormal.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White
+            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+           // color = Color.White
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text("Vidas: $vidas", fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
-        Text("Nivel: ${nivelActual + 1}",fontSize = Configuraciones.fontSizeNormal.sp, color = Color.White)
+        Text("Vidas: $vidas", fontSize = Configuraciones.fontSizeNormal.sp,  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),)
+        Text("Nivel: ${nivelActual + 1}",fontSize = Configuraciones.fontSizeNormal.sp,  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),)
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             "Encuentra las palabras:",
             fontSize = Configuraciones.fontSizeNormal.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White,
+            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -150,7 +151,8 @@ fun gameSopaLetras(navController: NavController) {
             Text(
                 nivelConfig.palabras,
                 fontSize = Configuraciones.fontSizeNormal.sp,
-                color = Color.White,
+                //color = Color.White,
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
                 textAlign = TextAlign.Center
             )
         }

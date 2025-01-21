@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -119,7 +120,7 @@ fun progresoGamesOpciones(navController: NavController){
 Text("Por Favor selecciona la actividad de la cual deseas conocer tus Resumenes" ,
     fontSize = Configuraciones.fontSizeNormal.sp
 , textAlign = TextAlign.Center
-    , color = Color.White
+    ,  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
     )
                 Spacer(modifier = Modifier.height(20.dp))
 

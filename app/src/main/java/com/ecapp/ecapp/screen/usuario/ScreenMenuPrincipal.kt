@@ -1,7 +1,9 @@
 package com.ecapp.ecapp.screen.usuario
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,10 +41,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
+import com.ecapp.ecapp.utils.DateUser
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -162,6 +166,8 @@ fun HomeScreen2(navController: NavController){
                     modifier = Modifier.width(200.dp),
                     onClick = {
                         //boton de cierre de session
+                        //actualizo la ultima vez que inicio session
+                        FirebaseCloudUser().updateFechaConecion(DateUser.correo);
                         Firebase.auth.signOut()
                         navController.navigate(AppScreens.screenHome.route)
                     }) {

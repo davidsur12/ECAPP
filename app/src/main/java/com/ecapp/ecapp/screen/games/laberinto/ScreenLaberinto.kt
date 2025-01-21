@@ -30,6 +30,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.ecapp.ecapp.navegation.AppScreens
@@ -58,7 +59,7 @@ fun ScreenGameLaberinto(navController: NavController) {
             Text(
                 text = "Laberinto",
                 fontSize = Configuraciones.fontSizeTitulos.sp,
-                color = Color.White,
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, bottom = 8.dp)
@@ -76,13 +77,13 @@ fun ScreenGameLaberinto(navController: NavController) {
                 Text(
 
                     text = "Nivel: ${nivel.value + 1}",
-                    color = Color.White,
+                    style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
                     fontSize = Configuraciones.fontSizeNormal.sp,
                     modifier = Modifier.background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
                 )
                 Text(
                     text = "Vidas: " + "❤️".repeat(lives.value),
-                    color = Color.White,
+                    style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
                     fontSize = Configuraciones.fontSizeNormal.sp,
                     modifier = Modifier.background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
                 )

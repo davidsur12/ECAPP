@@ -32,6 +32,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,7 +43,153 @@ import com.ecapp.ecapp.screen.progreso.progresoGamesOpciones
 import com.ecapp.ecapp.utils.Configuraciones
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import androidx.compose.material3.Text
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 
+@OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun ScreenGraficos(navController: NavController) {
+    // Variable para verificar si hay datos en al menos un gráfico
+    val hasData = remember { mutableStateOf(false) }
+
+    val contador = remember { mutableStateOf(0) }
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.purple_500),
+                    titleContentColor = androidx.compose.ui.graphics.Color.White,
+                ),
+                title = { Text("Gráficos de Evolución") }
+            )
+        },
+        content = { paddingValues ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Agregar múltiples gráficos a la pantalla
+                items(4) { index ->
+                    when (index) {
+                        0 -> resumenDatos2("sopa_letras", "Sopa de letras 1", hasData, contador)
+                        1 -> resumenDatos2("secuencia", "Secuencia", hasData, contador)
+                        2 -> resumenDatos2("rompecabezas", "Rompecabezas", hasData, contador)
+                        3 -> resumenDatos2("cancelación_objetos", "Cancelación de Objetos", hasData, contador)
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                // Si no hay datos en ningún gráfico, mostrar un mensaje
+                item {
+                    if (!hasData.value) {
+                        /*
+                        if(contador >= 4){
+                            println("total contador $contador")
+                            contador =0;
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(text = "Texto centrado en el Column")
+                            }
+                        }
+                        */
+                        /*
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "No se encontraron gráficos disponibles",
+                                color = androidx.compose.ui.graphics.Color.White,
+                                textAlign = TextAlign.Center,
+                                fontSize = 16.sp
+                            )
+                        }
+                        */
+
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(text = "No se encontraron resultados")
+                        }
+                    }
+                }
+            }
+        }
+    )
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun resumenDatos2(juegos: String, nombreGame: String, hasData: MutableState<Boolean>,  contador: MutableState<Int>) {
+    val editableList = remember { mutableStateListOf<List<Any>>() }
+    var contador by remember { mutableStateOf(0) }
+    LaunchedEffect(juegos) {
+        FirebaseCloudUser().getEvaluaciones({ evaluaciones ->
+            if (evaluaciones != null && evaluaciones.isNotEmpty()) {
+                editableList.clear()
+                evaluaciones.forEach { evaluacionMap ->
+                    val calificacion = evaluacionMap["calificacion"]?.toString()?.toIntOrNull() ?: 0
+                    val fechaCompleta = evaluacionMap["fecha"]?.toString() ?: "Sin fecha"
+                    val (fecha, hora) = fechaCompleta.split("T")
+                    val horaSinMilisegundos = hora.split(".")[0]
+                    val formatterHora = DateTimeFormatter.ofPattern("hh:mm:ss a")
+                    val horaFormateada = LocalTime.parse(horaSinMilisegundos).format(formatterHora)
+                    editableList.add(listOf("Nivel: $calificacion", calificacion))
+                }
+                hasData.value = true // Marcar que hay datos disponibles
+            }
+        }, juegos)
+    }
+
+    if (editableList.isNotEmpty()) {
+        val data = editableList.take(5).map { Pair(it[0] as String, it[1] as Int) }
+
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .border(BorderStroke(2.dp, androidx.compose.ui.graphics.Color.Black))
+                .padding(16.dp)
+                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("$nombreGame", color = androidx.compose.ui.graphics.Color.White, fontSize = 18.sp)
+            Spacer(modifier = Modifier.height(20.dp))
+            BarChart(data = data)
+            data.forEach { (_, calificacion) ->
+                Text("Calificación: $calificacion", color = androidx.compose.ui.graphics.Color.White, fontSize = 16.sp)
+            }
+        }
+    } else {
+        contador++
+        // Si no hay datos en este gráfico, no hacemos nada especial
+        println("total contador $contador");
+
+
+
+    }
+}
+
+
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -83,7 +230,10 @@ fun ScreenGraficos(navController: NavController) {
 
                     }
                     Spacer(modifier = Modifier.height(16.dp)) // Espacio entre gráficos
+
                 }
+
+
             }
         }
 
@@ -91,37 +241,83 @@ fun ScreenGraficos(navController: NavController) {
 }
 
 
-/*
- LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Agregar múltiples gráficos a la pantalla
-            items(5) { index ->
-                // Puedes cambiar el nombre del juego o usar el mismo para todos
-                when (index) {
-                    0 -> resumenDatos2("sopa_letras", "Sopa de letras 1")
-                    1 -> resumenDatos2("secuencia", "Secuencia")
-                    2 -> resumenDatos2("rompecabezas", "Rompecabezas")
-                    3 -> resumenDatos2("cancelación_objetos", "SCancelacion de Objetos")
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun resumenDatos2(juegos: String, nombreGame: String) {
+    // Crear una lista mutable y reactiva que actualizará la UI automáticamente con elementos de tipo List<Any>
+    val editableList = remember { mutableStateListOf<List<Any>>() }
 
+    // Usar LaunchedEffect para ejecutar el bloque solo la primera vez
+    LaunchedEffect(juegos) { // Dependiendo de "juegos"
+        FirebaseCloudUser().getEvaluaciones({ evaluaciones ->
+            if (evaluaciones != null) {
+                // Limpiar la lista antes de agregar
+                editableList.clear()
+
+                // Transformar cada evaluación en un arreglo que contenga la fecha y calificación
+                evaluaciones.forEach { evaluacionMap ->
+                    val calificacion = evaluacionMap["calificacion"]?.toString()?.toIntOrNull() ?: 0  // Convertir calificación a Int
+                    val fechaCompleta = evaluacionMap["fecha"]?.toString() ?: "Sin fecha"
+
+                    // Separar fecha y hora
+                    val (fecha, hora) = fechaCompleta.split("T")
+                    val horaSinMilisegundos = hora.split(".")[0]
+
+                    // Formatear la hora a formato de 12 horas (AM/PM)
+                    val formatterHora = DateTimeFormatter.ofPattern("hh:mm:ss a")
+                    val horaFormateada = LocalTime.parse(horaSinMilisegundos).format(formatterHora)
+
+                    // Agregar a la lista como [fecha + horaFormateada, calificación]
+                    editableList.add(listOf("Nivel: $calificacion ", calificacion))
                 }
-                Spacer(modifier = Modifier.height(16.dp)) // Espacio entre gráficos
+            } else {
+                // Manejo de error si no hay evaluaciones
+                println("No se encontraron evaluaciones o hubo un error.")
+
+            }
+        }, juegos)
+    }
+
+    // Mostrar el contenido de la lista en un Text
+    if (editableList.isNotEmpty()) {
+        // Crear una lista de pares de fecha y calificación para el gráfico
+        val data = editableList.take(5).map { Pair(it[0] as String, it[1] as Int) }
+
+        Column(
+            modifier = Modifier
+                .padding(16.dp) // Agregar padding al Column
+                .border(BorderStroke(2.dp, androidx.compose.ui.graphics.Color.Black)) // Agregar borde
+                .padding(16.dp)
+                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),  // Padding interno dentro del Column
+            verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
+            // Generar el gráfico con los datos
+            Spacer(modifier = Modifier.height(10.dp))
+            Text("$nombreGame", color = androidx.compose.ui.graphics.Color.White, fontSize = Configuraciones.fontSizeNormal.sp )
+            Spacer(modifier = Modifier.height(20.dp))
+            BarChart(data = data)
+
+            // Mostrar los datos de las primeras 5 evaluaciones
+            data.forEach { (fecha, calificacion) ->
+                Text("Calificación: $calificacion", color = androidx.compose.ui.graphics.Color.White,fontSize = Configuraciones.fontSizeNormal.sp  )
             }
         }
-*/
+    } else {
+       // Text("No se encontraron evaluaciones ", color = androidx.compose.ui.graphics.Color.White, textAlign = TextAlign.Center)
 
-/*
-fun ScreenGraficos(navController: NavController){
-    Scaffold {
-
-        resumenDatos2("sopa_letras", "Sopa de letras")
-        Spacer(modifier = Modifier.height(10.dp))
-        resumenDatos2("sopa_letras", "Sopa de letras")
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "No se encontraron graficos de " )
+        }
     }
+    Spacer(modifier = Modifier.height(12.dp))
 }
 */
-
 @Composable
 fun BarChart(data: List<Pair<String, Int>>) {
     val maxDataValue = if (data.isNotEmpty()) data.maxOf { it.second }.toFloat() else 1f
@@ -176,96 +372,3 @@ fun BarChart(data: List<Pair<String, Int>>) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun resumenDatos2(juegos: String, nombreGame: String) {
-    // Crear una lista mutable y reactiva que actualizará la UI automáticamente con elementos de tipo List<Any>
-    val editableList = remember { mutableStateListOf<List<Any>>() }
-
-    // Usar LaunchedEffect para ejecutar el bloque solo la primera vez
-    LaunchedEffect(juegos) { // Dependiendo de "juegos"
-        FirebaseCloudUser().getEvaluaciones({ evaluaciones ->
-            if (evaluaciones != null) {
-                // Limpiar la lista antes de agregar
-                editableList.clear()
-
-                // Transformar cada evaluación en un arreglo que contenga la fecha y calificación
-                evaluaciones.forEach { evaluacionMap ->
-                    val calificacion = evaluacionMap["calificacion"]?.toString()?.toIntOrNull() ?: 0  // Convertir calificación a Int
-                    val fechaCompleta = evaluacionMap["fecha"]?.toString() ?: "Sin fecha"
-
-                    // Separar fecha y hora
-                    val (fecha, hora) = fechaCompleta.split("T")
-                    val horaSinMilisegundos = hora.split(".")[0]
-
-                    // Formatear la hora a formato de 12 horas (AM/PM)
-                    val formatterHora = DateTimeFormatter.ofPattern("hh:mm:ss a")
-                    val horaFormateada = LocalTime.parse(horaSinMilisegundos).format(formatterHora)
-
-                    // Agregar a la lista como [fecha + horaFormateada, calificación]
-                    editableList.add(listOf("Nivel: $calificacion ", calificacion))
-                }
-            } else {
-                // Manejo de error si no hay evaluaciones
-                println("No se encontraron evaluaciones o hubo un error.")
-            }
-        }, juegos)
-    }
-
-    // Mostrar el contenido de la lista en un Text
-    if (editableList.isNotEmpty()) {
-        // Crear una lista de pares de fecha y calificación para el gráfico
-        val data = editableList.take(5).map { Pair(it[0] as String, it[1] as Int) }
-
-        Column(
-            modifier = Modifier
-                .padding(16.dp) // Agregar padding al Column
-                .border(BorderStroke(2.dp, androidx.compose.ui.graphics.Color.Black)) // Agregar borde
-                .padding(16.dp)
-                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),  // Padding interno dentro del Column
-            verticalArrangement = Arrangement.Top,  // Centra los elementos verticalmente
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ) {
-            // Generar el gráfico con los datos
-            Spacer(modifier = Modifier.height(10.dp))
-            Text("$nombreGame", color = androidx.compose.ui.graphics.Color.White, fontSize = Configuraciones.fontSizeNormal.sp )
-            Spacer(modifier = Modifier.height(20.dp))
-            BarChart(data = data)
-
-            // Mostrar los datos de las primeras 5 evaluaciones
-            data.forEach { (fecha, calificacion) ->
-                Text("Calificación: $calificacion", color = androidx.compose.ui.graphics.Color.White,fontSize = Configuraciones.fontSizeNormal.sp  )
-            }
-        }
-    } else {
-        Text("No se encontraron evaluaciones o hubo un error.", color = androidx.compose.ui.graphics.Color.White, textAlign = TextAlign.Center)
-    }
-    Spacer(modifier = Modifier.height(12.dp))
-}
-
-
-@Composable
-fun graficos() {
-    val evaluaciones = listOf(
-        "2024-10-20" to 5,
-        "2024-10-21" to 7,
-        "2024-10-22" to 4,
-        "2024-10-23" to 6,
-        "2024-10-24" to 8
-    )
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "Evolución de Calificaciones",
-            //style = MaterialTheme.typography.h6,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        BarChart(data = evaluaciones)
-    }
-}

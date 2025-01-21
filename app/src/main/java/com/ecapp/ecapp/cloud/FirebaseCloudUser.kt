@@ -293,6 +293,23 @@ println(fecha)
                 callback(null)
             }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateFechaConecion(correoUsuario: String  ){
+
+
+        val db = FirebaseFirestore.getInstance()
+
+        val userDocRef = db.collection("users").document(correoUsuario)
+        userDocRef.update("FechaConection",DateUser.getFecha().toString())
+            .addOnSuccessListener {
+                println("FechaConection actualizada correctamente.")
+            }
+            .addOnFailureListener { e ->
+                println("Error al actualizar FechaConection: ${e.message}")
+            }
+
+    }
 }
 
 

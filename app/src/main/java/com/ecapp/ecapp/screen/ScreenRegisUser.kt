@@ -3,9 +3,11 @@ package com.ecapp.ecapp.screen
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.os.Build
 import android.util.Log
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -65,6 +67,7 @@ class SharedViewModel : ViewModel() {
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun RegistroUser(navController: NavController){
@@ -76,6 +79,7 @@ fun RegistroUser(navController: NavController){
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun FormularioRegistro(navController: NavController) {
     val context = LocalContext.current
@@ -88,6 +92,7 @@ private fun FormularioRegistro(navController: NavController) {
     var telefono by remember {mutableStateOf("") }
     var password2 by remember {mutableStateOf("") }
     var genero by remember {mutableStateOf("") }
+    var fechaConecion by remember {mutableStateOf("") }
     val genderList = listOf("Masculino", "Femenino", "Otro")
     val scrollState = rememberScrollState()
     var isLoadingDialogVisible by remember { mutableStateOf(false) }
@@ -105,7 +110,7 @@ private fun FormularioRegistro(navController: NavController) {
 
     if (isErrorDialogVisible) {
         AlertDialog(
-            onDismissRequest = { isErrorDialogVisible = false;
+            onDismissRequest = { isErrorDialogVisible = false
                 isLoadingDialogVisible=false;},
             title = { Text("Error al crear la cuenta. Es probable que este correo ya esté registrado. Inténtalo de nuevo.") },
             text = { Text(errorMessage) },
@@ -215,9 +220,9 @@ private fun FormularioRegistro(navController: NavController) {
         OutlinedButton(
             onClick = {
                 //valido que todos los campos no esten vacios
-
+                fechaConecion= DateUser.getFecha()
                 if(nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || password.isEmpty() || DateUser.fechaNacimiento.isEmpty() || DateUser.genero.isEmpty()
-                    || direccion.isEmpty() || telefono.isEmpty()){
+                    || direccion.isEmpty() || telefono.isEmpty() || fechaConecion.isEmpty()){
 
                     Toast.makeText(context, "Porfavor Ingresa todos los Datos"
                         , Toast.LENGTH_SHORT).show()
@@ -230,7 +235,7 @@ private fun FormularioRegistro(navController: NavController) {
                             "correo: ${DateUser.correo}  " , Toast.LENGTH_SHORT).show()
                     */
                     Log.d("info", "nombre: $nombre  apellido: $apellido  fecha:${DateUser.fechaNacimiento}  " +
-                            "genero:  ${DateUser.genero}")
+                            "genero:  ${DateUser.genero} $fechaConecion")
 
                     try {
               //intento registrar el usuario y guardar los datos en cloud
@@ -254,7 +259,8 @@ private fun FormularioRegistro(navController: NavController) {
                                             "Genero" to DateUser.genero,
                                             "Correo" to DateUser.correo,
                                             "Direccion" to direccion,
-                                            "Telefono" to telefono
+                                            "Telefono" to telefono,
+                                            "FechaConection" to fechaConecion
 
 
 
@@ -313,7 +319,7 @@ private fun FormularioRegistro(navController: NavController) {
         ) {
             Text(text = "Registrar", fontSize = 18.sp )
         }
-
+        Spacer(modifier = Modifier.height(150.dp))
 
 
 
@@ -820,11 +826,11 @@ fun DatePickerTextField() {
     )
 
     // Interfaz del TextField con el DatePicker
-    Column() {
+    Column {
         TextField(
             value = selectedDate,
             onValueChange = {
-                fecha= selectedDate.toString();
+                fecha= selectedDate.toString()
             },
             label = { Text(text = "Fecha de Nacimiento") },
             modifier = Modifier
@@ -889,7 +895,7 @@ fun GenderSelection() {
         }
 
         //Text(text = "Género seleccionado: $selectedGender")
-        DateUser.genero=selectedGender;
+        DateUser.genero=selectedGender
     }
 }
 

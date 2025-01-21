@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -97,7 +98,7 @@ fun progresoLaberinto(navController: NavController){
                 Spacer(modifier = Modifier.height(20.dp))
 
 
-                Text("Resumen Semanal Laberinto", color = Color.White,
+                Text("Resumen Semanal Laberinto", style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
                     fontSize = Configuraciones.fontSizeNormal.sp, textAlign = TextAlign.Center)
 
                 resumenDatos( "laberinto")

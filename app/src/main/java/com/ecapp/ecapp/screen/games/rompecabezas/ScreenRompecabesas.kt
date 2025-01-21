@@ -44,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.Configuraciones
 import com.ecapp.ecapp.utils.DateUser
@@ -166,18 +167,21 @@ fun gameRompeCabezasNivel1(navController: NavController) {
             Text(
                 text = "Rompe Cabezas",
                 fontSize = Configuraciones.fontSizeTitulos.sp,
-                color = Color.White
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                //color = Color.White
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "Nivel ${DateUser.nivelRompeCabezas}",
                 fontSize = Configuraciones.fontSizeNormal.sp,
-                color = Color.White
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+               // color = Color.White
             )
             Text(
                 text = "Vidas ${DateUser.vidasRompecabesas}",
                 fontSize = Configuraciones.fontSizeNormal.sp,
-                color = Color.White
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+               // color = Color.White
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -347,18 +351,21 @@ fun  ScreenGameRompeCabezasNivel2(navController: NavController) {
             Text(
                 text = "Rompe Cabezas",
                 fontSize = Configuraciones.fontSizeTitulos.sp,
-                color = Color.White
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                //color = Color.White
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "Nivel ${DateUser.nivelRompeCabezas}",
                 fontSize = Configuraciones.fontSizeNormal.sp,
-                color = Color.White
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                //color = Color.White
             )
             Text(
                 text = "Vidas ${DateUser.vidasRompecabesas}",
                 fontSize = Configuraciones.fontSizeNormal.sp,
-                color = Color.White
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+               // color = Color.White
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -523,18 +530,21 @@ fun  ScreenGameRompeCabezasNivel3(navController: NavController) {
             Text(
                 text = "Rompe Cabezas",
                 fontSize = Configuraciones.fontSizeTitulos.sp,
-                color = Color.White
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+              //  color = Color.White
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "Nivel ${DateUser.nivelRompeCabezas}",
                 fontSize = Configuraciones.fontSizeNormal.sp,
-                color = Color.White
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                //color = Color.White
             )
             Text(
                 text = "Vidas ${DateUser.vidasRompecabesas}",
                 fontSize = Configuraciones.fontSizeNormal.sp,
-                color = Color.White
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+               // color = Color.White
             )
 
             Spacer(modifier = Modifier.height(20.dp))

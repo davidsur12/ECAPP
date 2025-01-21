@@ -37,10 +37,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.cloud.FirebaseCloudUser
+import com.ecapp.ecapp.utils.Configuraciones
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -104,7 +107,8 @@ fun progresoSecuencia(navController: NavController){
                     )
                 }
 
-                Text("Resumen Semanal Secuencia", color = Color.White)
+                Text("Resumen Semanal Secuencia", style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                    fontSize = Configuraciones.fontSizeNormal.sp,)
 
                 resumenDatos( "secuencia")
             }

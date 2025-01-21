@@ -50,7 +50,7 @@ import com.ecapp.ecapp.screen.progreso.graficos.ScreenGraficos
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AppNavegation(){
+fun AppNavegation() {
     val navController = rememberNavController()
 
     NavHost(
@@ -70,7 +70,7 @@ fun AppNavegation(){
         composable(route = AppScreens.screenUser.route) {
             HomeScreen2(navController)
         }
-          //pntalla de registro de usuario
+        //pntalla de registro de usuario
         composable(route = AppScreens.screenRegisterUser.route) {
             RegistroUser(navController)
         }
@@ -152,7 +152,7 @@ fun AppNavegation(){
         }
 
         //pantalla de felicitaciones sopa de letras
-        composable(route = AppScreens. screenFelicitacionesGameSopaLetras.route) {
+        composable(route = AppScreens.screenFelicitacionesGameSopaLetras.route) {
             ScreenFelicitacionesSopaLetras(navController)
 
         }
@@ -162,8 +162,6 @@ fun AppNavegation(){
             ScreenGameLaberinto(navController)
 
         }
-
-
 
 
         //pantalla de GameOver RompeCabezas
@@ -196,13 +194,13 @@ fun AppNavegation(){
 
         }
 
-/*
-        //pantalla de  Resumen Diario
-        composable(route = AppScreens.screenProgresoGames.route) {
-            ScreenProgresoGames(navController)
+        /*
+                //pantalla de  Resumen Diario
+                composable(route = AppScreens.screenProgresoGames.route) {
+                    ScreenProgresoGames(navController)
 
-        }
-        */
+                }
+                */
 
         //pantalla de  progreso de los juegos sopa de letras
         composable(route = AppScreens.screenProgresoGamesSopaLetras.route) {
@@ -269,10 +267,6 @@ fun AppNavegation(){
             progresoLaberinto(navController)
 
         }
-
-
-
-
 
 
     }

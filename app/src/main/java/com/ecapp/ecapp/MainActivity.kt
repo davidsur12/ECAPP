@@ -88,7 +88,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onPause() {
         super.onPause()
-        Toast.makeText(this,"OnPause", Toast.LENGTH_SHORT).show()
+
     }
 
 

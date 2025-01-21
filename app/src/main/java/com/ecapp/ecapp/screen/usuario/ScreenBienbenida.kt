@@ -73,8 +73,7 @@ fun informacionBienbenida(navController: NavController){
             Spacer(modifier = Modifier.height(15.dp))
 
         }
-        val context = LocalContext.current
-        Toast.makeText(context, "usuario: ${DateUser.correo}", Toast.LENGTH_SHORT).show()
+
         Button(
             onClick = {navController.navigate(AppScreens.screenUser.route)},
             modifier = Modifier.padding(16.dp)

@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -109,7 +110,8 @@ fun progresoSopaLetras(navController: NavController){
 
 
 
-                Text("Resumen Semanal Sopa de Letras", color = Color.White, fontSize = Configuraciones.fontSizeNormal.sp)
+                Text("Resumen Semanal Sopa de Letras", style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                    fontSize = Configuraciones.fontSizeNormal.sp,)
 
                 resumenDatos( "sopa_letras")
             }
@@ -239,7 +241,8 @@ fun resumenDatos(juegos: String) {
             }
         }
     } else {
-        Text("No se encontraron evaluaciones.", color = Color.White, textAlign = TextAlign.Center, fontSize = Configuraciones.fontSizeNormal.sp)
+        Text("No se encontraron evaluaciones.", style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+            fontSize = Configuraciones.fontSizeNormal.sp,)
     }
     Spacer(modifier = Modifier.height(12.dp))
 }

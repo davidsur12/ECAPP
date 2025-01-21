@@ -41,9 +41,9 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun PerfilUser(navController: NavController){
+fun PerfilUser(navController: NavController) {
 
-InfoUser(navController)
+    InfoUser(navController)
 
 }
 
@@ -51,9 +51,9 @@ InfoUser(navController)
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InfoUser(navController: NavController){
+fun InfoUser(navController: NavController) {
 //regreso a la pantalla de opciones y borro de la pila la pantalla actual
-    BackHandler{
+    BackHandler {
         navController.navigate("screenUser") {
             popUpTo("screenUser") { inclusive = true } // Elimina la pantalla actual de la pila
         }
@@ -66,6 +66,7 @@ fun InfoUser(navController: NavController){
     var genero by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
     var telefono by remember { mutableStateOf("") }
+    var ultimaFechaConectado: String by remember { mutableStateOf("Te acabas de registrar") }
 
     Scaffold(
         modifier = Modifier
@@ -83,21 +84,24 @@ fun InfoUser(navController: NavController){
                 }
             )
         },
-        content ={paddingValues ->
+        content = { paddingValues ->
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(paddingValues)
                     .background(
                         colorResource(com.ecapp.ecapp.R.color.morado_fondo)
                     )
                     .verticalScroll(
                         rememberScrollState(),
-                    ),horizontalAlignment = Alignment.CenterHorizontally
-            ){
+                    ), horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
                 Spacer(modifier = Modifier.height(50.dp))
-                Text("Informacion Personal",textAlign = TextAlign.Center ,
-                    fontSize = 24.sp, color = Color.White)
+                Text(
+                    "Informacion Personal", textAlign = TextAlign.Center,
+                    fontSize = 24.sp, color = Color.White
+                )
                 Spacer(modifier = Modifier.height(30.dp))
 
                 Icon(
@@ -107,13 +111,27 @@ fun InfoUser(navController: NavController){
                     modifier = Modifier.size(130.dp)
                 )
                 Spacer(modifier = Modifier.height(20.dp))
+
+
+
+
+                Text(
+                    text = " última conexión: " + ultimaFechaConectado,
+                    fontSize = 22.sp, // Tamaño del texto
+                    textAlign = TextAlign.Center, // Alineación del texto
+                    modifier = Modifier.fillMaxSize(), // Modificador para tamaño y disposición
+                    color = Color.White
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
                     value = nombre,
                     onValueChange = { nombre = it },
                     label = { Text("Nombre Completo") },
 
-                    modifier =  Modifier.background(Color.White,)
+                    modifier = Modifier.background(Color.White)
                 )
+
                 Spacer(modifier = Modifier.height(50.dp))
 
                 OutlinedTextField(
@@ -121,7 +139,7 @@ fun InfoUser(navController: NavController){
                     onValueChange = { fechaNac = it },
                     label = { Text("Fecha de Nacimiento") },
 
-                    modifier =  Modifier.background(Color.White,)
+                    modifier = Modifier.background(Color.White)
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
@@ -131,7 +149,7 @@ fun InfoUser(navController: NavController){
                     onValueChange = { genero = it },
                     label = { Text("Genero") },
 
-                    modifier =  Modifier.background(Color.White,)
+                    modifier = Modifier.background(Color.White)
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
@@ -141,7 +159,7 @@ fun InfoUser(navController: NavController){
                     onValueChange = { direccion = it },
                     label = { Text("Direccion") },
 
-                    modifier =  Modifier.background(Color.White,)
+                    modifier = Modifier.background(Color.White)
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
@@ -151,7 +169,7 @@ fun InfoUser(navController: NavController){
                     onValueChange = { telefono = it },
                     label = { Text("Telefono") },
 
-                    modifier =  Modifier.background(Color.White,)
+                    modifier = Modifier.background(Color.White)
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
@@ -168,19 +186,21 @@ fun InfoUser(navController: NavController){
                     */
                     val userData = FirebaseCloudUser().getDataUser(DateUser.correo)
                     if (userData != null) {
+                        ultimaFechaConectado= userData["FechaConection"].toString()
                         nombre = userData["Nombre"].toString() + " " + userData["Apellido"]
                         fechaNac = userData["FechaNac"].toString()
                         genero = userData["Genero"].toString()
                         direccion = userData["Direccion"].toString()
                         telefono = userData["Telefono"].toString()
 
+                        DateUser.FechaConection=ultimaFechaConectado;
                         DateUser.nombre = nombre
-                        DateUser.apellido=userData["Apellido"].toString()
-                        DateUser.genero=genero
-                        DateUser.fechaNacimiento=fechaNac
-                        DateUser.telefono=telefono
-                        DateUser.direccion=direccion
-                        DateUser.genero=userData["Correo"].toString()
+                        DateUser.apellido = userData["Apellido"].toString()
+                        DateUser.genero = genero
+                        DateUser.fechaNacimiento = fechaNac
+                        DateUser.telefono = telefono
+                        DateUser.direccion = direccion
+                        DateUser.genero = userData["Correo"].toString()
 
                     } else {
                         println("No se encontró el usuario o ocurrió un error.")
@@ -189,13 +209,10 @@ fun InfoUser(navController: NavController){
                 // Text("")
 
 
-
             }
         }
 
     )
-
-
 
 
 }

@@ -1,5 +1,10 @@
 package com.ecapp.ecapp.utils
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 object DateUser {
 
 fun reseteoDatos(){
@@ -37,6 +42,7 @@ fun reseteoDatos(){
     var correo:String=""
     var direccion:String=""
     var telefono:String=""
+    var FechaConection:String="";
 
 
   var calificacionGameMemoria=0
@@ -72,7 +78,16 @@ fun reseteoDatos(){
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getFecha():String {
+        val fechaHoraActual = LocalDateTime.now();
+        val formato = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm")
+        val fechaHoraFormateada = fechaHoraActual.format(formato)
 
+        println("Fecha y hora actual: $fechaHoraFormateada")
+
+        return fechaHoraFormateada.toString();
+    }
 
 
 
