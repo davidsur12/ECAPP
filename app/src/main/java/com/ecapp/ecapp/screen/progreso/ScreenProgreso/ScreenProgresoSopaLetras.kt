@@ -72,7 +72,7 @@ fun progresoSopaLetras(navController: NavController){
             TopAppBar(
 
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorResource(com.ecapp.ecapp.R.color.purple_500),
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado_fondo),
                     titleContentColor = Color.White,
                 ),
                 title = {
@@ -110,7 +110,7 @@ fun progresoSopaLetras(navController: NavController){
 
 
 
-                Text("Resumen Semanal Sopa de Letras", style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                Text("Resumen Semanal Sopa de Letras", style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
                     fontSize = Configuraciones.fontSizeNormal.sp,)
 
                 resumenDatos( "sopa_letras")

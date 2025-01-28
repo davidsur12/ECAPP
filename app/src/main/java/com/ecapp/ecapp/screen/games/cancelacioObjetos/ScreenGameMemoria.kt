@@ -196,7 +196,9 @@ fun ScreenGameMemoria(navController: NavController) {
         Text(
             text = "Nivel: $nivel",
             fontSize = Configuraciones.fontSizeTitulos.sp,
-            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold,
+                color = colorResource(com.ecapp.ecapp.R.color.white),
+                ),
          //   color = Color.Black,
             textAlign = TextAlign.Center
         )
@@ -205,11 +207,14 @@ fun ScreenGameMemoria(navController: NavController) {
             "Cancelación de Objetos",
             fontSize = Configuraciones.fontSizeTitulos.sp,
             textAlign = TextAlign.Center,
-            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold,
+                color = colorResource(com.ecapp.ecapp.R.color.white),),
           //  color = Color.White
         )
 
-        Text("Total de Vidas: $vidas",  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold), fontSize = Configuraciones.fontSizeNormal.sp)
+        Text("Total de Vidas: $vidas",  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+            fontSize = Configuraciones.fontSizeNormal.sp,
+            color = colorResource(com.ecapp.ecapp.R.color.white),)
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),  // Cambiamos a 4 columnas para 4x4
@@ -269,7 +274,8 @@ fun ScreenGameMemoria(navController: NavController) {
                 text = "Por favor Encuentra la Siguiente Imagen",
                 modifier = Modifier.align(Alignment.Center),
                 fontSize = Configuraciones.fontSizeNormal.sp,
-                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold,
+                    color = colorResource(com.ecapp.ecapp.R.color.white),),
                 //color = Color.White
             )
         }

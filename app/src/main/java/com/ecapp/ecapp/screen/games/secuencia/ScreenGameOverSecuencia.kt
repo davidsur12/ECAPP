@@ -3,6 +3,7 @@ package com.ecapp.ecapp.screen.games.secuencia
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,11 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,6 +48,9 @@ fun gameOverSecuencia(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxSize()
+            .background(
+                colorResource(com.ecapp.ecapp.R.color.morado_fondo)
+                )
     ) {
 
         // Mostrar u ocultar la columna según el estado
@@ -51,12 +58,15 @@ fun gameOverSecuencia(navController: NavController){
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .background(
+                    colorResource(com.ecapp.ecapp.R.color.morado_fondo)
+                    ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(text = "Oops", fontSize = 25.sp)
-            Text(text = "Fallaste Vuelve a Intentarlo", fontSize = 30.sp, // Ocupa el ancho completo
+            Text(text = "Oops", fontSize = 25.sp, color = Color.White)
+            Text(text = "Fallaste Vuelve a Intentarlo", fontSize = 30.sp, color = Color.White, // Ocupa el ancho completo
                 textAlign = TextAlign.Center)
 
             Image(
@@ -65,8 +75,18 @@ fun gameOverSecuencia(navController: NavController){
                 modifier = Modifier.size(100.dp) // Cambia el tamaño de la imagen si lo deseas
             )
 
-            Button(onClick = {navController.navigate(AppScreens.screenGameSecuencia.route)} , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
-            Button(onClick = {navController.navigate(AppScreens.screenUser.route)}, modifier = Modifier.width(175.dp)){ Text("Inicio") }
+            Button(onClick = {navController.navigate(AppScreens.screenGameSecuencia.route)},
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                    contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                    // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                ), modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
+            Button(onClick = {navController.navigate(AppScreens.screenUser.route)},
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                    contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                    // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                ), modifier = Modifier.width(175.dp)){ Text("Inicio") }
 
         }
 

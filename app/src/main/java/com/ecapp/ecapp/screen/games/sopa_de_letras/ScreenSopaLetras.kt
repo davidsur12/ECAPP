@@ -131,18 +131,18 @@ fun gameSopaLetras(navController: NavController) {
             "Sopa de Letras",
             fontSize = Configuraciones.fontSizeNormal.sp,
             fontWeight = FontWeight.Bold,
-            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
            // color = Color.White
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text("Vidas: $vidas", fontSize = Configuraciones.fontSizeNormal.sp,  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),)
-        Text("Nivel: ${nivelActual + 1}",fontSize = Configuraciones.fontSizeNormal.sp,  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),)
+        Text("Vidas: $vidas", fontSize = Configuraciones.fontSizeNormal.sp,  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),)
+        Text("Nivel: ${nivelActual + 1}",fontSize = Configuraciones.fontSizeNormal.sp,  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),)
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             "Encuentra las palabras:",
             fontSize = Configuraciones.fontSizeNormal.sp,
             fontWeight = FontWeight.Bold,
-            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -152,7 +152,7 @@ fun gameSopaLetras(navController: NavController) {
                 nivelConfig.palabras,
                 fontSize = Configuraciones.fontSizeNormal.sp,
                 //color = Color.White,
-                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
                 textAlign = TextAlign.Center
             )
         }

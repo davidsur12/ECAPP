@@ -75,7 +75,8 @@ fun app(navController: NavController) {
             modifier = Modifier.padding(start = 16.dp, top = 90.dp, end = 16.dp, bottom = 20.dp),
             style = androidx.compose.ui.text.TextStyle(
                 fontSize = 45.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
         )
 

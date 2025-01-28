@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -59,7 +60,7 @@ fun ScreenGameLaberinto(navController: NavController) {
             Text(
                 text = "Laberinto",
                 fontSize = Configuraciones.fontSizeTitulos.sp,
-                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, bottom = 8.dp)
@@ -77,13 +78,13 @@ fun ScreenGameLaberinto(navController: NavController) {
                 Text(
 
                     text = "Nivel: ${nivel.value + 1}",
-                    style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                    style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
                     fontSize = Configuraciones.fontSizeNormal.sp,
                     modifier = Modifier.background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
                 )
                 Text(
                     text = "Vidas: " + "❤️".repeat(lives.value),
-                    style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                    style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
                     fontSize = Configuraciones.fontSizeNormal.sp,
                     modifier = Modifier.background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
                 )
@@ -368,12 +369,31 @@ fun PlayerControls(onMove: (String) -> Unit) {
             .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { onMove("up") }) { Text("Arriba") }
+            Button(onClick = { onMove("up") }, colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+            )) { Text("Arriba") }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { onMove("left") }) { Text("Izquierda") }
-            Button(onClick = { onMove("down") }) { Text("Abajo") }
-            Button(onClick = { onMove("right") }) { Text("Derecha") }
+            Button(onClick = { onMove("left") },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                    contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                    // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                )) { Text("Izquierda") }
+            Button(onClick = { onMove("down") },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                    contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                    // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                )) { Text("Abajo") }
+            Button(onClick = { onMove("right") },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                    contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                    // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                )) { Text("Derecha") }
         }
     }
 }

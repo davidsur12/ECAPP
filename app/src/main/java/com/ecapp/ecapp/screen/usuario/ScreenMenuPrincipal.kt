@@ -77,7 +77,7 @@ fun HomeScreen2(navController: NavController){
             TopAppBar(
 
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorResource(com.ecapp.ecapp.R.color.purple_500),
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado_fondo),
                     titleContentColor = Color.White,
                 ),
                 title = {
@@ -170,7 +170,13 @@ fun HomeScreen2(navController: NavController){
                         FirebaseCloudUser().updateFechaConecion(DateUser.correo);
                         Firebase.auth.signOut()
                         navController.navigate(AppScreens.screenHome.route)
-                    }) {
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                        contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                           // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                    )
+                ) {
                     Text(text =  "Cerrar sesión" ,  fontSize = 17.sp)
 
                 }

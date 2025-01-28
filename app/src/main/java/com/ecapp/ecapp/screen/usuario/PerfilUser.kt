@@ -76,7 +76,7 @@ fun InfoUser(navController: NavController) {
             TopAppBar(
 
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorResource(com.ecapp.ecapp.R.color.purple_500),
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado_fondo),
                     titleContentColor = Color.White,
                 ),
                 title = {

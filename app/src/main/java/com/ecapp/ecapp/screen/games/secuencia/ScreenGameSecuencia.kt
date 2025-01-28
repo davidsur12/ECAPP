@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Aod
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -195,15 +196,15 @@ fun gameSecuencia(navController: NavController) {
             "Actividad de Secuencia",
             fontSize = Configuraciones.fontSizeTitulos.sp,
             textAlign = TextAlign.Center,
-            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Text("Nivel ${DateUser.GameSecuenciaNivel + 1}",  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold), fontSize = 25.sp)
+        Text("Nivel ${DateUser.GameSecuenciaNivel + 1}",  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White), fontSize = 25.sp)
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             "Total de Vidas $vidas ",
-            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
             fontSize = Configuraciones.fontSizeNormal.sp,
         )
 
@@ -214,7 +215,7 @@ fun gameSecuencia(navController: NavController) {
         }
         Text(
             if (txtInicio.value) "Observa la Secuencia de las Imagenes " else " Completa la Secuencia que Acabas de Ver",
-            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+            style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
             fontSize = Configuraciones.fontSizeNormal.sp,
             textAlign = TextAlign.Center
         )
@@ -288,6 +289,11 @@ fun gameSecuencia(navController: NavController) {
                         txtInicio.value = false
                         btnPistaVisibility.value = true
                     },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                        contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                        // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                    ),
                     modifier = Modifier
                         .align(Alignment.BottomCenter) // Alinea el botón al centro inferior
                         .padding(bottom = 32.dp) // Ajusta la distancia desde el borde inferior
@@ -398,7 +404,11 @@ fun gameSecuencia(navController: NavController) {
 
                 btnPista.value = true
                 // Toast.makeText(context, "Pista", Toast.LENGTH_SHORT).show()
-            }, modifier = Modifier.width(300.dp)) {
+            },  colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+            ), modifier = Modifier.width(300.dp)) {
                 Text("Pista", fontSize = Configuraciones.fontSizeNormal.sp)
             }
 
@@ -406,7 +416,12 @@ fun gameSecuencia(navController: NavController) {
                 // Quita el último icono de la lista si hay alguno
 
                 iconosSelecionados.clear()
-            }, modifier = Modifier.width(300.dp)) {
+            },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                    contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                    // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                ), modifier = Modifier.width(300.dp)) {
                 Text("Borrar", fontSize = Configuraciones.fontSizeNormal.sp)
             }
 

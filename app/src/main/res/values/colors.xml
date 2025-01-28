@@ -7,5 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="morado_fondo">#c25efc</color>
+    <color name="morado_fondo">#386494</color>
+    <color name="morado">#6b037d</color>
+
 </resources>

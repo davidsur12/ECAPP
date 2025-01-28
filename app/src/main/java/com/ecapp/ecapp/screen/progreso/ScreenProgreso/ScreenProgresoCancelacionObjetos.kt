@@ -58,11 +58,11 @@ fun progresoCancelacionObjetos(navController: NavController){
             TopAppBar(
 
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorResource(com.ecapp.ecapp.R.color.purple_500),
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado_fondo),
                     titleContentColor = Color.White,
                 ),
                 title = {
-                    Text("Resumen Semanal")
+                    Text("Resumen Semanal",)
                 }
             )
         },
@@ -98,7 +98,7 @@ fun progresoCancelacionObjetos(navController: NavController){
                 Spacer(modifier = Modifier.height(20.dp))
 
 
-                Text("Resumen Semanal Cancelacion de Objetos",style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+                Text("Resumen Semanal Cancelacion de Objetos",style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
                     fontSize = Configuraciones.fontSizeNormal.sp,
                  textAlign = TextAlign.Center)
 

@@ -80,7 +80,7 @@ fun progresoGamesOpciones(navController: NavController){
             TopAppBar(
 
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorResource(com.ecapp.ecapp.R.color.purple_500),
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado_fondo),
                     titleContentColor = Color.White,
                 ),
                 title = {
@@ -120,7 +120,7 @@ fun progresoGamesOpciones(navController: NavController){
 Text("Por Favor selecciona la actividad de la cual deseas conocer tus Resumenes" ,
     fontSize = Configuraciones.fontSizeNormal.sp
 , textAlign = TextAlign.Center
-    ,  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold),
+    ,  style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold, color = Color.White),
     )
                 Spacer(modifier = Modifier.height(20.dp))
 
