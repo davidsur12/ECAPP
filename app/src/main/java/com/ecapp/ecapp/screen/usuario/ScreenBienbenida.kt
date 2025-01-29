@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,7 +59,7 @@ fun informacionBienbenida(navController: NavController){
             fontWeight = FontWeight.Bold,)
         Spacer(modifier = Modifier.height(50.dp))
 
-        Column(modifier = Modifier.background(Color.Magenta).fillMaxWidth(1f),
+        Column(modifier = Modifier.background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)).fillMaxWidth(1f),
             horizontalAlignment = Alignment.CenterHorizontally,
         ){
             Spacer(modifier = Modifier.height(15.dp))
@@ -69,13 +70,18 @@ fun informacionBienbenida(navController: NavController){
             Spacer(modifier = Modifier.height(15.dp))
             Text("Nos alegra que estés aquí. Juntos, haremos de cada día una oportunidad para ejercitar tu mente, descubrir nuevas habilidades y mantenerte activo.\n" +
                     "Esta es tu herramienta para disfrutar de un bienestar cognitivo en un ambiente amigable\n" +
-                    "y adaptado a ti. ¡Empecemos!", textAlign = TextAlign.Center)
+                    "y adaptado a ti. ¡Empecemos!", textAlign = TextAlign.Center,  color = Color.White)
             Spacer(modifier = Modifier.height(15.dp))
 
         }
 
         Button(
             onClick = {navController.navigate(AppScreens.screenUser.route)},
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+            ),
             modifier = Modifier.padding(16.dp)
         ) {
             Text(text = "Comencemos")

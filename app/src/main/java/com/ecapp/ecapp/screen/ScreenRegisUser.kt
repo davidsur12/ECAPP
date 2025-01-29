@@ -30,6 +30,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -311,8 +312,10 @@ private fun FormularioRegistro(navController: NavController) {
 
                 //comprovar y registrar los datos
             },
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = Color.White // Cambiar el fondo a blanco
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
+                contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
             ),
             modifier = Modifier.padding(16.dp)
                 .width(300.dp)
@@ -857,6 +860,11 @@ fun GenderSelection() {
         ) {
             Text(text = "Masculino", color = Color.White, fontSize = 18.sp)
             Checkbox(
+                colors = CheckboxDefaults.colors(
+                    checkedColor = Color.Blue, // Color cuando está marcado
+                    uncheckedColor = Color.Black, // Color cuando está desmarcado
+                    checkmarkColor = Color.White // Color de la marca de verificación
+                ),
                 checked = isMaleChecked,
                 onCheckedChange = { isChecked ->
                     isMaleChecked = isChecked
@@ -874,7 +882,11 @@ fun GenderSelection() {
         ) {
             Text(text = "Femenino", color = Color.White, fontSize = 18.sp)
             Checkbox(
-
+                colors = CheckboxDefaults.colors(
+                    checkedColor = Color.Blue, // Color cuando está marcado
+                    uncheckedColor = Color.Black, // Color cuando está desmarcado
+                    checkmarkColor = Color.White // Color de la marca de verificación
+                ),
                 checked = isFemaleChecked,
                 onCheckedChange = { isChecked ->
                     isFemaleChecked = isChecked

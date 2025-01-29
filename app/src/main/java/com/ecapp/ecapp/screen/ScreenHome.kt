@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -87,10 +88,11 @@ fun app(navController: NavController) {
         )
 
         Text(
-            "Aplicación Estimulación Cognitiva",
+            "Aplicación de Estimulación Cognitiva para Personas Adultas Mayores",
             modifier = Modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp),
             color = colorResource(com.ecapp.ecapp.R.color.white),
             style = androidx.compose.ui.text.TextStyle(
+                textAlign = TextAlign.Center,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
             )
