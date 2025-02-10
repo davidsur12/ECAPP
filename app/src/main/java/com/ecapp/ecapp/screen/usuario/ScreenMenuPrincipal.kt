@@ -98,7 +98,7 @@ fun HomeScreen2(navController: NavController){
 
                 Spacer(modifier = Modifier.height(50.dp))//separacion del top
                 //Texto de menu
-                Text("MENU",
+                Text("MENÚ",
                     color = Color.White, // Color del texto
                     fontSize = 27.sp,   // Tamaño del texto
                     fontWeight = FontWeight.Bold,)

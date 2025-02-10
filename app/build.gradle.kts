@@ -15,8 +15,8 @@ android {
         applicationId = "com.ecapp.ecapp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 12
-        versionName = "1.14"
+        versionCode = 14
+        versionName = "1.16"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -91,5 +91,6 @@ dependencies {
     implementation ("androidx.navigation:navigation-compose:{latest_version}")
     implementation("com.google.firebase:firebase-firestore")
     implementation ("androidx.compose.material:material-icons-extended:1.7.3")
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
 
 }
