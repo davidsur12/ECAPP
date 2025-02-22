@@ -22,24 +22,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,11 +63,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.cloud.LoginScreenViewModel
 import com.ecapp.ecapp.utils.DateUser
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class SharedViewModel : ViewModel() {
@@ -73,13 +84,12 @@ class SharedViewModel : ViewModel() {
 @Composable
 fun RegistroUser(navController: NavController){
     //scalfold de  regitro nuevo usuario
-    Scaffold {
 
         FormularioRegistro(navController)
-    }
+
 }
 
-
+/*
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun FormularioRegistro(navController: NavController) {
@@ -329,9 +339,511 @@ private fun FormularioRegistro(navController: NavController) {
     }
 }
 
+*/
+
+@OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun FormularioRegistro(navController: NavController) {
+    val context = LocalContext.current
+    var nombre by remember { mutableStateOf("") }
+    var apellido by remember { mutableStateOf("") }
+    var genero by remember { mutableStateOf("") }
+    var fechaNacimiento by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val genderList = listOf("Masculino", "Femenino", "Otro")
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColor = colorResource(com.ecapp.ecapp.R.color.morado_fondo)
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(50.dp))
+
+            Text(
+                text = "Registro de Usuario",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White // Color del texto en blanco
+            )
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            // Contenedor blanco para destacar los campos
+            Card (
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    OutlinedTextField(
+                        value = nombre,
+                        onValueChange = { nombre = it },
+                        label = { Text("Nombre") },
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = nombre.isBlank(),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = Color.Black,
+                            unfocusedBorderColor = Color.Gray,
+                           // textColor = Color.Black
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(15.dp))
+
+                    OutlinedTextField(
+                        value = apellido,
+                        onValueChange = { apellido = it },
+                        label = { Text("Apellido") },
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = apellido.isBlank(),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = Color.Black,
+                            unfocusedBorderColor = Color.Gray,
+                            //textColor = Color.Black
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(15.dp))
+
+                    // Campo para seleccionar la fecha de nacimiento
+                    DatePickerTextField()
+
+                    Spacer(modifier = Modifier.height(15.dp))
+
+                    Text(text = "Género:", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+
+                    genderList.forEach { genderOption ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { genero = genderOption }
+                                .padding(vertical = 4.dp)
+                        ) {
+                            RadioButton(
+                                selected = (genero == genderOption),
+                                onClick = { genero = genderOption }
+                            )
+                            Text(text = genderOption, fontSize = 16.sp, color = Color.Black)
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    if (errorMessage != null) {
+                        Text(
+                            text = errorMessage!!,
+                            color = Color.Red,
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
+                    }
+
+                    Button(
+                        onClick = {
+                            if (nombre.isBlank() || apellido.isBlank() || DateUser.fechaNacimiento.isBlank() || genero.isBlank()) {
+
+                               print("result nombre $nombre")
+                                print("result  apellido $apellido")
+                                print("result  fechaNacimineto $fechaNacimiento")
+                                print("result  genero $genero")
 
 
+                                errorMessage = "Todos los campos son obligatorios"
+                            } else {
+                                errorMessage = null
+                                println("Nombre: $nombre, Apellido: $apellido, Fecha de Nacimiento: ${DateUser.fechaNacimiento}, Género: $genero")
+                                navController.navigate(AppScreens.screenUser.route)
 
+                                Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                // Guardar datos en Firebase
+                                LoginScreenViewModel().registrarUsuarioEnFirebase(nombre, apellido, genero, DateUser.fechaNacimiento, context)
+                                val viewModel: MiViewModel = MiViewModel()
+                                viewModel.crearJuegos()
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        Text(text = "Registrar", fontSize = 18.sp)
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun FormularioRegistro(navController: NavController) {
+    val context = LocalContext.current
+    var nombre by remember { mutableStateOf("") }
+    var apellido by remember { mutableStateOf("") }
+    var genero by remember { mutableStateOf("") }
+    var fechaNacimiento by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val genderList = listOf("Masculino", "Femenino", "Otro")
+
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _, selectedYear, selectedMonth, selectedDay ->
+            fechaNacimiento = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+        },
+        year, month, day
+    )
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp)
+                .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(50.dp))
+
+            Text(
+                text = "Registro de Usuario",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            OutlinedTextField(
+                value = nombre,
+                onValueChange = { nombre = it },
+                label = { Text("Nombre") },
+                modifier = Modifier.fillMaxWidth(),
+                isError = nombre.isBlank()
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            OutlinedTextField(
+                value = apellido,
+                onValueChange = { apellido = it },
+                label = { Text("Apellido") },
+                modifier = Modifier.fillMaxWidth(),
+                isError = apellido.isBlank()
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            // Campo para seleccionar la fecha de nacimiento
+            DatePickerTextField()
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            Text(text = "Género:", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+
+            genderList.forEach { genderOption ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { genero = genderOption }
+                        .padding(vertical = 4.dp)
+                ) {
+                    RadioButton(
+                        selected = (genero == genderOption),
+                        onClick = { genero = genderOption }
+                    )
+                    Text(text = genderOption, fontSize = 16.sp)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            if (errorMessage != null) {
+                Text(
+                    text = errorMessage!!,
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(bottom = 10.dp)
+                )
+            }
+
+            Button(
+                onClick = {
+                    if (nombre.isBlank() || apellido.isBlank() || DateUser.fechaNacimiento.isBlank() || genero.isBlank()) {
+                        errorMessage = "Todos los campos son obligatorios"
+                    } else {
+                        errorMessage = null
+                        println("Nombre: $nombre, Apellido: $apellido, Fecha de Nacimiento: ${DateUser.fechaNacimiento}, Género: $genero")
+                        navController.navigate(AppScreens.screenUser.route)
+
+                        Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                        // Guardar datos en Firebase
+                        LoginScreenViewModel().registrarUsuarioEnFirebase(nombre, apellido, genero, DateUser.fechaNacimiento, context)
+                        val viewModel: MiViewModel = MiViewModel()
+                        viewModel.crearJuegos()
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text(text = "Registrar", fontSize = 18.sp)
+            }
+        }
+    }
+}
+
+*/
+
+/*
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun FormularioRegistro(navController: NavController) {
+    val context = LocalContext.current
+    var nombre by remember { mutableStateOf("") }
+    var apellido by remember { mutableStateOf("") }
+    var genero by remember { mutableStateOf("") }
+    var fechaNacimiento by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val genderList = listOf("Masculino", "Femenino", "Otro")
+
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _, selectedYear, selectedMonth, selectedDay ->
+            fechaNacimiento = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+        },
+        year, month, day
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFEDE7F6)) // Fondo lila claro
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(50.dp))
+
+        Text(
+            text = "Registro de Usuario",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black
+        )
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        OutlinedTextField(
+            value = nombre,
+            onValueChange = { nombre = it },
+            label = { Text("Nombre") },
+            modifier = Modifier.fillMaxWidth(),
+            isError = nombre.isBlank()
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        OutlinedTextField(
+            value = apellido,
+            onValueChange = { apellido = it },
+            label = { Text("Apellido") },
+            modifier = Modifier.fillMaxWidth(),
+            isError = apellido.isBlank()
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        // Campo para seleccionar la fecha de nacimiento
+        DatePickerTextField()
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        Text(text = "Género:", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+
+        genderList.forEach { genderOption ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { genero = genderOption }
+                    .padding(vertical = 4.dp)
+            ) {
+                RadioButton(
+                    selected = (genero == genderOption),
+                    onClick = { genero = genderOption }
+                )
+                Text(text = genderOption, fontSize = 16.sp)
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage!!,
+                color = Color.Red,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
+        }
+
+        Button(
+            onClick = {
+                if (nombre.isBlank() || apellido.isBlank() || DateUser.fechaNacimiento.isBlank() || genero.isBlank()) {
+                    errorMessage = "Todos los campos son obligatorios"
+                } else {
+                    errorMessage = null
+                    println("Nombre: $nombre, Apellido: $apellido, Fecha de Nacimiento: ${DateUser.fechaNacimiento}, Género: $genero")
+                    navController.navigate(AppScreens.screenUser.route);
+
+                    Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                    // Guardar datos en Firebase
+                    LoginScreenViewModel().registrarUsuarioEnFirebase(nombre, apellido, genero, DateUser.fechaNacimiento , context)
+                    var viewModel: MiViewModel = MiViewModel()
+                    viewModel.crearJuegos()
+
+
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
+            Text(text = "Registrar", fontSize = 18.sp)
+        }
+    }
+}
+*/
+
+/*
+@Composable
+fun FormularioRegistro(navController: NavController) {
+    val context = LocalContext.current
+    var nombre by remember { mutableStateOf("") }
+    var apellido by remember { mutableStateOf("") }
+    var genero by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val genderList = listOf("Masculino", "Femenino", "Otro")
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFEDE7F6)) // Fondo lila claro
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(50.dp))
+
+        Text(
+            text = "Registro de Usuario",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black
+        )
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        OutlinedTextField(
+            value = nombre,
+            onValueChange = { nombre = it },
+            label = { Text("Nombre") },
+            modifier = Modifier.fillMaxWidth(),
+            isError = nombre.isBlank()
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        OutlinedTextField(
+            value = apellido,
+            onValueChange = { apellido = it },
+            label = { Text("Apellido") },
+            modifier = Modifier.fillMaxWidth(),
+            isError = apellido.isBlank()
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        Text(text = "Género:", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+
+        genderList.forEach { genderOption ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { genero = genderOption }
+                    .padding(vertical = 4.dp)
+            ) {
+                RadioButton(
+                    selected = (genero == genderOption),
+                    onClick = { genero = genderOption }
+                )
+                Text(text = genderOption, fontSize = 16.sp)
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage!!,
+                color = Color.Red,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
+        }
+
+        Button(
+            onClick = {
+                if (nombre.isBlank() || apellido.isBlank() || genero.isBlank()) {
+                    errorMessage = "Todos los campos son obligatorios"
+                } else {
+                    errorMessage = null
+                    println("Nombre: $nombre apellido: $apellido genero: $genero")
+                    Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                    // Aquí puedes agregar la lógica para guardar los datos
+                    LoginScreenViewModel().registrarUsuarioEnFirebase(nombre, apellido, genero, context)
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
+            Text(text = "Registrar", fontSize = 18.sp)
+        }
+    }
+}
+*/
 
 /*
 @Composable
@@ -908,6 +1420,14 @@ fun GenderSelection() {
 
         //Text(text = "Género seleccionado: $selectedGender")
         DateUser.genero=selectedGender
+    }
+}
+
+class MiViewModel : ViewModel() {
+    fun crearJuegos() {
+        viewModelScope.launch {
+            FirebaseCloudUser().crearDocumentosGames()
+        }
     }
 }
 

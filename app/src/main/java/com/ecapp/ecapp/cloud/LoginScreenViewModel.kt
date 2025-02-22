@@ -8,9 +8,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 import android.content.Context
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Date
+import java.util.Locale
+
 
 class LoginScreenViewModel : ViewModel() {
     val auth: FirebaseAuth = Firebase.auth;
@@ -72,6 +81,59 @@ class LoginScreenViewModel : ViewModel() {
 
     fun outSession() {
         Firebase.auth.signOut();
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun registrarUsuarioEnFirebase(nombre: String, apellido: String, genero: String, fechaNac: String, context: Context) {
+        val auth = FirebaseAuth.getInstance()
+        val db = FirebaseFirestore.getInstance()
+
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+
+            guardarDatosEnFirestore(currentUser.uid, nombre, apellido, fechaNac, genero)
+        } else {
+            auth.signInAnonymously()
+                .addOnSuccessListener { authResult ->
+                    val uid = authResult.user?.uid
+                    if (uid != null) {
+                        guardarDatosEnFirestore(uid, nombre, apellido, fechaNac, genero)
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(context, "Error al registrar: ${exception.message}", Toast.LENGTH_LONG).show()
+                }
+        }
+    }
+
+
+    // Función para guardar los datos en Firestore
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun guardarDatosEnFirestore(uid: String, nombre: String, apellido: String, fechaNac: String, genero: String) {
+        val db = FirebaseFirestore.getInstance()
+        val fechaConecion = LocalDate.now();
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val fechaCon = sdf.format(Date())
+
+        val usuario = hashMapOf(
+            "uid" to uid,
+            "nombre" to nombre,
+            "apellido" to apellido,
+            "fechaNc" to fechaNac,
+            "genero" to genero,
+            "ultimaconecion" to fechaCon
+        )
+
+        db.collection("usuarios").document(uid)
+            .set(usuario)
+            .addOnSuccessListener {
+                println("Usuario registrado correctamente en Firestore.")
+            }
+            .addOnFailureListener { exception ->
+                println("Error al registrar usuario: ${exception.message}")
+            }
     }
 
 

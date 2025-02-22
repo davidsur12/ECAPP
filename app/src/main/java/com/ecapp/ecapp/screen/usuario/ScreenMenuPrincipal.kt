@@ -2,9 +2,11 @@ package com.ecapp.ecapp.screen.usuario
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +42,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+
 import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.DateUser
@@ -57,7 +61,7 @@ fun HomeScreen2(navController: NavController){
             popUpTo("screenUser") { inclusive = true } // Elimina la pantalla actual de la pila
         }
     }
-
+/*
     try{
         //si el usuario no tiene los documentos  de los juegos registrados lo creo
         FirebaseCloudUser().crearDocumentosGames()
@@ -66,8 +70,11 @@ fun HomeScreen2(navController: NavController){
 
 
     }
+    */
 
 //columna que ocupa todo el tamaño de la pantalla y alineado de forma centrada con un fondo de color morado
+
+
 
     Scaffold(
         modifier = Modifier
@@ -162,6 +169,7 @@ fun HomeScreen2(navController: NavController){
 
                 }
                 Spacer(modifier = Modifier.height(20.dp))
+                /*
                 Button(
                     modifier = Modifier.width(200.dp),
                     onClick = {
@@ -180,10 +188,33 @@ fun HomeScreen2(navController: NavController){
                     Text(text =  "Cerrar sesión" ,  fontSize = 17.sp)
 
                 }
+                */
             }
         }
 
     )
+
+
+
+
+/*
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Bienvenido", fontSize = 24.sp)
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
+            Toast.makeText(context, "¡Botón presionado!", Toast.LENGTH_SHORT).show()
+        }) {
+            Text(text = "Presionar")
+        }
+    }
+
+    */
 
 
 }

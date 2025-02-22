@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -153,7 +154,7 @@ fun InfoUser(navController: NavController) {
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
-
+/*
                 OutlinedTextField(
                     value = direccion,
                     onValueChange = { direccion = it },
@@ -171,41 +172,62 @@ fun InfoUser(navController: NavController) {
 
                     modifier = Modifier.background(Color.White)
                 )
+                */
 
                 Spacer(modifier = Modifier.height(50.dp))
                 //FirebaseCloudUser().getUserById(DateUser.correo)
-
-                CoroutineScope(Dispatchers.IO).launch {
-
-                    /*
-                    creamos una corutina una especie de tarea asincrona que cuando obtiene los datos
-                    del usuario que se consultaron con el metodo getDataUser de la clase FirebaseCloudUser
-                    pasandole como parametro el correo ya que es el identificador asigna los valores a las repestivas
-                    variables
-
-                    */
-                    val userData = FirebaseCloudUser().getDataUser(DateUser.correo)
+                LaunchedEffect (Unit) { // Se ejecuta al iniciar la pantalla
+                    val userData = FirebaseCloudUser().getDataUser2()
                     if (userData != null) {
-                        ultimaFechaConectado= userData["FechaConection"].toString()
-                        nombre = userData["Nombre"].toString() + " " + userData["Apellido"]
-                        fechaNac = userData["FechaNac"].toString()
-                        genero = userData["Genero"].toString()
-                        direccion = userData["Direccion"].toString()
-                        telefono = userData["Telefono"].toString()
+                        ultimaFechaConectado = userData["ultimaconecion"].toString()
+                        nombre = userData["nombre"].toString() + " " + userData["apellido"]
+                        fechaNac = userData["fechaNc"].toString()
+                        genero = userData["genero"].toString()
 
-                        DateUser.FechaConection=ultimaFechaConectado;
+                        DateUser.FechaConection = ultimaFechaConectado
                         DateUser.nombre = nombre
-                        DateUser.apellido = userData["Apellido"].toString()
+                        DateUser.apellido = userData["apellido"].toString()
                         DateUser.genero = genero
                         DateUser.fechaNacimiento = fechaNac
-                        DateUser.telefono = telefono
-                        DateUser.direccion = direccion
-                        DateUser.genero = userData["Correo"].toString()
-
                     } else {
                         println("No se encontró el usuario o ocurrió un error.")
                     }
                 }
+
+                /*
+                                CoroutineScope(Dispatchers.IO).launch {
+
+                                    /*
+                                    creamos una corutina una especie de tarea asincrona que cuando obtiene los datos
+                                    del usuario que se consultaron con el metodo getDataUser de la clase FirebaseCloudUser
+                                    pasandole como parametro el correo ya que es el identificador asigna los valores a las repestivas
+                                    variables
+
+                                    */
+                                    val userData = FirebaseCloudUser().getDataUser2()
+                                    if (userData != null) {
+                                        ultimaFechaConectado= userData["ultimaconecion"].toString()
+                                        nombre = userData["nombre"].toString() + " " + userData["apellido"]
+                                        fechaNac = userData["FechaNc"].toString()
+                                        genero = userData["genero"].toString()
+                                        //direccion = userData["Direccion"].toString()
+                                        //telefono = userData["Telefono"].toString()
+
+                                        DateUser.FechaConection=ultimaFechaConectado;
+                                        DateUser.nombre = nombre
+                                        DateUser.apellido = userData["Apellido"].toString()
+                                        DateUser.genero = genero
+                                        DateUser.fechaNacimiento = fechaNac
+                                        //DateUser.telefono = telefono
+                                        //DateUser.direccion = direccion
+                                        //DateUser.genero = userData["Correo"].toString()
+
+                                    } else {
+                                        println("No se encontró el usuario o ocurrió un error.")
+                                    }
+
+                                }
+                                */
                 // Text("")
 
 

@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -149,7 +150,17 @@ fun ScreenFelicitacionesM(navController: NavController){
 
                 DateUser.calificacionGameMemoria=DateUser.vidasGameMemoria
 
-                FirebaseCloudUser().agregarCalificacion( LocalDateTime.now().toString(), DateUser.calificacionGameMemoria, "cancelación_objetos")
+             //   FirebaseCloudUser().agregarCalificacion( LocalDateTime.now().toString(), DateUser.calificacionGameMemoria, "cancelación_objetos")
+                LaunchedEffect(Unit) {
+                    FirebaseCloudUser().agregarCalificacion(
+                        LocalDateTime.now().toString(),
+                        DateUser.calificacionGameMemoria,
+                        "cancelación_objetos"
+                    )
+                }
+
+
+
                 Button(onClick = {navController.navigate(AppScreens.screenMemoria.route)},
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
@@ -167,4 +178,5 @@ fun ScreenFelicitacionesM(navController: NavController){
             }
 
     }
+
 }

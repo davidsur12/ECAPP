@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
 
     var viewModel: LoginScreenViewModel = LoginScreenViewModel();
-
+/*
     public override fun onStart() {
         super.onStart()
 
@@ -62,6 +62,7 @@ class MainActivity : ComponentActivity() {
             Log.d("login", "Usuario No inicio session")
         }
     }
+    */
 
 
             @RequiresApi(Build.VERSION_CODES.O)
@@ -77,7 +78,7 @@ class MainActivity : ComponentActivity() {
 
             ECAPPTheme {
                 Scaffold(modifier = Modifier.fillMaxSize().background(Color(0xba00ca))) {
-                    AppNavegation()
+                    AppNavegation()//voy a la navegacion de pantalla que por defecto es la de actividades y registro
 
                 }
             }

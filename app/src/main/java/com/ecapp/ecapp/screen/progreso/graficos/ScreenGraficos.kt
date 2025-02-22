@@ -80,12 +80,13 @@ fun ScreenGraficos(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Agregar múltiples gráficos a la pantalla
-                items(4) { index ->
+                items(5) { index ->
                     when (index) {
                         0 -> resumenDatos2("sopa_letras", "Sopa de letras 1", hasData, contador)
                         1 -> resumenDatos2("secuencia", "Secuencia", hasData, contador)
                         2 -> resumenDatos2("rompecabezas", "Rompecabezas", hasData, contador)
                         3 -> resumenDatos2("cancelación_objetos", "Cancelación de Objetos", hasData, contador)
+                        4 -> resumenDatos2("laberinto", "laberinto", hasData, contador)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
