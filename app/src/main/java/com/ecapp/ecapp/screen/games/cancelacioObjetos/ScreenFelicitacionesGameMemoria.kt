@@ -40,11 +40,11 @@ import java.time.LocalDateTime
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ScreenFelicitacionesMemoria(navController: NavController){
+fun ScreenFelicitacionesMemoria(navController: NavController) {
     val context = LocalContext.current
     Scaffold {
-        if(Configuraciones.ActivateSonido){
-            Configuraciones.reproducirSonidoConCorrutinas(context ,   com.ecapp.ecapp.R.raw.victoria)
+        if (Configuraciones.ActivateSonido) {
+            Configuraciones.reproducirSonidoConCorrutinas(context, com.ecapp.ecapp.R.raw.victoria)
         }
 
         ScreenFelicitacionesM(navController)
@@ -53,129 +53,135 @@ fun ScreenFelicitacionesMemoria(navController: NavController){
 }
 
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ScreenFelicitacionesM(navController: NavController){
+fun ScreenFelicitacionesM(navController: NavController) {
 
-    BackHandler{
+    BackHandler {
         navController.navigate("screenGames") {
-            popUpTo("screenFelicitacionesMemoria") { inclusive = true } // Elimina la pantalla actual de la pila
+            popUpTo("screenFelicitacionesMemoria") {
+                inclusive = true
+            } // Elimina la pantalla actual de la pila
         }
     }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize().background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo))
     ) {
 
         // Mostrar u ocultar la columna según el estado
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(text = "Bien Echo", fontSize = 25.sp, color = Color.White)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(text = "Bien Echo", fontSize = 25.sp, color = Color.White)
 
-                Text(text = "Felicitaciones", fontSize = 45.sp, color = Color.White)
-                Text(text = "Calificacion", fontSize = 25.sp, color = Color.White)
-                if( DateUser.vidasGameMemoria==5){
-                    //0 errores la calificacion sera de 3 estrella de oro
+            Text(text = "Felicitaciones", fontSize = 45.sp, color = Color.White)
+            Text(text = "Calificacion", fontSize = 25.sp, color = Color.White)
+            if (DateUser.vidasGameMemoria == 5) {
+                //0 errores la calificacion sera de 3 estrella de oro
 
-                    Row(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        repeat(3) { // Cambia el número 5 para mostrar más o menos estrellas
-                            Icon(
-                                imageVector = Icons.Default.Star,
-                                contentDescription = "Star Icon",
-                                tint = Color.Yellow,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(4.dp)
-                            )
-                        }
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    repeat(3) { // Cambia el número 5 para mostrar más o menos estrellas
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Star Icon",
+                            tint = Color.Yellow,
+                            modifier = Modifier
+                                .size(50.dp)
+                                .padding(4.dp)
+                        )
                     }
                 }
-                if(DateUser.vidasGameMemoria>=2 &&  DateUser.vidasGameMemoria<5){
-                    // calificacion sera de 2 estrellas de plata
-                    Row(
-                        modifier = Modifier
-                            .padding(50.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        repeat(2) { // Cambia el número 5 para mostrar más o menos estrellas
-                            Icon(
-                                imageVector = Icons.Default.Star,
-                                contentDescription = "Star Icon",
-                                tint = Color.Gray,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(4.dp)
-                            )
-                        }
-                    }
-
-
-                }
-                if(DateUser.vidasGameMemoria==1){
-                    //sin vids la calificacion sera de 1 estrellas de bronce
-
-                    Row(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        repeat(1) { // Cambia el número 5 para mostrar más o menos estrellas
-                            Icon(
-                                imageVector = Icons.Default.Star,
-                                contentDescription = "Star Icon",
-                                tint = Color.Red,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(4.dp)
-                            )
-                        }
+            }
+            if (DateUser.vidasGameMemoria >= 2 && DateUser.vidasGameMemoria < 5) {
+                // calificacion sera de 2 estrellas de plata
+                Row(
+                    modifier = Modifier
+                        .padding(50.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    repeat(2) { // Cambia el número 5 para mostrar más o menos estrellas
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Star Icon",
+                            tint = Color.Gray,
+                            modifier = Modifier
+                                .size(50.dp)
+                                .padding(4.dp)
+                        )
                     }
                 }
 
-                DateUser.calificacionGameMemoria=DateUser.vidasGameMemoria
-
-             //   FirebaseCloudUser().agregarCalificacion( LocalDateTime.now().toString(), DateUser.calificacionGameMemoria, "cancelación_objetos")
-                LaunchedEffect(Unit) {
-                    FirebaseCloudUser().agregarCalificacion(
-                        LocalDateTime.now().toString(),
-                        DateUser.calificacionGameMemoria,
-                        "cancelación_objetos"
-                    )
-                }
-
-
-
-                Button(onClick = {navController.navigate(AppScreens.screenMemoria.route)},
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
-                        contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
-                        // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
-                    )
-                    , modifier = Modifier.width(175.dp)){ Text("Volver a jugar") }
-                Button(onClick = {navController.navigate(AppScreens.screenUser.route)},
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(com.ecapp.ecapp.R.color.morado)  ,     // Color de fondo del botón
-                        contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
-                        // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
-                    ), modifier = Modifier.width(175.dp)){ Text("Inicio") }
 
             }
+            if (DateUser.vidasGameMemoria == 1) {
+                //sin vids la calificacion sera de 1 estrellas de bronce
+
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    repeat(1) { // Cambia el número 5 para mostrar más o menos estrellas
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Star Icon",
+                            tint = Color.Red,
+                            modifier = Modifier
+                                .size(50.dp)
+                                .padding(4.dp)
+                        )
+                    }
+                }
+            }
+
+            DateUser.calificacionGameMemoria = DateUser.vidasGameMemoria
+
+
+            LaunchedEffect(Unit) {
+                FirebaseCloudUser().agregarCalificacion(
+                    LocalDateTime.now().toString(),
+                    DateUser.calificacionGameMemoria,
+                    "cancelación_objetos"
+                )
+            }
+
+
+
+            Button(
+                onClick = { navController.navigate(AppScreens.screenMemoria.route) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado),     // Color de fondo del botón
+                    contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                    // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                ), modifier = Modifier.width(175.dp)
+            ) { Text("Volver a jugar") }
+            Button(
+                onClick = { navController.navigate(AppScreens.screenUser.route) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(com.ecapp.ecapp.R.color.morado),     // Color de fondo del botón
+                    contentColor = colorResource(com.ecapp.ecapp.R.color.white)     // Color del texto o contenido
+                    // .background(colorResource(com.ecapp.ecapp.R.color.morado_fondo)),
+                ), modifier = Modifier.width(175.dp)
+            ) { Text("Inicio") }
+
+        }
 
     }
 

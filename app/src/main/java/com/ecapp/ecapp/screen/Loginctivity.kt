@@ -72,9 +72,6 @@ class Loginctivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
 
-// ...
-// Initialize Firebase Auth
-
 
         enableEdgeToEdge()
         setContent {

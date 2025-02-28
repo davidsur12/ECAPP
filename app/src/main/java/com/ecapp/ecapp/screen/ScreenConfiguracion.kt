@@ -53,65 +53,6 @@ fun ScreenConfiguracion(navController: NavController){
 
 }
 
-@Composable
-fun  configuracion(navController: NavController){
-
-
-    BackHandler{
-        navController.navigate("screenUser") {
-            popUpTo("screenUser") { inclusive = true } // Elimina la pantalla actual de la pila
-        }
-    }
-
-    Column(modifier = Modifier.fillMaxSize()
-        .background(
-            colorResource(com.ecapp.ecapp.R.color.morado_fondo)
-        )
-        .verticalScroll(
-            rememberScrollState(),
-        ),horizontalAlignment = Alignment.CenterHorizontally
-    ){
-
-
-        Spacer(modifier = Modifier.height(50.dp))//separacion del top
-        //Texto de menu
-        Text("Configuracion",
-            color = Color.White, // Color del texto
-            fontSize = 27.sp,   // Tamaño del texto
-            fontWeight = FontWeight.Bold,)
-
-        //Espacio
-        Spacer(modifier = Modifier.height(70.dp))
-
-
-        //Menu de botones que me permite navegar entre las diferentes opciones
-        Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
-            onClick = {
-
-                navController.navigate(AppScreens.screenPerfilUser.route)
-            }) {
-            Text(text =  "Activar Sonido" , color = Color.Black,)
-
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            modifier = Modifier.width(270.dp).height(50.dp),
-            colors = ButtonDefaults.buttonColors( Color.White),
-            onClick = {
-
-                navController.navigate(AppScreens.screenPerfilUser.route)
-            }) {
-            Text(text =  "Ajustar tamaño de letra" , color = Color.Black,)
-
-        }
-    }
-
-
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen() {

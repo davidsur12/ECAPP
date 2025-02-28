@@ -67,13 +67,6 @@ fun Greeting2(name: String, modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun AppNavHost() {
-    val navController = rememberNavController()
-
-
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview2() {

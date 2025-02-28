@@ -19,7 +19,6 @@ import com.ecapp.ecapp.screen.games.cancelacioObjetos.ScreenGameOverMemoria
 import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameRompeCabezasNivel2
 import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameRompeCabezasNivel3
 import com.ecapp.ecapp.screen.games.rompecabezas.ScreenRompecabesas
-
 import com.ecapp.ecapp.screen.games.laberinto.ScreenGameLaberinto
 import com.ecapp.ecapp.screen.games.rompecabezas.ScreenFelicitacionesRompeCabezas
 import com.ecapp.ecapp.screen.games.rompecabezas.ScreenGameOverRompeCabezas
@@ -194,13 +193,6 @@ fun AppNavegation() {
 
         }
 
-        /*
-                //pantalla de  Resumen Diario
-                composable(route = AppScreens.screenProgresoGames.route) {
-                    ScreenProgresoGames(navController)
-
-                }
-                */
 
         //pantalla de  progreso de los juegos sopa de letras
         composable(route = AppScreens.screenProgresoGamesSopaLetras.route) {

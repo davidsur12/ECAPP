@@ -27,12 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
-import com.ecapp.ecapp.screen.games.rompecabezas.gameRompeCabezasNivel1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,15 +72,7 @@ fun progreso(navController: NavController){
                     rememberScrollState(),
                 ),horizontalAlignment = Alignment.CenterHorizontally
             ) {
-/*
-                Spacer(modifier = Modifier.height(25.dp))
 
-                Text("Progreso Cognitivo", style = androidx.compose.ui.text.TextStyle(
-                    fontSize = 40.sp, // Cambiar tamaño de la fuente
-                    fontWeight = FontWeight.Bold, // Cambiar el peso de la fuente (negrita)
-                color = Color.White
-                    ))
-                */
                 Spacer(modifier = Modifier.height(20.dp))
                 Box(
                     modifier = Modifier

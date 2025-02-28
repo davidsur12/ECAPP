@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -32,15 +31,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.navegation.AppScreens
 import com.ecapp.ecapp.utils.DateUser
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -219,17 +216,7 @@ DateUser.GameSecuenciaNivel=0
 
 
                 Spacer(modifier = Modifier.height(20.dp))
-/*
-                Button(
-                    modifier = Modifier.width(200.dp),
-                    onClick = {
-                        Firebase.auth.signOut()
-                        navController.navigate(AppScreens.screenHome.route)
-                    }) {
-                    Text(text = "Cerrar sesión")
 
-                }
-                */
 
 
             }

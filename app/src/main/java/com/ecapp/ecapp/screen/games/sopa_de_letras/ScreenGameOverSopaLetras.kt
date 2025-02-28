@@ -33,8 +33,6 @@ fun ScreenGameOverSopaLetras(navController: NavController){
     Scaffold {
 
 
-        //WordSearchGame()
-        //gameSopaLetras(navController)
         gameOverSopaLetras(navController)
     }
 }

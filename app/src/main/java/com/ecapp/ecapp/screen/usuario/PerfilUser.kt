@@ -36,9 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ecapp.ecapp.cloud.FirebaseCloudUser
 import com.ecapp.ecapp.utils.DateUser
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -154,25 +152,7 @@ fun InfoUser(navController: NavController) {
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
-/*
-                OutlinedTextField(
-                    value = direccion,
-                    onValueChange = { direccion = it },
-                    label = { Text("Direccion") },
 
-                    modifier = Modifier.background(Color.White)
-                )
-
-                Spacer(modifier = Modifier.height(50.dp))
-
-                OutlinedTextField(
-                    value = telefono,
-                    onValueChange = { telefono = it },
-                    label = { Text("Telefono") },
-
-                    modifier = Modifier.background(Color.White)
-                )
-                */
 
                 Spacer(modifier = Modifier.height(50.dp))
                 //FirebaseCloudUser().getUserById(DateUser.correo)
@@ -194,41 +174,7 @@ fun InfoUser(navController: NavController) {
                     }
                 }
 
-                /*
-                                CoroutineScope(Dispatchers.IO).launch {
 
-                                    /*
-                                    creamos una corutina una especie de tarea asincrona que cuando obtiene los datos
-                                    del usuario que se consultaron con el metodo getDataUser de la clase FirebaseCloudUser
-                                    pasandole como parametro el correo ya que es el identificador asigna los valores a las repestivas
-                                    variables
-
-                                    */
-                                    val userData = FirebaseCloudUser().getDataUser2()
-                                    if (userData != null) {
-                                        ultimaFechaConectado= userData["ultimaconecion"].toString()
-                                        nombre = userData["nombre"].toString() + " " + userData["apellido"]
-                                        fechaNac = userData["FechaNc"].toString()
-                                        genero = userData["genero"].toString()
-                                        //direccion = userData["Direccion"].toString()
-                                        //telefono = userData["Telefono"].toString()
-
-                                        DateUser.FechaConection=ultimaFechaConectado;
-                                        DateUser.nombre = nombre
-                                        DateUser.apellido = userData["Apellido"].toString()
-                                        DateUser.genero = genero
-                                        DateUser.fechaNacimiento = fechaNac
-                                        //DateUser.telefono = telefono
-                                        //DateUser.direccion = direccion
-                                        //DateUser.genero = userData["Correo"].toString()
-
-                                    } else {
-                                        println("No se encontró el usuario o ocurrió un error.")
-                                    }
-
-                                }
-                                */
-                // Text("")
 
 
             }
